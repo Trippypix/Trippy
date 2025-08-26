@@ -3,63 +3,474 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Simple Homepage</title>
-  <meta name="description" content="Just a simple homepage on GitHub Pages." />
-  <link rel="stylesheet" href="styles.css" />
+  <title>Roblox Scripter Portfolio</title>
+  <meta name="description" content="A sleek, animated portfolio template for a Roblox scripter. Single-file, GitHub Pages-ready." />
+  <style>
+    /* =============================================================
+       ROBLOX SCRIPTER PORTFOLIO — SINGLE FILE TEMPLATE
+       -------------------------------------------------
+       ✅ Drop this file as index.html in your repo root.
+       ✅ Edit the data in the JSON block near the bottom (id="portfolio-data").
+       ✅ Add projects by pasting objects into the projects array.
+       ✅ Replace social links & contact under "profile" in the same JSON.
+       -------------------------------------------------
+       DESIGN NOTES
+       - Dark first, light via prefers-color-scheme
+       - Smooth, subtle animations (reduced-motion respected)
+       - Responsive, scalable grid
+       - No external libs; pure HTML/CSS/JS
+       ============================================================= */
+
+    :root{
+      --bg: #0b0b0f;
+      --bg-elev: #11131a;
+      --card: #151826;
+      --card-2: #0f1220;
+      --fg: #eef1ff;
+      --muted: #a1a7c5;
+      --accent: #7c5cff; /* neon-ish violet */
+      --accent-2: #31e1ff; /* cyan */
+      --ok: #35d07f;
+      --warn: #ffb020;
+      --shadow: rgba(0,0,0,.45);
+      --radius: 16px;
+      --gap: 18px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #ffffff;
+        --bg-elev: #f6f6fb;
+        --card: #f4f4ff;
+        --card-2: #ececff;
+        --fg: #12131a;
+        --muted: #585f7a;
+        --shadow: rgba(0,0,0,.08);
+      }
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--fg); font: 16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; }
+
+    /* Smooth scroll and selection */
+    html { scroll-behavior:smooth; }
+    ::selection{ background: color-mix(in oklab, var(--accent) 30%, transparent); }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width:1100px; margin:0 auto; padding: 22px; }
+
+    /* ====== Top Nav ====== */
+    .nav{
+      position: sticky; top:0; z-index:1000;
+      backdrop-filter: saturate(120%) blur(7px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid color-mix(in oklab, var(--muted) 15%, transparent);
+    }
+    .nav .inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px; }
+    .brand-logo{ width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 6px 18px var(--shadow); }
+    .brand span{ opacity:.95; }
+    .links{ display:flex; gap:16px; align-items:center; }
+    .links a{ opacity:.85; padding:8px 10px; border-radius:10px; text-decoration:none; }
+    .links a.active, .links a:hover{ background: color-mix(in oklab, var(--accent) 18%, transparent); opacity:1; text-decoration:none; }
+
+    .theme-toggle{ border:0; padding:8px 10px; border-radius:10px; background:var(--card); color:var(--fg); cursor:pointer; box-shadow:0 6px 18px var(--shadow); }
+
+    /* ====== Hero ====== */
+    .hero{ background:
+      radial-gradient(1200px 400px at 20% -10%, color-mix(in oklab, var(--accent) 25%, transparent) 0%, transparent 60%),
+      radial-gradient(800px 300px at 80% 0%, color-mix(in oklab, var(--accent-2) 18%, transparent) 0%, transparent 70%);
+      border-bottom:1px solid color-mix(in oklab, var(--muted) 15%, transparent);
+    }
+    .hero .inner{ display:grid; grid-template-columns: 1.2fr .8fr; gap:clamp(14px, 3vw, 40px); align-items:center; }
+    @media (max-width: 860px){ .hero .inner{ grid-template-columns: 1fr; } }
+
+    .tag{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; background:var(--card); border:1px solid color-mix(in oklab, var(--muted) 15%, transparent); border-radius:999px; font-weight:600; box-shadow:0 6px 18px var(--shadow); }
+    .hero h1{ font-size: clamp(28px, 5vw, 56px); margin:14px 0 6px; line-height:1.08; }
+    .hero p{ color:var(--muted); margin:0 0 14px; }
+    .cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 12px; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid color-mix(in oklab, var(--muted) 20%, transparent); background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 24%, transparent), color-mix(in oklab, var(--accent) 8%, transparent)); color:white; font-weight:700; text-decoration:none; box-shadow: 0 10px 20px var(--shadow); }
+    .btn.secondary{ background:var(--card); color:var(--fg); font-weight:600; }
+
+    .avatar{ width: 140px; height:140px; border-radius:20px; background:linear-gradient(135deg, var(--card), var(--card-2)); box-shadow: 0 20px 40px var(--shadow); display:grid; place-items:center; overflow:hidden; justify-self:end; }
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .avatar .ph{ width:64px; height:64px; border-radius:12px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); opacity:.9; }
+
+    /* ====== Sections / Cards ====== */
+    section{ scroll-margin-top: 80px; }
+    .section-title{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin: 22px 0 8px; }
+    .section-title h2{ font-size: clamp(20px, 3vw, 28px); margin:0; }
+    .muted{ color:var(--muted); }
+
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); }
+    .card{ background: linear-gradient(180deg, var(--card), var(--card-2)); border:1px solid color-mix(in oklab, var(--muted) 12%, transparent); border-radius: var(--radius); padding: 16px; box-shadow: 0 18px 35px var(--shadow); }
+
+    /* Project card */
+    .project{ grid-column: span 4; display:flex; flex-direction:column; gap:12px; position:relative; transform: translateY(14px); opacity:0; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease; }
+    @media (max-width: 1100px){ .project{ grid-column: span 6; } }
+    @media (max-width: 720px){ .project{ grid-column: span 12; } }
+
+    .project.appear{ transform:none; opacity:1; }
+    .thumb{ aspect-ratio: 16/9; border-radius:12px; overflow:hidden; background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 20%, transparent), color-mix(in oklab, var(--accent-2) 15%, transparent)); display:grid; place-items:center; }
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb svg{ opacity:.55; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+    .chip{ padding:6px 10px; border-radius:999px; font-size:13px; background: color-mix(in oklab, var(--accent) 14%, transparent); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); }
+
+    .project h3{ margin: 0 0 4px; font-size: 18px; }
+    .project p{ margin:0; color:var(--muted); }
+
+    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
+    .action{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:var(--bg-elev); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); text-decoration:none; font-weight:600; }
+    .action.primary{ background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 24%, transparent), color-mix(in oklab, var(--accent) 8%, transparent)); color:white; }
+
+    /* Hover tilt */
+    .tilt{ transition: transform .2s ease; transform-style: preserve-3d; }
+    .tilt:hover{ transform: translateY(-3px) scale(1.01); }
+
+    /* Filters/Search */
+    .filters{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .input{ background:var(--bg-elev); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); padding:10px 12px; border-radius:12px; color:var(--fg); min-width: 200px; }
+    .pill{ padding:8px 12px; border-radius:999px; background:var(--bg-elev); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); cursor:pointer; }
+    .pill.active{ background: color-mix(in oklab, var(--accent) 18%, transparent); }
+
+    /* About & Skills */
+    .about{ display:grid; grid-template-columns: .6fr .4fr; gap: var(--gap); }
+    .skills{ display:flex; flex-wrap:wrap; gap:10px; }
+    .badge{ background: linear-gradient(180deg, var(--card), var(--card-2)); border:1px solid color-mix(in oklab, var(--muted) 12%, transparent); padding:10px 12px; border-radius:10px; font-weight:600; }
+    @media (max-width: 860px){ .about{ grid-template-columns: 1fr; } }
+
+    /* Footer */
+    footer{ margin:40px 0 60px; color:var(--muted); text-align:center; }
+
+    /* Motion preferences */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <nav class="wrap nav">
-      <a class="brand" href="/">MySite</a>
+  <!-- ========================== NAV ========================== -->
+  <nav class="nav">
+    <div class="wrap inner">
+      <a class="brand" href="#home">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span id="brand-name">YourName</span>
+      </a>
       <div class="links">
-        <a href="#about">About</a>
         <a href="#projects">Projects</a>
+        <a href="#about">About</a>
         <a href="#contact">Contact</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌗</button>
       </div>
-    </nav>
-    <section class="wrap hero">
-      <h1>Hi, I’m <span class="accent">You</span> 👋</h1>
-      <p>A super simple homepage running on GitHub Pages.</p>
-      <a class="btn" href="#projects">See my work</a>
-    </section>
+    </div>
+  </nav>
+
+  <!-- ========================== HERO ========================== -->
+  <header id="home" class="hero">
+    <div class="wrap inner">
+      <div>
+        <span class="tag">// Roblox Scripter • LuaU • Systems & Gameplay</span>
+        <h1 id="hero-title">Hey, I build Roblox experiences with clean, scalable code.</h1>
+        <p id="hero-sub">From gameplay systems and UI to performance tuning, I bring ideas to life with LuaU + Roblox Studio.</p>
+        <div class="cta">
+          <a class="btn" id="primary-cta" href="#projects">View Projects</a>
+          <a class="btn secondary" id="secondary-cta" href="#contact">Hire Me</a>
+        </div>
+      </div>
+      <div class="avatar tilt" aria-hidden="true">
+        <!-- Replace with your avatar image: <img src="avatar.jpg" alt="Your avatar"/> -->
+        <div class="ph"></div>
+      </div>
+    </div>
   </header>
 
-  <main class="wrap">
-    <section id="about" class="card">
-      <h2>About</h2>
-      <p>Write a short intro here. Who you are, what you do, and what this site is about.</p>
-    </section>
+  <!-- ========================== PROJECTS ========================== -->
+  <section id="projects" class="wrap">
+    <div class="section-title">
+      <h2>Projects</h2>
+      <div class="filters">
+        <input id="search" class="input" placeholder="Search projects… (title, tags)" />
+        <button class="pill active" data-filter="all">All</button>
+        <button class="pill" data-filter="systems">Systems</button>
+        <button class="pill" data-filter="gameplay">Gameplay</button>
+        <button class="pill" data-filter="ui">UI</button>
+        <button class="pill" data-filter="tools">Tools</button>
+      </div>
+    </div>
 
-    <section id="projects" class="grid">
-      <article class="card">
-        <h3>Project One</h3>
-        <p>Quick description of something you built.</p>
-        <a href="#" class="text-link">View →</a>
-      </article>
-      <article class="card">
-        <h3>Project Two</h3>
-        <p>Another small thing or a link to your repo.</p>
-        <a href="#" class="text-link">View →</a>
-      </article>
-      <article class="card">
-        <h3>Project Three</h3>
-        <p>Keep it short and sweet.</p>
-        <a href="#" class="text-link">View →</a>
-      </article>
-    </section>
+    <div id="projectGrid" class="grid"></div>
+  </section>
 
-    <section id="contact" class="card">
-      <h2>Contact</h2>
-      <p>Say hi: <a href="mailto:you@example.com">you@example.com</a></p>
-    </section>
-  </main>
+  <!-- ========================== ABOUT ========================== -->
+  <section id="about" class="wrap">
+    <div class="section-title"><h2>About</h2></div>
+    <div class="about">
+      <div class="card">
+        <p id="about-text" class="muted">I’m a Roblox scripter focused on robust systems, reusable modules, and smooth player experiences. I care about code quality, performance, and shipping.
+        </p>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="action" id="roblox-link" href="#" target="_blank" rel="noreferrer">Roblox Profile</a>
+          <a class="action" id="github-link" href="#" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="action" id="itch-link" href="#" target="_blank" rel="noreferrer">Itch / Portfolio</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin:0 0 10px"><h3 style="margin:0">Skills</h3></div>
+        <div id="skills" class="skills"></div>
+      </div>
+    </div>
+  </section>
 
-  <footer class="wrap footer">
-    <p>© <span id="year"></span> You — Built with GitHub Pages</p>
+  <!-- ========================== CONTACT ========================== -->
+  <section id="contact" class="wrap">
+    <div class="section-title"><h2>Contact</h2></div>
+    <div class="card">
+      <p class="muted">Want to collaborate or hire me? Reach out via email or socials.</p>
+      <div class="actions">
+        <a class="action primary" id="email-link" href="#">Email me</a>
+        <a class="action" id="twitter-link" href="#" target="_blank" rel="noreferrer">Twitter</a>
+        <a class="action" id="discord-link" href="#" target="_blank" rel="noreferrer">Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <p>© <span id="year"></span> <span id="footer-name">YourName</span>. Built with ♡ and GitHub Pages.</p>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <!-- ========================== PROJECT CARD TEMPLATE ========================== -->
+  <template id="project-card">
+    <article class="project card tilt" data-tags="">
+      <div class="thumb">
+        <!-- If no image is provided, fallback SVG shows -->
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
+          <path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="title"></h3>
+        <p class="summary muted"></p>
+      </div>
+      <div class="chips"></div>
+      <div class="actions"></div>
+    </article>
+  </template>
+
+  <!-- ========================== EDIT YOUR DATA HERE ========================== -->
+  <script id="portfolio-data" type="application/json">
+  {
+    "profile": {
+      "name": "YourName",
+      "brand": "YourName",
+      "heroTitle": "Hey, I build Roblox experiences with clean, scalable code.",
+      "heroSub": "From gameplay systems and UI to performance tuning, I bring ideas to life with LuaU + Roblox Studio.",
+      "about": "I’m a Roblox scripter focused on robust systems, reusable modules, and smooth player experiences. I care about code quality, performance, and shipping.",
+      "email": "you@example.com",
+      "links": {
+        "roblox": "https://www.roblox.com/users/your-id/profile",
+        "github": "https://github.com/your-handle",
+        "itch": "#",
+        "twitter": "#",
+        "discord": "https://discord.com/users/your-id"
+      },
+      "skills": [
+        "LuaU / Roblox", "OOP Modules", "DataStore v2", "Knit / AeroGameFramework",
+        "Pathfinding / AI", "RemoteEvents / Security", "UI / TweenService",
+        "Optimization", "Testing / Debugging", "Version Control"
+      ]
+    },
+    "projects": [
+      {
+        "title": "Obby Master AI",
+        "summary": "Pathfinding NPC that learns obstacle timing; ramps difficulty per player skill.",
+        "tags": ["gameplay", "AI", "pathfinding"],
+        "image": "", /* optional; leave empty for SVG placeholder */
+        "links": [
+          {"label": "Play", "href": "#", "type": "primary"},
+          {"label": "Video", "href": "#"},
+          {"label": "Source", "href": "#"}
+        ]
+      },
+      {
+        "title": "Tycoon Economy System",
+        "summary": "Modular economy (stores, crafting, upgrades) with anti-exploit checks and server authority.",
+        "tags": ["systems", "economy", "security"],
+        "image": "",
+        "links": [
+          {"label": "Docs", "href": "#"}
+        ]
+      },
+      {
+        "title": "UI Kit + Animations",
+        "summary": "Reusable UI components with TweenService animations and dynamic themes.",
+        "tags": ["ui", "tools"],
+        "image": "",
+        "links": [
+          {"label": "Demo", "href": "#", "type": "primary"},
+          {"label": "Repo", "href": "#"}
+        ]
+      }
+    ]
+  }
   </script>
+
+  <!-- ========================== BEHAVIOR ========================== -->
+  <script>
+    // Helper: qs / qsa
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+    // Load profile + projects
+    const data = JSON.parse(document.getElementById('portfolio-data').textContent);
+
+    // Populate profile text + links
+    const nowY = new Date().getFullYear();
+    document.getElementById('year').textContent = nowY;
+    $('#footer-name').textContent = data.profile.name;
+    $('#brand-name').textContent = data.profile.brand || data.profile.name;
+    $('#hero-title').textContent = data.profile.heroTitle;
+    $('#hero-sub').textContent = data.profile.heroSub;
+    $('#about-text').textContent = data.profile.about;
+
+    // Links
+    const setHref = (id, url) => { const el = document.getElementById(id); if(el && url && url !== '#'){ el.href = url; } };
+    setHref('roblox-link', data.profile.links.roblox);
+    setHref('github-link', data.profile.links.github);
+    setHref('itch-link',   data.profile.links.itch);
+    setHref('twitter-link', data.profile.links.twitter);
+    setHref('discord-link', data.profile.links.discord);
+    const emailA = document.getElementById('email-link');
+    if (data.profile.email) emailA.href = `mailto:${data.profile.email}`;
+
+    // Skills badges
+    const skillsWrap = document.getElementById('skills');
+    data.profile.skills.forEach(s => {
+      const b = document.createElement('span'); b.className = 'badge'; b.textContent = s; skillsWrap.appendChild(b);
+    });
+
+    // Render projects
+    const grid = document.getElementById('projectGrid');
+    const cardTpl = document.getElementById('project-card');
+
+    function renderProjects(list){
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const node = cardTpl.content.cloneNode(true);
+        const art = node.querySelector('.project');
+        art.dataset.tags = (p.tags||[]).join(' ').toLowerCase();
+        node.querySelector('.title').textContent = p.title;
+        node.querySelector('.summary').textContent = p.summary;
+
+        // Image thumb fallback
+        if (p.image){
+          const img = document.createElement('img');
+          img.alt = `${p.title} thumbnail`;
+          img.loading = 'lazy';
+          img.src = p.image;
+          const thumb = node.querySelector('.thumb');
+          thumb.innerHTML = '';
+          thumb.appendChild(img);
+        }
+
+        // Tags
+        const chips = node.querySelector('.chips');
+        (p.tags||[]).forEach(t => { const c = document.createElement('span'); c.className='chip'; c.textContent=t; chips.appendChild(c); });
+
+        // Links
+        const actions = node.querySelector('.actions');
+        (p.links||[]).forEach(l => {
+          const a = document.createElement('a');
+          a.className = 'action' + (l.type === 'primary' ? ' primary' : '');
+          a.href = l.href || '#'; a.target = '_blank'; a.rel = 'noreferrer'; a.textContent = l.label || 'Link';
+          actions.appendChild(a);
+        });
+
+        grid.appendChild(node);
+      });
+
+      // Appear on scroll
+      requestAnimationFrame(() => observeAppear());
+    }
+
+    renderProjects(data.projects);
+
+    // Filters / Search
+    const filterPills = $$('.pill');
+    let currentFilter = 'all';
+    function applyFilters(){
+      const term = ($('#search').value || '').trim().toLowerCase();
+      $$('.project', grid).forEach(card => {
+        const matchesFilter = currentFilter === 'all' || card.dataset.tags.includes(currentFilter);
+        const text = (card.querySelector('.title').textContent + ' ' + card.dataset.tags).toLowerCase();
+        const matchesSearch = !term || text.includes(term);
+        card.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
+      });
+    }
+    filterPills.forEach(p => p.addEventListener('click', () => {
+      filterPills.forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      currentFilter = p.dataset.filter;
+      applyFilters();
+    }));
+    $('#search').addEventListener('input', applyFilters);
+
+    // Intersection Observer for project card entrance
+    function observeAppear(){
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('appear'); io.unobserve(e.target); }});
+      }, { threshold: .15 });
+      $$('.project', grid).forEach(el => io.observe(el));
+    }
+
+    // Tiny tilt effect
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+    document.addEventListener('mousemove', (e) => {
+      $$('.tilt').forEach(el => {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width/2, cy = r.top + r.height/2;
+        const dx = (e.clientX - cx) / (r.width/2); // -1..1
+        const dy = (e.clientY - cy) / (r.height/2);
+        const rx = clamp(-dy * 4, -5, 5), ry = clamp(dx * 4, -5, 5);
+        el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+    });
+    document.addEventListener('mouseleave', () => $$('.tilt').forEach(el => el.style.transform = ''));
+
+    // Theme toggle (persisted)
+    const themeToggle = $('#themeToggle');
+    const setTheme = t => document.documentElement.dataset.theme = t;
+    const saved = localStorage.getItem('theme'); if(saved) setTheme(saved);
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      setTheme(next); localStorage.setItem('theme', next);
+    });
+
+    // If theme=light, swap root vars quickly via data attribute
+    const style = document.createElement('style');
+    style.textContent = `:root[data-theme="light"]{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff; --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); }`;
+    document.head.appendChild(style);
+  </script>
+
+  <!-- ========================== HOW TO EDIT (quick notes) ==========================
+    1) Find the <script id="portfolio-data" type="application/json"> block above.
+    2) Change "profile" fields (name, heroTitle, about, email, links).
+    3) Add projects by copying an object inside the "projects" array:
+       {
+         "title": "My Cool System",
+         "summary": "What it is in 1–2 lines.",
+         "tags": ["systems", "security"],
+         "image": "images/cool.png",  // optional
+         "links": [
+           {"label": "Play", "href": "https://...", "type": "primary"},
+           {"label": "Repo", "href": "https://..."}
+         ]
+       }
+    4) Thumbnails are optional; without an image the card shows a geometric placeholder.
+    5) Use the search bar and category pills (Systems/Gameplay/UI/Tools).
+  ============================================================================= -->
 </body>
 </html>
