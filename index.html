@@ -125,7 +125,8 @@
       <div class="links">
         <a href="#projects">Projects</a>
         <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <!-- Contact now points to external page (case-sensitive!) -->
+        <a href="Contacts.html">Contact</a>
         <a href="hire.html">Hire</a>
         <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌗</button>
       </div>
@@ -188,21 +189,10 @@
     </div>
   </section>
 
-  <!-- ========================== CONTACT ========================== -->
-  <section id="contact" class="wrap">
-    <div class="section-title"><h2>Contact</h2></div>
-    <div class="card">
-      <p class="muted">Want to collaborate or hire me? Reach out via email or socials.</p>
-      <div class="actions">
-        <a class="action primary" id="email-link" href="#">Email me</a>
-        <a class="action" id="twitter-link" href="#" target="_blank" rel="noreferrer">Twitter</a>
-        <a class="action" id="discord-link" href="#" target="_blank" rel="noreferrer">Discord</a>
-      </div>
-    </div>
-  </section>
+  <!-- NOTE: former Contact section removed per request -->
 
   <footer class="wrap">
-    <p>© <span id="year"></span> <span id="footer-name">Hussein Adam</span>. yes sirr</p>
+    <p>© <span id="year"></span> <span id="footer-name">Hussein Adam</span>.</p>
   </footer>
 
   <!-- ========================== PROJECT CARD TEMPLATE ========================== -->
@@ -230,7 +220,8 @@
     "profile": {
       "name": "Hussein Adam",
       "brand": "Hussein Adam",
-      "heroTitle": "Hey, I build Roblox experiences with clean, scalable code.",
+      "heroTitle": "Hey, I build Roblox experiences with clean, scalable code.
+",
       "heroSub": "From gameplay systems and UI to performance tuning, I bring ideas to life with LuaU + Roblox Studio.",
       "about": "I’m a Roblox scripter focused on robust systems, reusable modules, and smooth player experiences. I care about code quality, performance, and shipping.",
       "email": "you@example.com",
@@ -298,15 +289,17 @@
     $('#hero-sub').textContent = data.profile.heroSub;
     $('#about-text').textContent = data.profile.about;
 
-    // Links
+    // Links (safe: only set if element exists)
     const setHref = (id, url) => { const el = document.getElementById(id); if(el && url && url !== '#'){ el.href = url; } };
     setHref('roblox-link', data.profile.links.roblox);
     setHref('github-link', data.profile.links.github);
     setHref('itch-link',   data.profile.links.itch);
-    setHref('twitter-link', data.profile.links.twitter);
-    setHref('discord-link', data.profile.links.discord);
+    setHref('twitter-link', data.profile.links.twitter); // ok if missing
+    setHref('discord-link', data.profile.links.discord); // ok if missing
+
+    // Email button might not exist anymore — guard it
     const emailA = document.getElementById('email-link');
-    if (data.profile.email) emailA.href = `mailto:${data.profile.email}`;
+    if (emailA && data.profile.email) emailA.href = `mailto:${data.profile.email}`;
 
     // Skills badges
     const skillsWrap = document.getElementById('skills');
@@ -420,17 +413,7 @@
   <!-- ========================== HOW TO EDIT (quick notes) ==========================
     1) Find the <script id="portfolio-data" type="application/json"> block above.
     2) Change "profile" fields (name, heroTitle, about, email, links).
-    3) Add projects by copying an object inside the "projects" array:
-       {
-         "title": "My Cool System",
-         "summary": "What it is in 1–2 lines.",
-         "tags": ["systems", "security"],
-         "image": "images/cool.png",
-         "links": [
-           {"label": "Play", "href": "https://...", "type": "primary"},
-           {"label": "Repo", "href": "https://..."}
-         ]
-       }
+    3) Add projects by copying an object inside the "projects" array.
     4) Thumbnails are optional; without an image the card shows a geometric placeholder.
     5) Use the search bar and category pills (Systems/Gameplay/UI/Tools).
   ============================================================================= -->
