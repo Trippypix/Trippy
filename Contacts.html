@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact — Roblox Scripter</title>
-  <meta name="description" content="Contact page for a Roblox scripter — email, Discord username, and Roblox profile link." />
+  <title>Contacts — Roblox Scripter</title>
+  <meta name="description" content="Contacts page — Discord (preferred), email, and Roblox profile." />
   <style>
     :root{ --bg:#0b0b0f; --bg-elev:#11131a; --card:#151826; --card-2:#0f1220; --fg:#eef1ff; --muted:#a1a7c5; --accent:#7c5cff; --accent-2:#31e1ff; --shadow:rgba(0,0,0,.45); --radius:16px; --gap:18px; }
     @media (prefers-color-scheme: light){ :root{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff; --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); } }
@@ -45,6 +45,17 @@
     .action.primary{ background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff; }
     .pill{ padding:6px 10px; border-radius:999px; background:var(--bg-elev); border:1px solid rgba(161,167,197,.18); font-size:13px; }
 
+    /* Featured Discord card */
+    .contact.featured{ 
+      background: linear-gradient(180deg, rgba(124,92,255,.22), rgba(124,92,255,.10)), linear-gradient(180deg, var(--card), var(--card-2));
+      border: 1px solid rgba(124,92,255,.45);
+      box-shadow: 0 24px 48px var(--shadow);
+      grid-column: span 6;
+    }
+    .contact.featured h3{ font-size:22px; }
+    .discord-handle{ font-size:24px; font-weight:800; letter-spacing:.2px; }
+    .discord-sub{ margin-top:4px; }
+
     footer{ margin:40px 0 60px; color:var(--muted); text-align:center; }
     @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; } }
   </style>
@@ -60,10 +71,10 @@
   <section class="hero">
     <div class="wrap inner">
       <div>
-        <h1>Contact</h1>
-        <p class="muted" id="tagline">Reach me via Discord or email, and check my Roblox profile.</p>
+        <h1>Contacts</h1>
+        <p class="muted" id="tagline">Discord is my preferred contact. Email also works. Roblox profile below.</p>
         <div class="badges">
-          <span class="badge">Discord</span>
+          <span class="badge">Discord — preferred</span>
           <span class="badge">Email</span>
           <span class="badge">Roblox</span>
         </div>
@@ -71,18 +82,16 @@
       <div class="card" style="align-self:stretch;">
         <h3 style="margin:0 0 6px">Tips</h3>
         <ul class="muted" style="margin:0 0 0 18px">
-          <li>Click <em>Copy</em> to place the Discord username or email on your clipboard.</li>
-          <li>Use the Roblox button to open my public profile.</li>
-          <li>Update all values in the JSON block at the bottom of this file.</li>
+          <li>Discord username is shown directly — no copy button needed.</li>
+          <li>Email button opens your mail app.</li>
+          <li>Roblox shows only an <em>Open Profile</em> button (no raw link).</li>
         </ul>
       </div>
     </div>
   </section>
 
   <main class="wrap">
-    <div class="grid" id="contactGrid">
-      <!-- Cards injected by JS -->
-    </div>
+    <div class="grid" id="contactGrid"></div>
   </main>
 
   <footer class="wrap" style="text-align:center;">
@@ -94,9 +103,9 @@
   {
     "settings": {
       "brand": "Hussein Adam",
-      "tagline": "Reach me via Discord or email, and check my Roblox profile.",
+      "tagline": "Discord is my preferred contact. Email also works. Roblox profile below.",
       "email": "husseinsocool99@gmail.com",
-      "discord": { "username": "yourusername", "id": "" },
+      "discord": { "username": "sinvert_", "id": "" },
       "roblox": "https://www.roblox.com/users/1035292126/profile"
     }
   }
@@ -112,48 +121,36 @@
 
     const grid = $('#contactGrid');
 
-    function makeCard(title, contentHTML, actionsHTML){
-      const card = document.createElement('article'); card.className = 'contact card';
+    function makeCard(title, contentHTML, actionsHTML='', extraClass=''){
+      const card = document.createElement('article'); card.className = `contact card ${extraClass}`.trim();
       card.innerHTML = `
         <div class="head"><h3>${title}</h3></div>
-        <div class="muted">${contentHTML}</div>
-        <div class="actions">${actionsHTML}</div>`;
+        <div>${contentHTML}</div>
+        ${actionsHTML ? `<div class="actions">${actionsHTML}</div>` : ''}`;
       grid.appendChild(card);
     }
 
-    // Email card
-    if (S.email){
-      const safeEmail = S.email;
-      const content = `<strong>${safeEmail}</strong>`;
-      const actions = `
-        <a class="action primary" href="mailto:${safeEmail}">Open Mail</a>
-        <button class="action" type="button" id="copyEmail">Copy</button>`;
-      makeCard('Email', content, actions);
-      $('#copyEmail').addEventListener('click', async ()=>{
-        try{ await navigator.clipboard.writeText(safeEmail); $('#copyEmail').textContent = 'Copied!'; setTimeout(()=>$('#copyEmail').textContent='Copy', 1200);}catch(_){ /* ignore */ }
-      });
-    }
-
-    // Discord card
+    // Discord (featured, NO buttons)
     if (S.discord && (S.discord.username || S.discord.id)){
       const u = S.discord.username || '';
       const id = S.discord.id || '';
-      const content = `${u ? `<strong>${u}</strong>` : ''}${id ? `<div class=\"muted\">ID: ${id}</div>` : ''}`;
-      const open = id ? `<a class="action" href="https://discord.com/users/${id}" target="_blank" rel="noreferrer">Open Profile</a>` : '';
-      const actions = `
-        ${open}
-        <button class="action" type="button" id="copyDiscord">Copy ${u ? 'Username' : 'ID'}</button>`;
-      makeCard('Discord', content, actions);
-      $('#copyDiscord').addEventListener('click', async ()=>{
-        const toCopy = u || id; if(!toCopy) return;
-        try{ await navigator.clipboard.writeText(toCopy); $('#copyDiscord').textContent = 'Copied!'; setTimeout(()=>$('#copyDiscord').textContent = `Copy ${u ? 'Username' : 'ID'}`, 1200);}catch(_){ /* ignore */ }
-      });
+      const sub = id ? `<div class="muted discord-sub">ID: ${id}</div>` : '';
+      const content = `<div class="discord-handle">${u || id}</div>${sub}<div class="pill" style="margin-top:8px">Preferred</div>`;
+      makeCard('Discord', content, '', 'featured');
     }
 
-    // Roblox card
+    // Email (keep button; keep copy out)
+    if (S.email){
+      const safeEmail = S.email;
+      const content = `<div class="muted"><strong>${safeEmail}</strong></div>`;
+     // const actions = `<a class="action primary" href="mailto:${safeEmail}">Open Mail</a>`;
+      makeCard('Email', content, '');
+    }
+
+    // Roblox (ONLY button, no raw link shown)
     if (S.roblox){
       const url = S.roblox;
-      const content = `Profile: <strong>${url}</strong>`;
+      const content = `<div class="muted">Public profile</div>`;
       const actions = `<a class="action primary" href="${url}" target="_blank" rel="noreferrer">Open Profile</a>`;
       makeCard('Roblox', content, actions);
     }
