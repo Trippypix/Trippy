@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hire Me — Roblox Scripter</title>
+  <meta name="description" content="Hire a Roblox scripter. Clear packages, duration, pricing. PayPal only." />
+  <style>
+    :root{
+      --bg:#0b0b0f; --bg-elev:#11131a; --card:#151826; --card-2:#0f1220;
+      --fg:#eef1ff; --muted:#a1a7c5; --accent:#7c5cff; --accent-2:#31e1ff;
+      --shadow:rgba(0,0,0,.45); --radius:16px; --gap:18px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff; --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); }
+    }
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif; }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:22px; }
+
+    /* Simple top bar */
+    .top{ position:sticky; top:0; z-index:10; background:rgba(17,19,26,.9); border-bottom:1px solid rgba(161,167,197,.15); }
+    .top .inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; }
+    .brand-logo{ width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 6px 18px var(--shadow); }
+    .crumbs a{ opacity:.85; }
+
+    /* Hero */
+    .hero{ background:
+      radial-gradient(1000px 360px at 20% -10%, rgba(124,92,255,.22), transparent 60%),
+      radial-gradient(700px 280px at 80% 0%, rgba(49,225,255,.15), transparent 70%);
+      border-bottom:1px solid rgba(161,167,197,.15)
+    }
+    .hero .inner{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(14px,3vw,40px); align-items:center; }
+    @media (max-width: 860px){ .hero .inner{ grid-template-columns:1fr; } }
+    .hero h1{ font-size: clamp(28px, 5vw, 48px); margin:14px 0 8px; line-height:1.08; }
+    .hero p{ color:var(--muted); margin:0 0 10px; }
+    .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
+    .badge{ padding:6px 10px; border-radius:999px; background:rgba(124,92,255,.18); border:1px solid rgba(161,167,197,.18); font-weight:600; }
+    .cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid rgba(161,167,197,.2);
+      background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff; font-weight:700; text-decoration:none; box-shadow:0 10px 20px var(--shadow); }
+    .btn.secondary{ background:var(--card); color:var(--fg); font-weight:600; }
+    .hero-card{ border-radius:16px; background:linear-gradient(180deg,var(--card),var(--card-2)); padding:18px; border:1px solid rgba(161,167,197,.12); box-shadow:0 18px 35px var(--shadow); }
+
+    /* Section */
+    .section-title{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin:22px 0 8px; }
+    .section-title h2{ font-size: clamp(20px, 3vw, 28px); margin:0; }
+    .muted{ color:var(--muted); }
+
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); }
+    .card{ background: linear-gradient(180deg, var(--card), var(--card-2)); border:1px solid rgba(161,167,197,.12); border-radius: var(--radius); padding: 16px; box-shadow: 0 18px 35px var(--shadow); }
+    .plan{ grid-column: span 4; display:flex; flex-direction:column; gap:12px; transform:translateY(14px); opacity:0; transition:transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease; }
+    .plan.appear{ transform:none; opacity:1; }
+    @media (max-width: 1100px){ .plan{ grid-column: span 6; } }
+    @media (max-width: 720px){ .plan{ grid-column: span 12; } }
+    .plan .head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .plan h3{ margin:0; font-size:20px; }
+    .price{ font-weight:800; font-size:20px; }
+    .pill{ padding:6px 10px; border-radius:999px; background:var(--bg-elev); border:1px solid rgba(161,167,197,.18); font-size:13px; }
+    .list{ margin:6px 0 0 0; padding-left:18px; color:var(--muted); }
+    .list li{ margin:6px 0; }
+    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
+    .action{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:var(--bg-elev); border:1px solid rgba(161,167,197,.18); text-decoration:none; font-weight:600; }
+    .action.primary{ background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap inner">
+      <div class="brand"><span class="brand-logo" aria-hidden="true"></span> <span id="brand">YourName</span></div>
+      <div class="crumbs"><a href="./">← Home</a></div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap inner" style="align-items:stretch;">
+      <div>
+        <h1>Hire Me</h1>
+        <p class="muted" id="tagline">Clear packages. Fast delivery. Roblox scripting with clean, scalable code.</p>
+        <div class="badges">
+          <span class="badge">PayPal only</span>
+          <span class="badge" id="timezone">Timezone: auto</span>
+        </div>
+        <div class="cta">
+          <a id="primaryCta" class="btn" href="#packages">See Packages</a>
+          <a id="contactBtn" class="btn secondary" href="#contact">Contact First</a>
+        </div>
+      </div>
+      <div class="hero-card card">
+        <h3 style="margin:0 0 6px">How this works</h3>
+        <ol class="muted" style="margin:0 0 8px 18px">
+          <li>Pick a package (or contact me to plan a custom one).</li>
+          <li>We confirm scope & delivery window.</li>
+          <li>Payment via <strong>PayPal</strong>. I start once confirmed.</li>
+        </ol>
+        <p class="muted" style="margin:0">I don’t accept other payment methods.</p>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <div class="section-title" id="packages">
+      <h2>Packages</h2>
+      <div class="muted">Showing <span id="countShown">0</span> of <span id="countTotal">0</span></div>
+    </div>
+    <div id="plansGrid" class="grid"></div>
+
+    <div id="contact" style="margin-top:24px">
+      <div class="section-title"><h2>Contact</h2></div>
+      <div class="card">
+        <p class="muted">Questions before booking? Email me and I’ll reply promptly.</p>
+        <div class="actions">
+          <a id="emailLink" class="action primary" href="#">Email</a>
+          <a id="paypalLink" class="action" href="#" target="_blank" rel="noreferrer">PayPal</a>
+          <span class="pill">PayPal only</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="wrap" style="text-align:center; color:var(--muted); margin:40px 0 60px">
+    <p>© <span id="year"></span> <span id="footerName">YourName</span> — Roblox Scripter</p>
+  </footer>
+
+  <!-- ========= EDIT YOUR DATA HERE (no comments, valid JSON) ========= -->
+  <script id="hire-data" type="application/json">
+  {
+    "settings": {
+      "brand": "YourName",
+      "tagline": "Clear packages. Fast delivery. Roblox scripting with clean, scalable code.",
+      "currency": "USD",
+      "maxCards": null,          
+      "email": "you@example.com",
+      "paypal": "https://paypal.me/yourhandle"
+    },
+    "packages": [
+      {
+        "id": "quick-fix",
+        "title": "Quick Fix",
+        "duration": "1–2 hours",
+        "price": 25,
+        "unit": "hour",
+        "desc": "Small bug fixes, minor script edits, quick tweaks.",
+        "deliverables": ["Bug fix or small change", "Code comments", "Tested in Studio"],
+        "notes": "Minimum 1 hour."
+      },
+      {
+        "id": "feature-module",
+        "title": "Feature Module",
+        "duration": "1–2 days",
+        "price": 120,
+        "unit": "fixed",
+        "desc": "Self-contained feature or module (e.g., inventory, simple datastore, UI component).",
+        "deliverables": ["Module/Script", "Usage notes", "Basic tests"],
+        "notes": "Scope agreed upfront."
+      },
+      {
+        "id": "gameplay-system",
+        "title": "Gameplay System Sprint",
+        "duration": "3–5 days",
+        "price": 350,
+        "unit": "fixed",
+        "desc": "A complete gameplay system (e.g., quest, economy loop, matchmaking stub) with polishing.",
+        "deliverables": ["Server + client scripts", "Configuration options", "Perf considerations"],
+        "notes": "Milestones + demo check-ins."
+      },
+      {
+        "id": "ui-polish",
+        "title": "UI & UX Polish",
+        "duration": "1–3 days",
+        "price": 150,
+        "unit": "fixed",
+        "desc": "HUD/menus polish, TweenService animations, responsiveness.",
+        "deliverables": ["Reusable UI components", "Style guide snippet", "Tweens & transitions"],
+        "notes": "Works with your existing assets."
+      }
+    ]
+  }
+  </script>
+
+  <!-- ========================== SCRIPT ========================== -->
+  <script>
+    const $ = (s,el=document)=>el.querySelector(s); const $$=(s,el=document)=>Array.from(el.querySelectorAll(s));
+    const data = JSON.parse(document.getElementById('hire-data').textContent);
+    const S = data.settings || {}; const P = data.packages || [];
+
+    // Header/footer
+    const year = new Date().getFullYear(); $('#year').textContent = year; $('#footerName').textContent = S.brand||'YourName'; $('#brand').textContent = S.brand||'YourName';
+    $('#tagline').textContent = S.tagline||'';
+
+    // Contact links
+    if(S.email){ $('#emailLink').href = `mailto:${S.email}`; $('#contactBtn').href = `mailto:${S.email}`; }
+    if(S.paypal){ $('#paypalLink').href = S.paypal; }
+
+    // Timezone badge
+    try{ $('#timezone').textContent = `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}` }catch(_){ $('#timezone').style.display='none'; }
+
+    // Currency formatter
+    const fmt = (n)=>{ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:S.currency||'USD',maximumFractionDigits:0}).format(n); }catch(_){ return `${S.currency||'USD'} ${n}`; } };
+
+    // Limit how many cards with settings.maxCards or ?n= override
+    const urlN = new URLSearchParams(location.search).get('n');
+    let maxCards = (urlN ? parseInt(urlN,10) : S.maxCards);
+    if(Number.isNaN(maxCards)) maxCards = null;
+
+    const grid = $('#plansGrid');
+    const total = P.length; let shown = 0;
+
+    P.slice(0, maxCards ?? P.length).forEach(pkg => {
+      const card = document.createElement('article'); card.className = 'plan card'; card.id = pkg.id || '';
+
+      const priceText = pkg.unit === 'hour' ? `${fmt(pkg.price)}/hr` : fmt(pkg.price);
+      card.innerHTML = `
+        <div class="head">
+          <h3>${pkg.title}</h3>
+          <span class="price">${priceText}</span>
+        </div>
+        <p class="muted">${pkg.desc||''}</p>
+        <div class="pill">Duration: ${pkg.duration||'N/A'}</div>
+        <ul class="list">${(pkg.deliverables||[]).map(d=>`<li>${d}</li>`).join('')}</ul>
+        ${pkg.notes?`<p class="muted" style="margin:8px 0 0">${pkg.notes}</p>`:''}
+        <div class="actions">
+          <a class="action primary" href="mailto:${encodeURIComponent(S.email||'you@example.com')}?subject=${encodeURIComponent('Hire request: '+(pkg.title||''))}&body=${encodeURIComponent('Hi, I would like to book the '+(pkg.title||'')+' package. My details: ')}">Contact to Book</a>
+          ${S.paypal?`<a class="action" href="${S.paypal}" target="_blank" rel="noreferrer">Pay via PayPal</a>`:''}
+          <span class="pill">PayPal only</span>
+        </div>`;
+
+      grid.appendChild(card); shown++;
+    });
+
+    $('#countTotal').textContent = total;
+    $('#countShown').textContent = shown;
+
+    // Animate in on scroll
+    const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('appear'); io.unobserve(e.target);} }),{threshold:.15});
+    $$('.plan', grid).forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
