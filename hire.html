@@ -6,33 +6,21 @@
   <title>Hire Me — Roblox Scripter</title>
   <meta name="description" content="Hire a Roblox scripter. Clear packages, duration, pricing. PayPal or Crypto only." />
   <style>
-    :root{
-      --bg:#0b0b0f; --bg-elev:#11131a; --card:#151826; --card-2:#0f1220;
-      --fg:#eef1ff; --muted:#a1a7c5; --accent:#7c5cff; --accent-2:#31e1ff;
-      --shadow:rgba(0,0,0,.45); --radius:16px; --gap:18px;
-    }
-    @media (prefers-color-scheme: light){
-      :root{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff; --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); }
-    }
+    :root{ --bg:#0b0b0f; --bg-elev:#11131a; --card:#151826; --card-2:#0f1220; --fg:#eef1ff; --muted:#a1a7c5; --accent:#7c5cff; --accent-2:#31e1ff; --shadow:rgba(0,0,0,.45); --radius:16px; --gap:18px; }
+    @media (prefers-color-scheme: light){ :root{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff; --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); } }
     *{ box-sizing:border-box; }
     html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif; }
     a{ color:inherit; text-decoration:none; }
     a:hover{ text-decoration:underline; }
     .wrap{ max-width:1100px; margin:0 auto; padding:22px; }
 
-    /* Simple top bar */
     .top{ position:sticky; top:0; z-index:10; background:rgba(17,19,26,.9); border-bottom:1px solid rgba(161,167,197,.15); }
     .top .inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .brand{ display:flex; align-items:center; gap:10px; font-weight:800; }
     .brand-logo{ width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 6px 18px var(--shadow); }
     .crumbs a{ opacity:.85; }
 
-    /* Hero */
-    .hero{ background:
-      radial-gradient(1000px 360px at 20% -10%, rgba(124,92,255,.22), transparent 60%),
-      radial-gradient(700px 280px at 80% 0%, rgba(49,225,255,.15), transparent 70%);
-      border-bottom:1px solid rgba(161,167,197,.15)
-    }
+    .hero{ background: radial-gradient(1000px 360px at 20% -10%, rgba(124,92,255,.22), transparent 60%), radial-gradient(700px 280px at 80% 0%, rgba(49,225,255,.15), transparent 70%); border-bottom:1px solid rgba(161,167,197,.15) }
     .hero .inner{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(14px,3vw,40px); align-items:center; }
     @media (max-width: 860px){ .hero .inner{ grid-template-columns:1fr; } }
     .hero h1{ font-size: clamp(28px, 5vw, 48px); margin:14px 0 8px; line-height:1.08; }
@@ -40,12 +28,10 @@
     .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
     .badge{ padding:6px 10px; border-radius:999px; background:rgba(124,92,255,.18); border:1px solid rgba(161,167,197,.18); font-weight:600; }
     .cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
-    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid rgba(161,167,197,.2);
-      background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff; font-weight:700; text-decoration:none; box-shadow:0 10px 20px var(--shadow); }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid rgba(161,167,197,.2); background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff; font-weight:700; text-decoration:none; box-shadow:0 10px 20px var(--shadow); }
     .btn.secondary{ background:var(--card); color:var(--fg); font-weight:600; }
     .hero-card{ border-radius:16px; background:linear-gradient(180deg,var(--card),var(--card-2)); padding:18px; border:1px solid rgba(161,167,197,.12); box-shadow:0 18px 35px var(--shadow); }
 
-    /* Section */
     .section-title{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin:22px 0 8px; }
     .section-title h2{ font-size: clamp(20px, 3vw, 28px); margin:0; }
     .muted{ color:var(--muted); }
@@ -66,16 +52,13 @@
     .action{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:var(--bg-elev); border:1px solid rgba(161,167,197,.18); text-decoration:none; font-weight:600; }
     .action.primary{ background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff; }
 
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
-    }
+    @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; } }
   </style>
 </head>
 <body>
   <header class="top">
     <div class="wrap inner">
-      <div class="brand"><span class="brand-logo" aria-hidden="true"></span> <span id="brand">YourName</span></div>
+      <div class="brand"><span class="brand-logo" aria-hidden="true"></span> <span id="brand">Hussein Adam</span></div>
       <div class="crumbs"><a href="./">← Home</a></div>
     </div>
   </header>
@@ -86,7 +69,7 @@
         <h1>Hire Me</h1>
         <p class="muted" id="tagline">Clear packages. Fast delivery. Roblox scripting with clean, scalable code.</p>
         <div class="badges">
-          <span class="badge">PayPal or Crypto</span>
+          <span class="badge" id="paymentsBadge">PayPal or Crypto</span>
           <span class="badge" id="timezone">Timezone: auto</span>
         </div>
         <div class="cta">
@@ -99,9 +82,9 @@
         <ol class="muted" style="margin:0 0 8px 18px">
           <li>Pick a package (or contact me to plan a custom one).</li>
           <li>We confirm scope & delivery window.</li>
-          <li>Payment via <strong>PayPal</strong> or Crypto. I start once confirmed.</li>
+          <li>Payment via <strong>PayPal</strong> or crypto. I start once confirmed.</li>
         </ol>
-        <p class="muted" style="margin:0">I]Unfortunately I don’t accept other payment methods.</p>
+        <p class="muted" style="margin:0">Unfortunately I don’t accept other payment methods.</p>
       </div>
     </div>
   </section>
@@ -114,20 +97,23 @@
     <div id="plansGrid" class="grid"></div>
 
     <div id="contact" style="margin-top:24px">
-      <div class="section-title"><h2>Contact</h2></div>
+      <div class="section-title"><h2>Contact & Payments</h2></div>
       <div class="card">
-        <p class="muted">Questions before booking? Email me or contact me on Discord and I’ll reply promptly.</p>
-        <div class="actions">
+        <p class="muted">Questions before booking? Email me or DM on Discord and I’ll reply promptly.</p>
+        <div class="actions" style="margin-bottom:10px">
           <a id="emailLink" class="action primary" href="#">Email</a>
           <a id="paypalLink" class="action" href="#" target="_blank" rel="noreferrer">PayPal</a>
-          <span class="pill">PayPal only</span>
+        </div>
+        <div id="cryptoWrap" style="display:none">
+          <p class="muted" style="margin:8px 0 6px"><strong>Crypto</strong></p>
+          <div id="cryptoList" class="actions"></div>
         </div>
       </div>
     </div>
   </main>
 
   <footer class="wrap" style="text-align:center; color:var(--muted); margin:40px 0 60px">
-    <p>© <span id="year"></span> <span id="footerName">YourName</span> — Roblox Scripter</p>
+    <p>© <span id="year"></span> <span id="footerName">Hussein Adam</span> — Roblox Scripter</p>
   </footer>
 
   <!-- ========= EDIT YOUR DATA HERE (no comments, valid JSON) ========= -->
@@ -137,36 +123,43 @@
       "brand": "Hussein Adam",
       "tagline": "Clear packages. Fast delivery. Roblox scripting with clean, scalable code.",
       "currency": "USD",
-      "maxCards": null,          
+      "maxCards": null,
       "email": "husseinsocool99@gmail.com",
-      "paypal": "husseinsocool99@icloud.com"
+      "paypal": "husseinsocool99@icloud.com",
+      "crypto": [
+        { "label": "USDT (TRC20)", "address": "" },
+        { "label": "BTC", "address": "" }
+      ]
     },
     "packages": [
       {
         "id": "quick-fix",
         "title": "Quick Fix",
         "duration": "1–3 hours",
-        "price": 10-30,
+        "priceMin": 10,
+        "priceMax": 30,
         "unit": "hour",
         "desc": "Small bug fixes, minor script edits, quick tweaks. Duration mainly depends on the bug or fix!",
         "deliverables": ["Bug fix or small change", "Code comments", "Tested in Studio"],
-        "notes": "Minimum 2 hour."
+        "notes": "Minimum 2 hours."
       },
       {
         "id": "gameplay-system",
         "title": "Game systems",
-        "duration": "1-2 weeks",
-        "price": 150-400,
+        "duration": "1–2 weeks",
+        "priceMin": 150,
+        "priceMax": 400,
         "unit": "fixed",
-        "desc": "Price is not fixed and depends on the complexity of the needed systems!",
-        "deliverables": ["Server + client scripts", "Configuration options", "Perfomance considerations"],
+        "desc": "Price depends on the complexity of the needed systems.",
+        "deliverables": ["Server + client scripts", "Configuration options", "Performance considerations"],
         "notes": "Milestones + demo check-ins."
       },
       {
         "id": "ui-polish",
         "title": "UI & UX Polish",
         "duration": "1–3 days",
-        "price": 100-200,
+        "priceMin": 100,
+        "priceMax": 200,
         "unit": "fixed",
         "desc": "HUD/menus polish, TweenService animations, responsiveness.",
         "deliverables": ["Reusable UI components", "Style guide snippet", "Tweens & transitions"],
@@ -176,7 +169,6 @@
   }
   </script>
 
-  <!-- ========================== SCRIPT ========================== -->
   <script>
     const $ = (s,el=document)=>el.querySelector(s); const $$=(s,el=document)=>Array.from(el.querySelectorAll(s));
     const data = JSON.parse(document.getElementById('hire-data').textContent);
@@ -188,13 +180,45 @@
 
     // Contact links
     if(S.email){ $('#emailLink').href = `mailto:${S.email}`; $('#contactBtn').href = `mailto:${S.email}`; }
-    if(S.paypal){ $('#paypalLink').href = S.paypal; }
+    if(S.paypal){
+      let p = S.paypal.trim();
+      if(!/^mailto:|^https?:/i.test(p)){
+        if(p.includes('@')){ p = `mailto:${p}`; } else { p = `https://paypal.me/${p}`; }
+      }
+      $('#paypalLink').href = p;
+    }
+
+    // Crypto list
+    const crypto = Array.isArray(S.crypto) ? S.crypto.filter(c=>c.address && c.label) : [];
+    if(crypto.length){
+      $('#cryptoWrap').style.display = '';
+      const list = $('#cryptoList');
+      crypto.forEach(c=>{
+        const a = document.createElement('button');
+        a.className = 'action'; a.type = 'button';
+        a.textContent = `${c.label}: ${c.address}`; a.style.userSelect = 'all';
+        a.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(c.address); a.textContent = 'Copied!'; setTimeout(()=> a.textContent = `${c.label}: ${c.address}`, 1500);}catch(_){ /* ignore */ }});
+        list.appendChild(a);
+      });
+    }
+
+    // Badge text
+    $('#paymentsBadge').textContent = crypto.length ? 'PayPal or Crypto' : 'PayPal';
 
     // Timezone badge
     try{ $('#timezone').textContent = `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}` }catch(_){ $('#timezone').style.display='none'; }
 
     // Currency formatter
     const fmt = (n)=>{ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:S.currency||'USD',maximumFractionDigits:0}).format(n); }catch(_){ return `${S.currency||'USD'} ${n}`; } };
+
+    // Price text helper (supports price, priceMin/priceMax)
+    function priceText(pkg){
+      const u = pkg.unit === 'hour' ? '/hr' : '';
+      if(typeof pkg.price === 'number') return `${fmt(pkg.price)}${u}`;
+      if(typeof pkg.priceMin === 'number' && typeof pkg.priceMax === 'number') return `${fmt(pkg.priceMin)}–${fmt(pkg.priceMax)}${u}`;
+      if(typeof pkg.priceMin === 'number') return `${fmt(pkg.priceMin)}+${u}`;
+      return 'Contact';
+    }
 
     // Limit how many cards with settings.maxCards or ?n= override
     const urlN = new URLSearchParams(location.search).get('n');
@@ -206,12 +230,10 @@
 
     P.slice(0, maxCards ?? P.length).forEach(pkg => {
       const card = document.createElement('article'); card.className = 'plan card'; card.id = pkg.id || '';
-
-      const priceText = pkg.unit === 'hour' ? `${fmt(pkg.price)}/hr` : fmt(pkg.price);
       card.innerHTML = `
         <div class="head">
           <h3>${pkg.title}</h3>
-          <span class="price">${priceText}</span>
+          <span class="price">${priceText(pkg)}</span>
         </div>
         <p class="muted">${pkg.desc||''}</p>
         <div class="pill">Duration: ${pkg.duration||'N/A'}</div>
@@ -219,8 +241,7 @@
         ${pkg.notes?`<p class="muted" style="margin:8px 0 0">${pkg.notes}</p>`:''}
         <div class="actions">
           <a class="action primary" href="mailto:${encodeURIComponent(S.email||'you@example.com')}?subject=${encodeURIComponent('Hire request: '+(pkg.title||''))}&body=${encodeURIComponent('Hi, I would like to book the '+(pkg.title||'')+' package. My details: ')}">Contact to Book</a>
-          ${S.paypal?`<a class="action" href="${S.paypal}" target="_blank" rel="noreferrer">Pay via PayPal</a>`:''}
-          <span class="pill">PayPal only</span>
+          ${S.paypal?`<a class="action" href="${$('#paypalLink').href}" target="_blank" rel="noreferrer">Pay via PayPal</a>`:''}
         </div>`;
 
       grid.appendChild(card); shown++;
@@ -229,7 +250,6 @@
     $('#countTotal').textContent = total;
     $('#countShown').textContent = shown;
 
-    // Animate in on scroll
     const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('appear'); io.unobserve(e.target);} }),{threshold:.15});
     $$('.plan', grid).forEach(el=>io.observe(el));
   </script>
