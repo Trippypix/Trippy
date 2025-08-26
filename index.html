@@ -3,33 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My GitHub Pages Site</title>
+  <title>My Simple Homepage</title>
+  <meta name="description" content="Just a simple homepage on GitHub Pages." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="wrap">
-    <h1>👋 Hello, GitHub Pages!</h1>
-    <p>This is a super simple starter site deployed with GitHub Pages.</p>
+  <header class="site-header">
+    <nav class="wrap nav">
+      <a class="brand" href="/">MySite</a>
+      <div class="links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+    <section class="wrap hero">
+      <h1>Hi, I’m <span class="accent">You</span> 👋</h1>
+      <p>A super simple homepage running on GitHub Pages.</p>
+      <a class="btn" href="#projects">See my work</a>
+    </section>
   </header>
-  
 
   <main class="wrap">
-    <section class="card">
-      <h2>What’s here?</h2>
-      <ul>
-        <li><code>index.html</code> – this page (required for the homepage)</li>
-        <li><code>styles.css</code> – minimal styling</li>
-        <li><code>.nojekyll</code> – disables Jekyll processing (optional but safe)</li>
-      </ul>
+    <section id="about" class="card">
+      <h2>About</h2>
+      <p>Write a short intro here. Who you are, what you do, and what this site is about.</p>
     </section>
-    <section class="card">
-      <h2>Edit me</h2>
-      <p>Open <code>index.html</code> and start customizing. Push changes and Pages will redeploy.</p>
+
+    <section id="projects" class="grid">
+      <article class="card">
+        <h3>Project One</h3>
+        <p>Quick description of something you built.</p>
+        <a href="#" class="text-link">View →</a>
+      </article>
+      <article class="card">
+        <h3>Project Two</h3>
+        <p>Another small thing or a link to your repo.</p>
+        <a href="#" class="text-link">View →</a>
+      </article>
+      <article class="card">
+        <h3>Project Three</h3>
+        <p>Keep it short and sweet.</p>
+        <a href="#" class="text-link">View →</a>
+      </article>
+    </section>
+
+    <section id="contact" class="card">
+      <h2>Contact</h2>
+      <p>Say hi: <a href="mailto:you@example.com">you@example.com</a></p>
     </section>
   </main>
 
-  <footer class="wrap center">
-    <p>Built with ❤️ on GitHub Pages</p>
+  <footer class="wrap footer">
+    <p>© <span id="year"></span> You — Built with GitHub Pages</p>
   </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
