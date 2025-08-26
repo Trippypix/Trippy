@@ -3,183 +3,199 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hussein Adam — Roblox Scripter Portfolio</title>
-  <meta name="description" content="Portfolio of Hussein Adam, Roblox scripter. Clean, scalable LuaU systems, gameplay, and UI." />
+  <title>Hussein Adam — Roblox Scripter</title>
+  <meta name="description" content="Roblox scripter portfolio — scalable LuaU systems, gameplay, UI. One‑page site with projects, packages, about, and contact." />
   <style>
+    /* ================== THEME ================== */
     :root{
-      --bg:#0b0b0f; --bg-elev:#11131a; --card:#151826; --card-2:#0f1220;
-      --fg:#eef1ff; --muted:#a1a7c5; --accent:#7c5cff; --accent-2:#31e1ff;
-      --shadow:rgba(0,0,0,.45); --radius:16px; --gap:18px;
+      --bg:#0c0c11; --layer:#10121a; --layer-2:#0e1220; --card:#15192a; --text:#eef1ff; --muted:#a5abc7;
+      --accent:#7c5cff; --accent-2:#31e1ff; --ring:rgba(124,92,255,.45); --shadow:rgba(0,0,0,.45);
+      --radius:16px; --gap:20px; --max:1150px;
+      --input-bg:#0f1220; --input-bd:rgba(165,171,199,.18);
     }
-    @media (prefers-color-scheme: light){
-      :root{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff;
-             --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); }
+    :root[data-theme="light"]{
+      --bg:#ffffff; --layer:#f6f7fb; --layer-2:#eef1ff; --card:#f4f6ff; --text:#13141a; --muted:#5a607b;
+      --shadow:rgba(0,0,0,.08); --ring:rgba(124,92,255,.25); --input-bg:#ffffff; --input-bd:rgba(0,0,0,.12);
     }
+
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
       font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif}
     a{color:inherit;text-decoration:none}
     a:hover{text-decoration:underline}
-    .wrap{max-width:1100px;margin:0 auto;padding:22px}
+    .wrap{max-width:var(--max);margin:0 auto;padding:22px}
 
-    /* NAV (compat) */
-    .nav{position:sticky;top:0;z-index:1000;
-      background:rgba(17,19,26,.85);
-      border-bottom:1px solid rgba(161,167,197,.15)}
-    .nav .inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    /* ================== NAV ================== */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(16,18,26,.9);backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(165,171,199,.12)}
+    :root[data-theme="light"] .nav{background:rgba(255,255,255,.8)}
+    .nav .inner{display:flex;align-items:center;justify-content:space-between;gap:14px}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
-    .brand-logo{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      box-shadow:0 6px 18px var(--shadow)}
-    .links{display:flex;gap:16px;align-items:center}
-    .links a{opacity:.85;padding:8px 10px;border-radius:10px}
-    .links a.active,.links a:hover{background:rgba(124,92,255,.18);opacity:1;text-decoration:none}
-    .theme-toggle{border:0;padding:8px 10px;border-radius:10px;background:var(--card);color:var(--fg);cursor:pointer;box-shadow:0 6px 18px var(--shadow)}
+    .logo{width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 18px var(--shadow)}
+    .links{display:flex;gap:14px;align-items:center}
+    .links a{padding:8px 10px;border-radius:10px;opacity:.9}
+    .links a:hover{background:rgba(124,92,255,.18);opacity:1;text-decoration:none}
+    .theme{border:0;padding:8px 10px;border-radius:10px;background:var(--card);color:inherit;cursor:pointer}
 
-    /* HERO */
-    .hero{
-      background:
-        radial-gradient(1200px 400px at 20% -10%, rgba(124,92,255,.25) 0%, transparent 60%),
-        radial-gradient(800px 300px at 80% 0%, rgba(49,225,255,.18) 0%, transparent 70%);
-      border-bottom:1px solid rgba(161,167,197,.15)
-    }
-    .hero .inner{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(14px,3vw,40px);align-items:center}
-    @media (max-width:860px){.hero .inner{grid-template-columns:1fr}}
-    .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;background:var(--card);
-      border:1px solid rgba(161,167,197,.15);border-radius:999px;font-weight:600;box-shadow:0 6px 18px var(--shadow)}
-    .hero h1{font-size:clamp(28px,5vw,56px);margin:14px 0 6px;line-height:1.08}
-    .hero p{color:var(--muted);margin:0 0 14px}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
-      border:1px solid rgba(161,167,197,.2);
-      background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08));
-      color:#fff;font-weight:700;text-decoration:none;box-shadow:0 10px 20px var(--shadow)}
-    .btn.secondary{background:var(--card);color:var(--fg);font-weight:600}
-    .avatar{width:140px;height:140px;border-radius:20px;background:linear-gradient(135deg,var(--card),var(--card-2));
-      box-shadow:0 20px 40px var(--shadow);display:grid;place-items:center;overflow:hidden;justify-self:end}
-    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
-    .avatar .ph{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));opacity:.9}
+    /* ================== HERO ================== */
+    .hero{position:relative;background:
+      radial-gradient(1200px 420px at 20% -10%, rgba(124,92,255,.25), transparent 60%),
+      radial-gradient(900px 300px at 90% 0%, rgba(49,225,255,.18), transparent 70%);
+      border-bottom:1px solid rgba(165,171,199,.12)}
+    .hero .inner{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(16px,3vw,42px);align-items:center}
+    @media (max-width:900px){.hero .inner{grid-template-columns:1fr}}
+    .intro{display:flex;flex-direction:column;gap:10px}
+    .eyebrow{font-weight:700;opacity:.9}
+    .title{font-size:clamp(32px,5.6vw,60px);line-height:1.05;margin:0}
+    .tagline{color:var(--muted);margin:4px 0 10px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid rgba(165,171,199,.18);
+      background:linear-gradient(180deg, rgba(124,92,255,.26), rgba(124,92,255,.08));color:#fff;font-weight:800;box-shadow:0 10px 22px var(--shadow)}
+    .btn.secondary{background:var(--card);color:inherit;font-weight:700}
 
-    /* Sections / Cards */
+    .hero-box{display:grid;gap:var(--gap)}
+    .portrait{aspect-ratio:4/3;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,var(--card),var(--layer-2));
+      border:1px solid var(--ring);box-shadow:0 22px 44px var(--shadow);display:grid;place-items:center}
+    .portrait img{width:100%;height:100%;object-fit:cover;display:block}
+    .stats{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+    .stat{grid-column:span 4;background:linear-gradient(180deg,var(--card),var(--layer-2));padding:14px;border-radius:14px;border:1px solid rgba(165,171,199,.14)}
+    @media (max-width:900px){.stat{grid-column:span 6}}
+    @media (max-width:540px){.stat{grid-column:span 12}}
+    .stat .k{font-size:clamp(22px,3vw,28px);font-weight:900}
+    .stat .l{color:var(--muted);margin-top:-2px}
+
+    /* ================== SECTIONS ================== */
     section{scroll-margin-top:80px}
-    .section-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:22px 0 8px}
-    .section-title h2{font-size:clamp(20px,3vw,28px);margin:0}
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin:22px 0 10px}
+    .section-title h2{margin:0;font-size:clamp(22px,3vw,30px)}
     .muted{color:var(--muted)}
+
+    /* Projects */
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
-    .card{background:linear-gradient(180deg,var(--card),var(--card-2));
-      border:1px solid rgba(161,167,197,.12);border-radius:var(--radius);padding:16px;box-shadow:0 18px 35px var(--shadow)}
-
-    /* Project cards */
-    .project{grid-column:span 4;display:flex;flex-direction:column;gap:12px;position:relative;
-      transform:translateY(14px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
-    @media (max-width:1100px){.project{grid-column:span 6}}
-    @media (max-width:720px){.project{grid-column:span 12}}
+    .card{background:linear-gradient(180deg,var(--card),var(--layer-2));border:1px solid rgba(165,171,199,.12);border-radius:16px;padding:16px;box-shadow:0 18px 36px var(--shadow)}
+    .project{grid-column:span 4;display:flex;flex-direction:column;gap:12px;transform:translateY(14px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
     .project.appear{transform:none;opacity:1}
-    .thumb{aspect-ratio:16/9;border-radius:12px;overflow:hidden;
-      background:linear-gradient(135deg, rgba(124,92,255,.2), rgba(49,225,255,.15));
-      display:grid;place-items:center}
+    @media (max-width:1050px){.project{grid-column:span 6}}
+    @media (max-width:720px){.project{grid-column:span 12}}
+    .thumb{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:linear-gradient(135deg, rgba(124,92,255,.2), rgba(49,225,255,.15));display:grid;place-items:center}
     .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .thumb svg{opacity:.55}
     .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{padding:6px 10px;border-radius:999px;font-size:13px;background:rgba(124,92,255,.14);border:1px solid rgba(161,167,197,.18)}
+    .chip{padding:6px 10px;border-radius:999px;font-size:13px;background:rgba(124,92,255,.14);border:1px solid rgba(165,171,199,.18)}
     .project h3{margin:0 0 4px;font-size:18px}
-    .project p{margin:0;color:var(--muted)}
-    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-    .action{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:var(--bg-elev);
-      border:1px solid rgba(161,167,197,.18);text-decoration:none;font-weight:600}
-    .action.primary{background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .action{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:var(--layer);border:1px solid rgba(165,171,199,.18);text-decoration:none;font-weight:600}
+    .action.primary{background:linear-gradient(180deg, rgba(124,92,255,.26), rgba(124,92,255,.08)); color:#fff}
 
-    /* Hover tilt */
-    .tilt{transition:transform .2s ease;transform-style:preserve-3d}
-    .tilt:hover{transform:translateY(-3px) scale(1.01)}
+    /* Packages */
+    .plan{grid-column:span 4;display:flex;flex-direction:column;gap:12px;transform:translateY(14px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease}
+    @media (max-width:1050px){.plan{grid-column:span 6}}
+    @media (max-width:720px){.plan{grid-column:span 12}}
+    .plan .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .plan h3{margin:0;font-size:20px}
+    .price{font-weight:800;font-size:18px;padding:6px 10px;border-radius:999px;background:rgba(124,92,255,.18);border:1px solid rgba(165,171,199,.18)}
+    .pill{padding:6px 10px;border-radius:999px;background:var(--layer);border:1px solid rgba(165,171,199,.18);font-size:13px}
+    .list{margin:6px 0 0 0;padding-left:18px;color:var(--muted)}
 
-    /* Filters/Search */
-    .filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-    .input{background:var(--bg-elev);border:1px solid rgba(161,167,197,.18);padding:10px 12px;border-radius:12px;color:var(--fg);min-width:200px}
-    .pill{padding:8px 12px;border-radius:999px;background:var(--bg-elev);border:1px solid rgba(161,167,197,.18);cursor:pointer}
-    .pill.active{background:rgba(124,92,255,.18)}
-
-    /* About & Skills */
+    /* About */
     .about{display:grid;grid-template-columns:.6fr .4fr;gap:var(--gap)}
+    @media (max-width:900px){.about{grid-template-columns:1fr}}
     .skills{display:flex;flex-wrap:wrap;gap:10px}
-    .badge{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid rgba(161,167,197,.12);
-      padding:10px 12px;border-radius:10px;font-weight:600}
-    @media (max-width:860px){.about{grid-template-columns:1fr}}
+    .badge{background:linear-gradient(180deg,var(--card),var(--layer-2));border:1px solid rgba(165,171,199,.12);padding:10px 12px;border-radius:10px;font-weight:600}
 
-    /* Footer */
-    footer{margin:40px 0 60px;color:var(--muted);text-align:center}
+    /* ================== CONTACT (bottom, ansdev vibe) ================== */
+    .contact-cta{margin-top:10px}
+    .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+    @media (max-width:900px){.contact-wrap{grid-template-columns:1fr}}
+    .info{display:flex;flex-direction:column;gap:16px}
+    .info-item{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+    .icon{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+    .info a{color:inherit}
 
-    @media (prefers-reduced-motion: reduce){
-      *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-    }
+    .form{padding:16px}
+    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+    .input,.textarea{background:var(--input-bg);border:1px solid var(--input-bd);color:var(--text);padding:12px 12px;border-radius:12px}
+    .textarea{min-height:140px;resize:vertical}
+    .send{width:100%;display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;border:1px solid rgba(165,171,199,.2);background:linear-gradient(180deg, rgba(124,92,255,.26), rgba(124,92,255,.08));color:#fff;font-weight:800}
+    .hint{font-size:13px;color:var(--muted)}
+
+    footer{margin:42px 0 60px;color:var(--muted);text-align:center}
+
+    @media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important} }
   </style>
 </head>
 <body>
-  <!-- ========================== NAV ========================== -->
+  <!-- ============= NAV ============= -->
   <nav class="nav">
     <div class="wrap inner">
-      <a class="brand" href="#home">
-        <span class="brand-logo" aria-hidden="true"></span>
-        <span id="brand-name">Hussein Adam</span>
-      </a>
+      <a class="brand" href="#hero"><span class="logo" aria-hidden="true"></span> <span id="brand-name">Hussein Adam</span></a>
       <div class="links">
         <a href="#projects">Projects</a>
+        <a href="#packages">Packages</a>
         <a href="#about">About</a>
-        <!-- Contact now points to external page (case-sensitive!) -->
-        <a href="Contacts.html">Contact</a>
-        <a href="hire.html">Hire</a>
-        <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌗</button>
+        <a href="#contact">Contact</a>
+        <button class="theme" id="themeToggle" title="Toggle theme">🌗</button>
       </div>
     </div>
   </nav>
 
-  <!-- ========================== HERO ========================== -->
-  <header id="home" class="hero">
+  <!-- ============= HERO ============= -->
+  <header id="hero" class="hero">
     <div class="wrap inner">
-      <div>
-        <span class="tag">Roblox Scripter • LuaU • Systems & Gameplay</span>
-        <h1 id="hero-title">Hey, I build Roblox experiences with clean, scalable code.</h1>
-        <p id="hero-sub">From gameplay systems and UI to performance tuning, I bring ideas to life with LuaU + Roblox Studio.</p>
+      <div class="intro">
+        <div class="eyebrow">Hello, welcome</div>
+        <h1 class="title">I'm <span id="name-1">Hussein Adam</span></h1>
+        <p class="tagline" id="hero-sub">I build Roblox experiences — scalable LuaU systems, smooth gameplay, and clean UI.</p>
         <div class="cta">
-          <a class="btn" id="primary-cta" href="#projects">View Projects</a>
-          <a class="btn secondary" id="secondary-cta" href="hire.html">Hire Me</a>
+          <a class="btn" href="#packages">Hire Me</a>
+          <a class="btn secondary" href="#projects">See Portfolio</a>
         </div>
       </div>
-      <div class="avatar tilt" aria-hidden="true">
-        <!-- Replace with your avatar image: <img src="avatar.jpg" alt="Your avatar"/> -->
-        <div class="ph"></div>
+      <div class="hero-box">
+        <div class="portrait">
+          <!-- Optional: place your image here -->
+          <!-- <img src="avatar.jpg" alt="Hussein Adam"/> -->
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
+            <path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="stats">
+          <div class="stat card"><div class="k" id="stat-1">6+</div><div class="l">Years Experience</div></div>
+          <div class="stat card"><div class="k" id="stat-2">36M+</div><div class="l">Total Visits (contrib.)</div></div>
+          <div class="stat card"><div class="k" id="stat-3">10</div><div class="l">Projects Shipped</div></div>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- ========================== PROJECTS ========================== -->
+  <!-- ============= PROJECTS ============= -->
   <section id="projects" class="wrap">
     <div class="section-title">
-      <h2>Projects</h2>
-      <div class="filters">
-        <input id="search" class="input" placeholder="Search projects… (title, tags)" />
-        <button class="pill active" data-filter="all">All</button>
-        <button class="pill" data-filter="systems">Systems</button>
-        <button class="pill" data-filter="gameplay">Gameplay</button>
-        <button class="pill" data-filter="ui">UI</button>
-        <button class="pill" data-filter="tools">Tools</button>
-      </div>
+      <h2>Featured Projects</h2>
+      <div class="muted">A few hand‑picked works</div>
     </div>
-
     <div id="projectGrid" class="grid"></div>
   </section>
 
-  <!-- ========================== ABOUT ========================== -->
+  <!-- ============= PACKAGES ============= -->
+  <section id="packages" class="wrap">
+    <div class="section-title">
+      <h2>Packages</h2>
+      <div class="muted">Showing <span id="countShown">0</span> of <span id="countTotal">0</span></div>
+    </div>
+    <div id="plansGrid" class="grid"></div>
+  </section>
+
+  <!-- ============= ABOUT ============= -->
   <section id="about" class="wrap">
     <div class="section-title"><h2>About</h2></div>
     <div class="about">
       <div class="card">
-        <p id="about-text" class="muted">I’m a Roblox scripter focused on robust systems, reusable modules, and smooth player experiences. I care about code quality, performance, and shipping.
-        </p>
-        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="action" id="roblox-link" href="#" target="_blank" rel="noreferrer">Roblox Profile</a>
-          <a class="action" id="github-link" href="#" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="action" id="itch-link" href="#" target="_blank" rel="noreferrer">Itch / Portfolio</a>
+        <p id="about-text" class="muted"></p>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="action" id="roblox-link" target="_blank" rel="noreferrer">Roblox</a>
+          <a class="action" id="github-link" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="action" id="portfolio-link" target="_blank" rel="noreferrer">More</a>
         </div>
       </div>
       <div class="card">
@@ -189,233 +205,165 @@
     </div>
   </section>
 
-  <!-- NOTE: former Contact section removed per request -->
+  <!-- ============= CONTACT ============= -->
+  <section id="contact" class="wrap">
+    <div style="text-align:center;margin:24px 0 6px" class="muted">GET IN TOUCH</div>
+    <h2 style="text-align:center;margin:0 0 6px">Let's Build Something Amazing</h2>
+    <p class="muted" style="text-align:center;margin:0 0 18px">Interested in collaborating or have a question? Send a message or reach out via email/Discord.</p>
 
-  <footer class="wrap">
-    <p>© <span id="year"></span> <span id="footer-name">Hussein Adam</span>.</p>
-  </footer>
-
-  <!-- ========================== PROJECT CARD TEMPLATE ========================== -->
-  <template id="project-card">
-    <article class="project card tilt" data-tags="">
-      <div class="thumb">
-        <!-- If no image is provided, fallback SVG shows -->
-        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
-          <path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
+    <div class="contact-wrap">
+      <!-- Left: info -->
+      <div class="info card">
+        <div class="info-item">
+          <span class="icon" aria-hidden="true">✉️</span>
+          <div>
+            <div style="font-weight:700">Email</div>
+            <a id="email-inline" href="#">you@example.com</a>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon" aria-hidden="true">💬</span>
+          <div>
+            <div style="font-weight:700">Discord</div>
+            <div id="discord-inline" class="muted" style="font-weight:800;font-size:18px">yourusername</div>
+          </div>
+        </div>
       </div>
-      <div>
-        <h3 class="title"></h3>
-        <p class="summary muted"></p>
-      </div>
-      <div class="chips"></div>
-      <div class="actions"></div>
-    </article>
-  </template>
 
-  <!-- ========================== EDIT YOUR DATA HERE ========================== -->
-  <script id="portfolio-data" type="application/json">
+      <!-- Right: form -->
+      <form id="contactForm" class="card form" autocomplete="on">
+        <div class="field">
+          <label for="name">Your Name</label>
+          <input class="input" id="name" name="name" placeholder="Your Name" required />
+        </div>
+        <div class="field">
+          <label for="from">Your Email</label>
+          <input class="input" id="from" name="from" type="email" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label for="msg">Your Message</label>
+          <textarea class="textarea" id="msg" name="message" placeholder="Tell me a bit about your project…" required></textarea>
+        </div>
+        <!-- Honeypot (basic spam deterrent for static sites) -->
+        <input type="text" id="hp" name="hp" style="position:absolute;left:-5000px;opacity:0" tabindex="-1" autocomplete="off" />
+        <button class="send" type="submit">Send Message</button>
+        <div class="hint">This opens your email app with a pre‑filled message (works well on GitHub Pages).</div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="wrap"><p>© <span id="year"></span> <span id="footer-name">Hussein Adam</span>. Built for GitHub Pages.</p></footer>
+
+  <!-- ============= DATA (edit here) ============= -->
+  <script id="site-data" type="application/json">
   {
     "profile": {
       "name": "Hussein Adam",
-      "brand": "Hussein Adam",
-      "heroTitle": "Hey, I build Roblox experiences with clean, scalable code.
-",
-      "heroSub": "From gameplay systems and UI to performance tuning, I bring ideas to life with LuaU + Roblox Studio.",
-      "about": "I’m a Roblox scripter focused on robust systems, reusable modules, and smooth player experiences. I care about code quality, performance, and shipping.",
-      "email": "you@example.com",
+      "tagline": "I build Roblox experiences — scalable LuaU systems, smooth gameplay, and clean UI.",
+      "about": "Roblox scripter focused on robust systems, reusable modules, and smooth player experiences. I care about performance, clarity, and shipping.",
       "links": {
         "roblox": "https://www.roblox.com/users/1035292126/profile",
         "github": "https://github.com/trippypix",
-        "itch": "#",
-        "twitter": "#",
-        "discord": "https://discord.com/users/your-id"
+        "portfolio": "#projects"
       },
-      "skills": [
-        "LuaU / Roblox", "OOP Modules"
+      "skills": ["LuaU / Roblox","OOP Modules","Systems Design","UI / TweenService","Datastores","Optimization"],
+      "stats": [
+        {"value": "6+", "label": "Years Experience"},
+        {"value": "36M+", "label": "Total Visits (contrib.)"},
+        {"value": "10", "label": "Projects Shipped"}
       ]
     },
     "projects": [
-      {
-        "title": "Obby Master AI",
-        "summary": "Pathfinding NPC that learns obstacle timing; ramps difficulty per player skill.",
-        "tags": ["gameplay", "AI", "pathfinding"],
-        "image": "",
-        "links": [
-          {"label": "Play", "href": "https://www.roblox.com/discover/", "type": "primary"},
-          {"label": "Video", "href": "https://www.youtube.com/"},
-          {"label": "Source", "href": "#"}
-        ]
-      },
-      {
-        "title": "Tycoon Economy System",
-        "summary": "Modular economy (stores, crafting, upgrades) with anti-exploit checks and server authority.",
-        "tags": ["systems", "economy", "security"],
-        "image": "",
-        "links": [
-          {"label": "Docs", "href": "#"}
-        ]
-      },
-      {
-        "title": "UI Kit + Animations",
-        "summary": "Reusable UI components with TweenService animations and dynamic themes.",
-        "tags": ["ui", "tools"],
-        "image": "",
-        "links": [
-          {"label": "Demo", "href": "https://example.com/demo", "type": "primary"},
-          {"label": "Repo", "href": "https://github.com/trippypix"}
-        ]
-      }
-    ]
+      {"title": "Obby Master AI","summary": "Pathfinding NPC that learns obstacle timing; ramps difficulty per player skill.","tags": ["gameplay","AI","pathfinding"],"image": "","links": [{"label": "Play", "href": "https://www.roblox.com/discover/", "type": "primary"},{"label": "Video", "href": "https://www.youtube.com/"}]},
+      {"title": "Tycoon Economy System","summary": "Modular economy with anti-exploit checks and server authority.","tags": ["systems","economy","security"],"image": "","links": [{"label": "Docs", "href": "#"}]},
+      {"title": "UI Kit + Animations","summary": "Reusable UI components with TweenService animations and dynamic themes.","tags": ["ui","tools"],"image": "","links": [{"label": "Demo", "href": "#", "type": "primary"},{"label": "Repo", "href": "https://github.com/trippypix"}]}
+    ],
+    "packages": [
+      {"id": "quick-fix","title": "Quick Fix","duration": "1–3 hours","priceMin": 10,"priceMax": 30,"unit": "hour","desc": "Small bug fixes, minor script edits, quick tweaks.","deliverables": ["Bug fix or small change","Code comments","Tested in Studio"],"notes": "Minimum 2 hours."},
+      {"id": "gameplay-system","title": "Game systems","duration": "1–2 weeks","priceMin": 150,"priceMax": 400,"unit": "fixed","desc": "Price depends on the complexity of the needed systems.","deliverables": ["Server + client scripts","Configuration options","Performance considerations"],"notes": "Milestones + demo check-ins."},
+      {"id": "ui-polish","title": "UI & UX Polish","duration": "1–3 days","priceMin": 100,"priceMax": 200,"unit": "fixed","desc": "HUD/menus polish, TweenService animations, responsiveness.","deliverables": ["Reusable UI components","Style guide snippet","Tweens & transitions"],"notes": "Works with your existing assets."}
+    ],
+    "contact": {"email": "husseinsocool99@gmail.com", "discord": "yourusername"}
   }
   </script>
 
-  <!-- ========================== BEHAVIOR ========================== -->
+  <!-- ============= JS ============= -->
   <script>
-    // Helper: qs / qsa
-    const $ = (sel, el=document) => el.querySelector(sel);
-    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+    const $=(s,e=document)=>e.querySelector(s);const $$=(s,e=document)=>Array.from(e.querySelectorAll(s));
+    const data=JSON.parse($('#site-data').textContent); const P=data.projects||[]; const prof=data.profile||{}; const PK=data.packages||[]; const C=data.contact||{};
 
-    // Load profile + projects
-    const data = JSON.parse(document.getElementById('portfolio-data').textContent);
+    // Brand + hero + footer
+    $('#brand-name').textContent=prof.name||'Your Name';
+    $('#name-1').textContent=prof.name||'Your Name';
+    $('#hero-sub').textContent=prof.tagline||'';
+    $('#footer-name').textContent=prof.name||'Your Name';
+    const y=new Date().getFullYear(); $('#year')?.textContent=y;
 
-    // Populate profile text + links
-    const nowY = new Date().getFullYear();
-    document.getElementById('year').textContent = nowY;
-    $('#footer-name').textContent = data.profile.name;
-    $('#brand-name').textContent = data.profile.brand || data.profile.name;
-    $('#hero-title').textContent = data.profile.heroTitle;
-    $('#hero-sub').textContent = data.profile.heroSub;
-    $('#about-text').textContent = data.profile.about;
-
-    // Links (safe: only set if element exists)
-    const setHref = (id, url) => { const el = document.getElementById(id); if(el && url && url !== '#'){ el.href = url; } };
-    setHref('roblox-link', data.profile.links.roblox);
-    setHref('github-link', data.profile.links.github);
-    setHref('itch-link',   data.profile.links.itch);
-    setHref('twitter-link', data.profile.links.twitter); // ok if missing
-    setHref('discord-link', data.profile.links.discord); // ok if missing
-
-    // Email button might not exist anymore — guard it
-    const emailA = document.getElementById('email-link');
-    if (emailA && data.profile.email) emailA.href = `mailto:${data.profile.email}`;
-
-    // Skills badges
-    const skillsWrap = document.getElementById('skills');
-    data.profile.skills.forEach(s => {
-      const b = document.createElement('span'); b.className = 'badge'; b.textContent = s; skillsWrap.appendChild(b);
-    });
-
-    // Render projects
-    const grid = document.getElementById('projectGrid');
-    const cardTpl = document.getElementById('project-card');
-
-    function renderProjects(list){
-      grid.innerHTML = '';
-      list.forEach(p => {
-        const node = cardTpl.content.cloneNode(true);
-        const art = node.querySelector('.project');
-        art.dataset.tags = (p.tags||[]).join(' ').toLowerCase();
-        node.querySelector('.title').textContent = p.title;
-        node.querySelector('.summary').textContent = p.summary;
-
-        // Image thumb fallback
-        if (p.image){
-          const img = document.createElement('img');
-          img.alt = `${p.title} thumbnail`;
-          img.loading = 'lazy';
-          img.src = p.image;
-          const thumb = node.querySelector('.thumb');
-          thumb.innerHTML = '';
-          thumb.appendChild(img);
-        }
-
-        // Tags
-        const chips = node.querySelector('.chips');
-        (p.tags||[]).forEach(t => { const c = document.createElement('span'); c.className='chip'; c.textContent=t; chips.appendChild(c); });
-
-        // Links
-        const actions = node.querySelector('.actions');
-        (p.links||[]).forEach(l => {
-          const a = document.createElement('a');
-          a.className = 'action' + (l.type === 'primary' ? ' primary' : '');
-          a.href = l.href || '#'; a.target = '_blank'; a.rel = 'noreferrer'; a.textContent = l.label || 'Link';
-          actions.appendChild(a);
-        });
-
-        grid.appendChild(node);
-      });
-
-      // Appear on scroll
-      requestAnimationFrame(() => observeAppear());
+    // Stats
+    if (Array.isArray(prof.stats)){
+      const vals = prof.stats.map(s=>s.value); const labels = prof.stats.map(s=>s.label);
+      if(vals[0]) $('#stat-1').textContent = vals[0]; if(labels[0]) $('.stats .stat:nth-child(1) .l').textContent = labels[0];
+      if(vals[1]) $('#stat-2').textContent = vals[1]; if(labels[1]) $('.stats .stat:nth-child(2) .l').textContent = labels[1];
+      if(vals[2]) $('#stat-3').textContent = vals[2]; if(labels[2]) $('.stats .stat:nth-child(3) .l').textContent = labels[2];
     }
 
-    renderProjects(data.projects);
+    // About + links + skills
+    $('#about-text').textContent = prof.about||'';
+    const setHref=(id,url)=>{const el=$('#'+id);if(el&&url&&url!=='#'){el.href=url;}};
+    setHref('roblox-link', prof.links?.roblox);
+    setHref('github-link', prof.links?.github);
+    setHref('portfolio-link', prof.links?.portfolio);
+    const skillsWrap=$('#skills'); (prof.skills||[]).forEach(s=>{const b=document.createElement('span');b.className='badge';b.textContent=s;skillsWrap.appendChild(b)});
 
-    // Filters / Search
-    const filterPills = $$('.pill');
-    let currentFilter = 'all';
-    function applyFilters(){
-      const term = ($('#search').value || '').trim().toLowerCase();
-      $$('.project', grid).forEach(card => {
-        const matchesFilter = currentFilter === 'all' || card.dataset.tags.includes(currentFilter);
-        const text = (card.querySelector('.title').textContent + ' ' + card.dataset.tags).toLowerCase();
-        const matchesSearch = !term || text.includes(term);
-        card.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
-      });
-    }
-    filterPills.forEach(p => p.addEventListener('click', () => {
-      filterPills.forEach(x => x.classList.remove('active'));
-      p.classList.add('active');
-      currentFilter = p.dataset.filter;
-      applyFilters();
-    }));
-    $('#search').addEventListener('input', applyFilters);
+    // Projects
+    const grid=$('#projectGrid'); const tpl=document.createElement('template');
+    tpl.innerHTML=`<article class="project card" data-tags=""><div class="thumb"></div><div><h3 class="title"></h3><p class="muted summary"></p></div><div class="chips"></div><div class="actions"></div></article>`;
+    function renderProjects(list){ grid.innerHTML=''; list.forEach(p=>{ const node=tpl.content.cloneNode(true); const a=node.querySelector('.project');
+      a.dataset.tags=(p.tags||[]).join(' ').toLowerCase();
+      node.querySelector('.title').textContent=p.title; node.querySelector('.summary').textContent=p.summary;
+      const th=node.querySelector('.thumb'); if(p.image){ const img=new Image(); img.src=p.image; img.alt=p.title; img.loading='lazy'; th.appendChild(img); }
+      const chips=node.querySelector('.chips'); (p.tags||[]).forEach(t=>{ const c=document.createElement('span'); c.className='chip'; c.textContent=t; chips.appendChild(c); });
+      const actions=node.querySelector('.actions'); (p.links||[]).forEach(l=>{ const x=document.createElement('a'); x.className='action'+(l.type==='primary'?' primary':''); x.href=l.href||'#'; x.target='_blank'; x.rel='noreferrer'; x.textContent=l.label||'Link'; actions.appendChild(x); });
+      grid.appendChild(node); }); requestAnimationFrame(observeAppear); }
+    renderProjects(P);
 
-    // Intersection Observer for project card entrance
-    function observeAppear(){
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('appear'); io.unobserve(e.target); }});
-      }, { threshold: .15 });
-      $$('.project', grid).forEach(el => io.observe(el));
-    }
+    // Packages
+    const plans=$('#plansGrid'); const total=PK.length; let shown=0;
+    const fmt=(n)=>{ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n); }catch(_){ return `USD ${n}`; } };
+    function priceText(pkg){ const u=pkg.unit==='hour'?'/hr':''; if(typeof pkg.price==='number') return `${fmt(pkg.price)}${u}`; if(typeof pkg.priceMin==='number'&&typeof pkg.priceMax==='number') return `${fmt(pkg.priceMin)}–${fmt(pkg.priceMax)}${u}`; if(typeof pkg.priceMin==='number') return `${fmt(pkg.priceMin)}+${u}`; return 'Contact'; }
+    PK.forEach(pkg=>{ const card=document.createElement('article'); card.className='plan card'; card.id=pkg.id||''; card.innerHTML=`
+      <div class="head"><h3>${pkg.title}</h3><span class="price">${priceText(pkg)}</span></div>
+      <p class="muted">${pkg.desc||''}</p>
+      <div class="pill">Duration: ${pkg.duration||'N/A'}</div>
+      <ul class="list">${(pkg.deliverables||[]).map(d=>`<li>${d}</li>`).join('')}</ul>
+      ${pkg.notes?`<p class="muted" style="margin:8px 0 0">${pkg.notes}</p>`:''}
+      <div class="actions"><a class="action primary" href="#contact">Contact to Book</a></div>`; plans.appendChild(card); shown++; });
+    $('#countTotal').textContent=total; $('#countShown').textContent=shown;
 
-    // Tiny tilt effect
-    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-    document.addEventListener('mousemove', (e) => {
-      $$('.tilt').forEach(el => {
-        const r = el.getBoundingClientRect();
-        const cx = r.left + r.width/2, cy = r.top + r.height/2;
-        const dx = (e.clientX - cx) / (r.width/2); // -1..1
-        const dy = (e.clientY - cy) / (r.height/2);
-        const rx = clamp(-dy * 4, -5, 5), ry = clamp(dx * 4, -5, 5);
-        el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-      });
+    // Appear on scroll (projects + plans)
+    function observeAppear(){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('appear'); io.unobserve(e.target);} }),{threshold:.15}); $$('.project, .plan').forEach(el=>io.observe(el)); }
+    observeAppear();
+
+    // Contact section values
+    if(C.email){ const mail=`mailto:${C.email}`; $('#email-inline').href=mail; $('#email-inline').textContent=C.email; }
+    if(C.discord){ $('#discord-inline').textContent=C.discord; }
+
+    // Static-form mailto submit
+    $('#contactForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      if($('#hp').value) return; // bot caught
+      const name=$('#name').value.trim(); const from=$('#from').value.trim(); const msg=$('#msg').value.trim();
+      const to=C.email||'you@example.com';
+      const subject=encodeURIComponent(`Portfolio Inquiry from ${name}`);
+      const body=encodeURIComponent(`From: ${name} (${from})\n\n${msg}`);
+      const href=`mailto:${to}?subject=${subject}&body=${body}`;
+      window.location.href=href;
     });
-    document.addEventListener('mouseleave', () => $$('.tilt').forEach(el => el.style.transform = ''));
 
-    // Theme toggle (persisted)
-    const themeToggle = $('#themeToggle');
-    const setTheme = t => document.documentElement.dataset.theme = t;
-    const saved = localStorage.getItem('theme'); if(saved) setTheme(saved);
-    themeToggle.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-      setTheme(next); localStorage.setItem('theme', next);
-    });
-
-    // If theme=light, swap root vars quickly via data attribute
-    const style = document.createElement('style');
-    style.textContent = `:root[data-theme="light"]{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff; --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); }`;
-    document.head.appendChild(style);
+    // Theme toggle (persisted, respects system on first load)
+    const initial=localStorage.getItem('theme')|| (matchMedia('(prefers-color-scheme: light)').matches? 'light' : 'dark');
+    document.documentElement.dataset.theme=initial;
+    $('#themeToggle').addEventListener('click',()=>{ const next=document.documentElement.dataset.theme==='light'?'dark':'light'; document.documentElement.dataset.theme=next; localStorage.setItem('theme',next); });
   </script>
-
-  <!-- ========================== HOW TO EDIT (quick notes) ==========================
-    1) Find the <script id="portfolio-data" type="application/json"> block above.
-    2) Change "profile" fields (name, heroTitle, about, email, links).
-    3) Add projects by copying an object inside the "projects" array.
-    4) Thumbnails are optional; without an image the card shows a geometric placeholder.
-    5) Use the search bar and category pills (Systems/Gameplay/UI/Tools).
-  ============================================================================= -->
 </body>
 </html>
