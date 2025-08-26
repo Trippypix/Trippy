@@ -6,148 +6,111 @@
   <title>Roblox Scripter Portfolio</title>
   <meta name="description" content="A sleek, animated portfolio template for a Roblox scripter. Single-file, GitHub Pages-ready." />
   <style>
-    /* =============================================================
-       ROBLOX SCRIPTER PORTFOLIO — SINGLE FILE TEMPLATE
-       -------------------------------------------------
-       ✅ Drop this file as index.html in your repo root.
-       ✅ Edit the data in the JSON block near the bottom (id="portfolio-data").
-       ✅ Add projects by pasting objects into the projects array.
-       ✅ Replace social links & contact under "profile" in the same JSON.
-       -------------------------------------------------
-       DESIGN NOTES
-       - Dark first, light via prefers-color-scheme
-       - Smooth, subtle animations (reduced-motion respected)
-       - Responsive, scalable grid
-       - No external libs; pure HTML/CSS/JS
-       ============================================================= */
-
     :root{
-      --bg: #0b0b0f;
-      --bg-elev: #11131a;
-      --card: #151826;
-      --card-2: #0f1220;
-      --fg: #eef1ff;
-      --muted: #a1a7c5;
-      --accent: #7c5cff; /* neon-ish violet */
-      --accent-2: #31e1ff; /* cyan */
-      --ok: #35d07f;
-      --warn: #ffb020;
-      --shadow: rgba(0,0,0,.45);
-      --radius: 16px;
-      --gap: 18px;
+      --bg:#0b0b0f; --bg-elev:#11131a; --card:#151826; --card-2:#0f1220;
+      --fg:#eef1ff; --muted:#a1a7c5; --accent:#7c5cff; --accent-2:#31e1ff;
+      --shadow:rgba(0,0,0,.45); --radius:16px; --gap:18px;
     }
     @media (prefers-color-scheme: light){
-      :root{
-        --bg: #ffffff;
-        --bg-elev: #f6f6fb;
-        --card: #f4f4ff;
-        --card-2: #ececff;
-        --fg: #12131a;
-        --muted: #585f7a;
-        --shadow: rgba(0,0,0,.08);
-      }
+      :root{ --bg:#ffffff; --bg-elev:#f6f6fb; --card:#f4f4ff; --card-2:#ececff;
+             --fg:#12131a; --muted:#585f7a; --shadow:rgba(0,0,0,.08); }
     }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+      font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif}
+    a{color:inherit;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1100px;margin:0 auto;padding:22px}
 
-    *{ box-sizing: border-box; }
-    html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--fg); font: 16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; }
+    /* NAV (compat) */
+    .nav{position:sticky;top:0;z-index:1000;
+      background:rgba(17,19,26,.85);
+      border-bottom:1px solid rgba(161,167,197,.15)}
+    .nav .inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+    .brand-logo{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow:0 6px 18px var(--shadow)}
+    .links{display:flex;gap:16px;align-items:center}
+    .links a{opacity:.85;padding:8px 10px;border-radius:10px}
+    .links a.active,.links a:hover{background:rgba(124,92,255,.18);opacity:1;text-decoration:none}
+    .theme-toggle{border:0;padding:8px 10px;border-radius:10px;background:var(--card);color:var(--fg);cursor:pointer;box-shadow:0 6px 18px var(--shadow)}
 
-    /* Smooth scroll and selection */
-    html { scroll-behavior:smooth; }
-    ::selection{ background: color-mix(in oklab, var(--accent) 30%, transparent); }
-
-    a{ color:inherit; text-decoration:none; }
-    a:hover{ text-decoration:underline; }
-
-    .wrap{ max-width:1100px; margin:0 auto; padding: 22px; }
-
-    /* ====== Top Nav ====== */
-    .nav{
-      position: sticky; top:0; z-index:1000;
-      backdrop-filter: saturate(120%) blur(7px);
-      background: color-mix(in oklab, var(--bg) 85%, transparent);
-      border-bottom: 1px solid color-mix(in oklab, var(--muted) 15%, transparent);
+    /* HERO */
+    .hero{
+      background:
+        radial-gradient(1200px 400px at 20% -10%, rgba(124,92,255,.25) 0%, transparent 60%),
+        radial-gradient(800px 300px at 80% 0%, rgba(49,225,255,.18) 0%, transparent 70%);
+      border-bottom:1px solid rgba(161,167,197,.15)
     }
-    .nav .inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px; }
-    .brand-logo{ width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 6px 18px var(--shadow); }
-    .brand span{ opacity:.95; }
-    .links{ display:flex; gap:16px; align-items:center; }
-    .links a{ opacity:.85; padding:8px 10px; border-radius:10px; text-decoration:none; }
-    .links a.active, .links a:hover{ background: color-mix(in oklab, var(--accent) 18%, transparent); opacity:1; text-decoration:none; }
+    .hero .inner{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(14px,3vw,40px);align-items:center}
+    @media (max-width:860px){.hero .inner{grid-template-columns:1fr}}
+    .tag{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;background:var(--card);
+      border:1px solid rgba(161,167,197,.15);border-radius:999px;font-weight:600;box-shadow:0 6px 18px var(--shadow)}
+    .hero h1{font-size:clamp(28px,5vw,56px);margin:14px 0 6px;line-height:1.08}
+    .hero p{color:var(--muted);margin:0 0 14px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
+      border:1px solid rgba(161,167,197,.2);
+      background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08));
+      color:#fff;font-weight:700;text-decoration:none;box-shadow:0 10px 20px var(--shadow)}
+    .btn.secondary{background:var(--card);color:var(--fg);font-weight:600}
+    .avatar{width:140px;height:140px;border-radius:20px;background:linear-gradient(135deg,var(--card),var(--card-2));
+      box-shadow:0 20px 40px var(--shadow);display:grid;place-items:center;overflow:hidden;justify-self:end}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .avatar .ph{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));opacity:.9}
 
-    .theme-toggle{ border:0; padding:8px 10px; border-radius:10px; background:var(--card); color:var(--fg); cursor:pointer; box-shadow:0 6px 18px var(--shadow); }
+    /* Sections / Cards */
+    section{scroll-margin-top:80px}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:22px 0 8px}
+    .section-title h2{font-size:clamp(20px,3vw,28px);margin:0}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+    .card{background:linear-gradient(180deg,var(--card),var(--card-2));
+      border:1px solid rgba(161,167,197,.12);border-radius:var(--radius);padding:16px;box-shadow:0 18px 35px var(--shadow)}
 
-    /* ====== Hero ====== */
-    .hero{ background:
-      radial-gradient(1200px 400px at 20% -10%, color-mix(in oklab, var(--accent) 25%, transparent) 0%, transparent 60%),
-      radial-gradient(800px 300px at 80% 0%, color-mix(in oklab, var(--accent-2) 18%, transparent) 0%, transparent 70%);
-      border-bottom:1px solid color-mix(in oklab, var(--muted) 15%, transparent);
-    }
-    .hero .inner{ display:grid; grid-template-columns: 1.2fr .8fr; gap:clamp(14px, 3vw, 40px); align-items:center; }
-    @media (max-width: 860px){ .hero .inner{ grid-template-columns: 1fr; } }
-
-    .tag{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; background:var(--card); border:1px solid color-mix(in oklab, var(--muted) 15%, transparent); border-radius:999px; font-weight:600; box-shadow:0 6px 18px var(--shadow); }
-    .hero h1{ font-size: clamp(28px, 5vw, 56px); margin:14px 0 6px; line-height:1.08; }
-    .hero p{ color:var(--muted); margin:0 0 14px; }
-    .cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 12px; }
-    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid color-mix(in oklab, var(--muted) 20%, transparent); background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 24%, transparent), color-mix(in oklab, var(--accent) 8%, transparent)); color:white; font-weight:700; text-decoration:none; box-shadow: 0 10px 20px var(--shadow); }
-    .btn.secondary{ background:var(--card); color:var(--fg); font-weight:600; }
-
-    .avatar{ width: 140px; height:140px; border-radius:20px; background:linear-gradient(135deg, var(--card), var(--card-2)); box-shadow: 0 20px 40px var(--shadow); display:grid; place-items:center; overflow:hidden; justify-self:end; }
-    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .avatar .ph{ width:64px; height:64px; border-radius:12px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); opacity:.9; }
-
-    /* ====== Sections / Cards ====== */
-    section{ scroll-margin-top: 80px; }
-    .section-title{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin: 22px 0 8px; }
-    .section-title h2{ font-size: clamp(20px, 3vw, 28px); margin:0; }
-    .muted{ color:var(--muted); }
-
-    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); }
-    .card{ background: linear-gradient(180deg, var(--card), var(--card-2)); border:1px solid color-mix(in oklab, var(--muted) 12%, transparent); border-radius: var(--radius); padding: 16px; box-shadow: 0 18px 35px var(--shadow); }
-
-    /* Project card */
-    .project{ grid-column: span 4; display:flex; flex-direction:column; gap:12px; position:relative; transform: translateY(14px); opacity:0; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease; }
-    @media (max-width: 1100px){ .project{ grid-column: span 6; } }
-    @media (max-width: 720px){ .project{ grid-column: span 12; } }
-
-    .project.appear{ transform:none; opacity:1; }
-    .thumb{ aspect-ratio: 16/9; border-radius:12px; overflow:hidden; background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 20%, transparent), color-mix(in oklab, var(--accent-2) 15%, transparent)); display:grid; place-items:center; }
-    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .thumb svg{ opacity:.55; }
-
-    .chips{ display:flex; flex-wrap:wrap; gap:8px; }
-    .chip{ padding:6px 10px; border-radius:999px; font-size:13px; background: color-mix(in oklab, var(--accent) 14%, transparent); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); }
-
-    .project h3{ margin: 0 0 4px; font-size: 18px; }
-    .project p{ margin:0; color:var(--muted); }
-
-    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
-    .action{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:var(--bg-elev); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); text-decoration:none; font-weight:600; }
-    .action.primary{ background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 24%, transparent), color-mix(in oklab, var(--accent) 8%, transparent)); color:white; }
+    /* Project cards */
+    .project{grid-column:span 4;display:flex;flex-direction:column;gap:12px;position:relative;
+      transform:translateY(14px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
+    @media (max-width:1100px){.project{grid-column:span 6}}
+    @media (max-width:720px){.project{grid-column:span 12}}
+    .project.appear{transform:none;opacity:1}
+    .thumb{aspect-ratio:16/9;border-radius:12px;overflow:hidden;
+      background:linear-gradient(135deg, rgba(124,92,255,.2), rgba(49,225,255,.15));
+      display:grid;place-items:center}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumb svg{opacity:.55}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:6px 10px;border-radius:999px;font-size:13px;background:rgba(124,92,255,.14);border:1px solid rgba(161,167,197,.18)}
+    .project h3{margin:0 0 4px;font-size:18px}
+    .project p{margin:0;color:var(--muted)}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .action{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:var(--bg-elev);
+      border:1px solid rgba(161,167,197,.18);text-decoration:none;font-weight:600}
+    .action.primary{background:linear-gradient(180deg, rgba(124,92,255,.24), rgba(124,92,255,.08)); color:#fff}
 
     /* Hover tilt */
-    .tilt{ transition: transform .2s ease; transform-style: preserve-3d; }
-    .tilt:hover{ transform: translateY(-3px) scale(1.01); }
+    .tilt{transition:transform .2s ease;transform-style:preserve-3d}
+    .tilt:hover{transform:translateY(-3px) scale(1.01)}
 
     /* Filters/Search */
-    .filters{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-    .input{ background:var(--bg-elev); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); padding:10px 12px; border-radius:12px; color:var(--fg); min-width: 200px; }
-    .pill{ padding:8px 12px; border-radius:999px; background:var(--bg-elev); border:1px solid color-mix(in oklab, var(--muted) 18%, transparent); cursor:pointer; }
-    .pill.active{ background: color-mix(in oklab, var(--accent) 18%, transparent); }
+    .filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .input{background:var(--bg-elev);border:1px solid rgba(161,167,197,.18);padding:10px 12px;border-radius:12px;color:var(--fg);min-width:200px}
+    .pill{padding:8px 12px;border-radius:999px;background:var(--bg-elev);border:1px solid rgba(161,167,197,.18);cursor:pointer}
+    .pill.active{background:rgba(124,92,255,.18)}
 
     /* About & Skills */
-    .about{ display:grid; grid-template-columns: .6fr .4fr; gap: var(--gap); }
-    .skills{ display:flex; flex-wrap:wrap; gap:10px; }
-    .badge{ background: linear-gradient(180deg, var(--card), var(--card-2)); border:1px solid color-mix(in oklab, var(--muted) 12%, transparent); padding:10px 12px; border-radius:10px; font-weight:600; }
-    @media (max-width: 860px){ .about{ grid-template-columns: 1fr; } }
+    .about{display:grid;grid-template-columns:.6fr .4fr;gap:var(--gap)}
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .badge{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid rgba(161,167,197,.12);
+      padding:10px 12px;border-radius:10px;font-weight:600}
+    @media (max-width:860px){.about{grid-template-columns:1fr}}
 
     /* Footer */
-    footer{ margin:40px 0 60px; color:var(--muted); text-align:center; }
+    footer{margin:40px 0 60px;color:var(--muted);text-align:center}
 
-    /* Motion preferences */
     @media (prefers-reduced-motion: reduce){
-      *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+      *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
     }
   </style>
 </head>
@@ -272,7 +235,7 @@
       "email": "you@example.com",
       "links": {
         "roblox": "https://www.roblox.com/users/your-id/profile",
-        "github": "https://github.com/your-handle",
+        "github": "https://github.com/trippypix",
         "itch": "#",
         "twitter": "#",
         "discord": "https://discord.com/users/your-id"
@@ -288,10 +251,10 @@
         "title": "Obby Master AI",
         "summary": "Pathfinding NPC that learns obstacle timing; ramps difficulty per player skill.",
         "tags": ["gameplay", "AI", "pathfinding"],
-        "image": "", /* optional; leave empty for SVG placeholder */
+        "image": "",
         "links": [
-          {"label": "Play", "href": "#", "type": "primary"},
-          {"label": "Video", "href": "#"},
+          {"label": "Play", "href": "https://www.roblox.com/discover/", "type": "primary"},
+          {"label": "Video", "href": "https://www.youtube.com/"},
           {"label": "Source", "href": "#"}
         ]
       },
@@ -310,8 +273,8 @@
         "tags": ["ui", "tools"],
         "image": "",
         "links": [
-          {"label": "Demo", "href": "#", "type": "primary"},
-          {"label": "Repo", "href": "#"}
+          {"label": "Demo", "href": "https://example.com/demo", "type": "primary"},
+          {"label": "Repo", "href": "https://github.com/trippypix"}
         ]
       }
     ]
@@ -474,4 +437,3 @@
   ============================================================================= -->
 </body>
 </html>
-
