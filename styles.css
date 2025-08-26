@@ -1,0 +1,14 @@
+/* Minimal, clean styles */ 
+:root{ --fg:#111; --bg:#fff; --muted:#666; --card:#f6f6f6; }
+@media (prefers-color-scheme: dark){
+  :root{ --fg:#f2f2f2; --bg:#0b0b0b; --muted:#aaa; --card:#141414; }
+}
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+.wrap{ max-width:900px; padding:24px; margin:0 auto; }
+header h1{ margin:0 0 6px; font-size:clamp(28px, 4vw, 40px); }
+header p{ color:var(--muted); margin:0; }
+.card{ background:var(--card); padding:20px; border-radius:14px; margin:20px 0; }
+.center{ text-align:center; }
+code{ background:rgba(127,127,127,.12); padding:.15em .35em; border-radius:.4em; }
+a{ color:inherit; }
