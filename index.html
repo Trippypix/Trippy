@@ -320,7 +320,7 @@
     "contact": {
       "email": "husseinsocool99@gmail.com",
       "discord": "Sinvert_",
-      "formEndpoint": "https://formspree.io/f/mzzabngv"   // ← put your Formspree/Web3Forms endpoint here. Leave empty to see a friendly error.
+      "formEndpoint": "https://formspree.io/f/mzzabngv"
     }
   }
   </script>
@@ -356,15 +356,13 @@
     });
 
     /* ------------ Projects: ans-style card + carousel + accordions ------------ */
-    var grid = $('#projectGrid');
-
     function isYouTube(u){ return /(?:youtu\.be|youtube\.com)/.test(u); }
     function ytEmbed(u){
       var id = '';
       try{
         if(/youtu\.be\//.test(u)){ id = u.split('youtu.be/')[1].split(/[?&]/)[0]; }
         else { var url=new URL(u); id = url.searchParams.get('v') || ''; if(!id && url.pathname.includes('/shorts/')) id = url.pathname.split('/shorts/')[1]; }
-      }catch(_){}
+      }catch(_){ }
       return id ? 'https://www.youtube.com/embed/'+id : '';
     }
     function makeAcc(title, bodyEl){
@@ -449,8 +447,7 @@
     (function renderPackages(){
       var plans = $('#plansGrid'); var total = PK.length; var shown = 0;
       PK.forEach(function(pkg){
-        var card=document.createElement('article'); card.className='plan card'; card.id=pkg.id||'';
-        card.innerHTML =
+        var card=document.createElement('article'); card.className='plan card'; card.id=pkg.id||''; card.innerHTML =
           '<div class="head"><h3>'+pkg.title+'</h3><span class="price">'+priceText(pkg)+'</span></div>'+
           '<p class="muted">'+(pkg.desc||'')+'</p>'+
           '<div class="pill">Duration: '+(pkg.duration||'N/A')+'</div>'+
