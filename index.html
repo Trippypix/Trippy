@@ -226,7 +226,7 @@
         </div>
       </div>
       <div class="hero-box">
-        <div class="portrait">
+        <div class="portrait" id="portraitBox">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
         </div>
         <div class="stats">
@@ -308,6 +308,7 @@
 {
   "profile": {
     "name": "Hussein Adam",
+    "photo": "https://cdn.discordapp.com/attachments/1374068118883668110/1410381317262278806/assets_task_01jzgs58y1fnr9q10xj6503znp_1751836191_img_0.webp?ex=68b0cf75&is=68af7df5&hm=da2a5fe077a5271a409ce294dee5d41951438775bfac93bbca729d35614b19f4&",
     "tagline": "Hi, I’m Hussein Adam — also known as Trippy/Sinvert_. I’m a Roblox developer specializing in LuaU scripting. I build clean, scalable systems and engaging gameplay, with clear and reliable communication.",
     "about": "Roblox developer focused on scalable systems, reusable modules, and smooth player experiences. I prioritize performance, clarity, and delivering results.",
     "links": { "roblox": "https://www.roblox.com/users/1035292126/profile"},
@@ -388,7 +389,7 @@
       "title": "Buckshot!",
       "media": [
         { "type": "video", "src": "https://www.youtube.com/watch?v=ZbhnuObByh8" },
-        { "type": "image", "src": "https://media.discordapp.net/attachments/1374068118883668110/1410367097527341146/image.png?ex=68b0c237&is=68af70b7&hm=f86e1429e281392c0b54a9cc3662230e3b2b98148f852fab639fac08322184ae&=&format=webp&quality=lossless" }
+        { "type": "image", "src": "https://media.discordapp.net/attachments/1374068118883668110/1410367097527341146/image.png?format=webp&quality=lossless" }
       ],
       "highlight": "Developed a simplified Buckshot-inspired minigame for Pulau-Indo.",
       "about": "Casual PvP minigame with items and simple mechanics."
@@ -398,7 +399,7 @@
       "title": "Shadow Boxing!",
       "media": [
         { "type": "video", "src": "https://www.youtube.com/watch?v=SPy6t3L-9YY" },
-        { "type": "image", "src": "https://media.discordapp.net/attachments/1374068118883668110/1410367032289005729/image.png?ex=68b0c227&is=68af70a7&hm=e4566f9aa4c320bfc3b8ca12cfcd028855e03a3e2a00f0adaa37d37df404444f&=&format=webp&quality=lossless" }
+        { "type": "image", "src": "https://media.discordapp.net/attachments/1374068118883668110/1410367032289005729/image.png?format=webp&quality=lossless" }
       ],
       "highlight": "Created a Shadow Boxing minigame with KO animations, state management, and anti-cheat measures.",
       "about": "A fast-paced boxing minigame developed for Pulau-Indo."
@@ -412,8 +413,8 @@
       "priceMin": 10,
       "priceMax": 50,
       "unit": "fixed",
-      "desc": "Minor bug fixes, small script edits, and quick adjustments. Price and duration is determined after an understanding of the bug or issue that needs to be fixed!.",
-      "deliverables": ["Bug fix or adjustment", "Clear code comments", "Tested in Studio","Etc..:],
+      "desc": "Minor bug fixes, small script edits, and quick adjustments. Price and duration are determined after scoping the issue.",
+      "deliverables": ["Bug fix or adjustment", "Clear code comments", "Tested in Studio", "Etc."],
       "notes": "Minimum 2 hours."
     },
     {
@@ -423,9 +424,9 @@
       "priceMin": 150,
       "priceMax": 400,
       "unit": "fixed",
-      "desc": "Custom system development tailored to your game’s needs. Pricing and Duration depends on complexity!",
-      "deliverables": ["Server + client scripts", "Configurable options", "Performance-focused design", "Etc.."],
-      "notes": "Includes milestones and consistent progress updates!"
+      "desc": "Custom system development tailored to your game’s needs. Pricing and duration depend on complexity.",
+      "deliverables": ["Server + client scripts", "Configurable options", "Performance-focused design", "Etc."],
+      "notes": "Includes milestones and consistent progress updates."
     },
     {
       "id": "ui-polish",
@@ -434,8 +435,8 @@
       "priceMin": 50,
       "priceMax": 250,
       "unit": "fixed",
-      "desc": "HUD and menu improvements, TweenService animations, and responsive layouts. Pricing and Duration depends on complexity!",
-      "deliverables": ["Reusable UI components", "Tweens & transitions", "Etc.."],
+      "desc": "HUD and menu improvements, TweenService animations, and responsive layouts. Pricing and duration depend on complexity.",
+      "deliverables": ["Reusable UI components", "Tweens & transitions", "Etc."],
       "notes": "Built on top of your existing assets."
     }
   ],
@@ -452,6 +453,17 @@
     $('#hero-sub').textContent=prof.tagline||'';
     $('#footer-name').textContent=prof.name||'Your Name';
     const y=new Date().getFullYear(); $('#year').textContent=y;
+
+    // NEW: load portrait image from JSON if provided
+    const portraitBox = $('#portraitBox');
+    if (portraitBox && prof.photo){
+      const img = new Image();
+      img.src = prof.photo;
+      img.alt = prof.name ? `${prof.name} portrait` : 'Portrait';
+      img.loading = 'eager';
+      portraitBox.innerHTML = '';
+      portraitBox.appendChild(img);
+    }
 
     if (Array.isArray(prof.stats)){
       const s1=prof.stats[0], s2=prof.stats[1];
@@ -528,7 +540,6 @@
       const actions=document.createElement('div'); actions.className='actions';
       if(p.link){ const a=document.createElement('a'); a.className='action primary'; a.href=p.link; a.target='_blank'; a.rel='noreferrer'; a.textContent='Open Roblox'; actions.appendChild(a); }
 
-      /* Order: carousel first, then title/desc, then accordions, then actions */
       art.append(car,tWrap,...blocks,actions);
       grid.appendChild(art);
     }
