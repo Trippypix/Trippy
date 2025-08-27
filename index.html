@@ -350,7 +350,10 @@
     $('#name-1').textContent=prof.name||'Your Name';
     $('#hero-sub').textContent=prof.tagline||'';
     $('#footer-name').textContent=prof.name||'Your Name';
-    const y=new Date().getFullYear(); $('#year')?.textContent=y;
+    const y = new Date().getFullYear();
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = y;
+
 
     if (Array.isArray(prof.stats)){
       const s1=prof.stats[0], s2=prof.stats[1];
