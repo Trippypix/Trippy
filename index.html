@@ -119,8 +119,10 @@
       padding:10px 12px;border-radius:12px;background:rgba(124,92,255,.18);border:1px solid rgba(165,171,199,.25);font-weight:800}
     .acc button .chev{transition:transform .22s var(--ease)}
     .acc[aria-expanded="true"] button .chev{transform:rotate(180deg)}
-    .acc .body{max-height:0;overflow:hidden;transition:max-height .25s var(--ease), padding .25s var(--ease);padding:0 4px}
+    .acc .body{max-height:0;overflow:hidden;transition:max-height .25s var(--ease), padding .25s var(--ease);padding:0 4px;color:var(--text)}
     .acc[aria-expanded="true"] .body{max-height:600px;padding:8px 4px}
+    .acc .body .about-text{color:var(--muted)}
+    .acc .body .list li{color:var(--text)}
     .list{margin:8px 0 0 0;padding-left:18px}
     .list li{margin:6px 0}
     .dot{color:#31e1ff}
@@ -290,7 +292,7 @@
       "stats": [
         {"value": "3+", "label": "Years Experience"},
         {"value": "399K+", "label": "Total Visits Contributed!"},
-
+        {"value": "10", "label": "Projects Shipped"}
       ]
     },
     "projects": [
@@ -417,7 +419,7 @@
 
       var contribBody = document.createElement('ul'); contribBody.className='list';
       (p.contrib||[]).forEach(function(line){ var li=document.createElement('li'); li.innerHTML = '<span class="dot">●</span> '+ line; contribBody.appendChild(li); });
-      var aboutBody = document.createElement('div'); aboutBody.className='muted'; aboutBody.textContent = p.about || '';
+      var aboutBody = document.createElement('div'); aboutBody.className='about-text'; aboutBody.textContent = p.about || '';
       var acc1 = makeAcc('My Contributions', contribBody);
       var acc2 = makeAcc('About the Project', aboutBody);
 
