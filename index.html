@@ -121,7 +121,7 @@
     .acc[aria-expanded="true"] button .chev{transform:rotate(180deg)}
     .acc .body{max-height:0;overflow:hidden;transition:max-height .25s var(--ease), padding .25s var(--ease);padding:0 4px;color:var(--text)}
     .acc[aria-expanded="true"] .body{max-height:600px;padding:8px 4px}
-    .acc .body .about-text{color:var(--muted)}
+    .acc .body .about-text{color:var(--text)}
     .acc .body .list li{color:var(--text)}
     .list{margin:8px 0 0 0;padding-left:18px}
     .list li{margin:6px 0}
@@ -165,6 +165,14 @@
     @media (prefers-reduced-motion: reduce){
       *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
     }
+  /* Force readable text inside accordions (hard white in dark mode) */
+    :root:not([data-theme="light"]) .acc .body,
+    :root:not([data-theme="light"]) .acc .body *{ color:#ffffff !important; }
+    :root[data-theme="light"] .acc .body,
+    :root[data-theme="light"] .acc .body *{ color:#13141a !important; }
+    /* Enforce accordion text contrast */
+    .acc .body, .acc .body *, .acc button { color: var(--text) !important; }
+    .acc .body li::marker { color: var(--text) !important; }
   </style>
 </head>
 <body>
@@ -205,8 +213,7 @@
         <div class="stats">
           <div class="stat card"><div class="k" id="stat-1">3+</div><div class="l">Years Experience</div></div>
           <div class="stat card"><div class="k" id="stat-2">399K+</div><div class="l">Total Visits (contrib.)</div></div>
-          <div class="stat card"><div class="k" id="stat-3">10</div><div class="l">Projects Shipped</div></div>
-        </div>
+          </div>
       </div>
     </div>
   </header>
@@ -291,8 +298,7 @@
       "skills": ["LuaU / Roblox","OOP Modules","Systems Design","UI / TweenService","Datastores","Optimization"],
       "stats": [
         {"value": "3+", "label": "Years Experience"},
-        {"value": "399K+", "label": "Total Visits Contributed!"},
-        {"value": "10", "label": "Projects Shipped"}
+        {"value": "399K+", "label": "Total Visits Contributed!"}
       ]
     },
     "projects": [
@@ -345,9 +351,10 @@
 
     // Stats
     if (Array.isArray(PROF.stats)) {
-      if (PROF.stats[0]) { $('#stat-1').textContent = PROF.stats[0].value; $$('.stats .stat .l')[0].textContent = PROF.stats[0].label; }
-      if (PROF.stats[1]) { $('#stat-2').textContent = PROF.stats[1].value; $$('.stats .stat .l')[1].textContent = PROF.stats[1].label; }
-      if (PROF.stats[2]) { $('#stat-3').textContent = PROF.stats[2].value; $$('.stats .stat .l')[2].textContent = PROF.stats[2].label; }
+      var labelsEls = $$('.stats .stat .l');
+      if (PROF.stats[0]) { var e1=$('#stat-1'); if(e1) e1.textContent = PROF.stats[0].value; if(labelsEls[0]) labelsEls[0].textContent = PROF.stats[0].label; }
+      if (PROF.stats[1]) { var e2=$('#stat-2'); if(e2) e2.textContent = PROF.stats[1].value; if(labelsEls[1]) labelsEls[1].textContent = PROF.stats[1].label; }
+      if (PROF.stats[2]) { var e3=$('#stat-3'); if(e3) e3.textContent = PROF.stats[2].value; if(labelsEls[2]) labelsEls[2].textContent = PROF.stats[2].label; }
     }
 
     // About + links + skills (Roblox only)
