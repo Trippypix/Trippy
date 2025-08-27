@@ -33,20 +33,31 @@
       opacity .25s ease}
     :where(.btn,.action):hover{transform:translateY(-2px)}
 
+    /* Animated gradient background layers */
     body::before{
-      content:""; position:fixed; inset:-25%; z-index:-2; pointer-events:none;
-      filter:blur(90px); opacity:.33;
+      content:""; position:fixed; inset:-25%; z-index:-3; pointer-events:none;
+      filter:blur(90px); opacity:.32;
       background:
         radial-gradient(60% 60% at 20% 20%, rgba(124,92,255,.55), transparent 60%),
         radial-gradient(50% 50% at 80% 10%, rgba(49,225,255,.45), transparent 70%),
         radial-gradient(40% 40% at 20% 90%, rgba(124,92,255,.35), transparent 70%);
-      animation:bgWave 18s ease-in-out infinite alternate;
+      animation:bgFloat 22s ease-in-out infinite alternate;
     }
-    @keyframes bgWave{
+    body::after{
+      content:""; position:fixed; inset:-15%; z-index:-4; pointer-events:none;
+      background: conic-gradient(from 0deg at 60% 40%,
+                  rgba(124,92,255,.22), rgba(49,225,255,.18), rgba(124,92,255,.22));
+      filter:blur(140px); opacity:.22; transform-origin:50% 50%;
+      animation:bgSpin 60s linear infinite;
+      mix-blend-mode:screen;
+    }
+    :root[data-theme="light"] body::after{mix-blend-mode:multiply; opacity:.18}
+    @keyframes bgFloat{
       0%{transform:translate3d(0,0,0) rotate(0deg)}
-      50%{transform:translate3d(4%,-3%,0) rotate(20deg)}
-      100%{transform:translate3d(-5%,5%,0) rotate(40deg)}
+      50%{transform:translate3d(4%,-3%,0) rotate(15deg)}
+      100%{transform:translate3d(-5%,5%,0) rotate(35deg)}
     }
+    @keyframes bgSpin{to{transform:rotate(360deg) scale(1.06)}}
 
     .nav{position:sticky;top:0;z-index:40;background:rgba(16,20,33,.75);backdrop-filter:blur(8px);border-bottom:1px solid rgba(165,171,199,.12)}
     :root[data-theme="light"] .nav{background:rgba(255,255,255,.8)}
@@ -84,7 +95,7 @@
     .muted{color:var(--muted)}
 
     .grid{display:grid;gap:var(--gap)}
-    #projectGrid.grid{grid-template-columns:repeat(auto-fit,minmax(380px,1fr))}
+    #projectGrid.grid{grid-template-columns:repeat(auto-fit,minmax(420px,1fr))}
     .card{background:linear-gradient(180deg,var(--card),var(--layer-2));border:1px solid rgba(165,171,199,.12);border-radius:18px;padding:18px;box-shadow:0 18px 36px var(--shadow)}
     .project{display:flex;flex-direction:column;gap:16px;transform:translateY(14px);opacity:0}
     .project:hover{transform:translateY(-2px)}
@@ -104,11 +115,11 @@
     .car-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35)}
     .car-dot.active{background:#fff}
 
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
     .action{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:var(--layer);border:1px solid rgba(165,171,199,.18);text-decoration:none;font-weight:600;color:inherit}
     .action.primary{background:linear-gradient(180deg,rgba(124,92,255,.26),rgba(124,92,255,.08));color:#fff}
 
-    .desc{background:linear-gradient(180deg,var(--layer),var(--layer-2));border:1px solid rgba(124,92,255,.28);border-radius:12px;padding:12px 14px;color:var(--text);margin:6px 0 6px}
+    .desc{background:linear-gradient(180deg,var(--layer),var(--layer-2));border:1px solid rgba(124,92,255,.28);border-radius:12px;padding:12px 14px;color:var(--text);margin:4px 0 4px}
     .acc{border-radius:12px;overflow:hidden;border:1px solid rgba(165,171,199,.16);background:linear-gradient(180deg,var(--layer),var(--layer-2));margin-top:8px}
     .acc-sum{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-weight:700;cursor:pointer;background:rgba(124,92,255,.12)}
     .acc-body{padding:12px;color:var(--text)}
@@ -145,11 +156,12 @@
 
     footer{margin:44px 0 64px;color:var(--muted);text-align:center}
 
+    /* smaller glow cursor */
     #cursor{
-      position:fixed; left:0; top:0; transform:translate(-50%,-50%) scale(.95);
-      width:260px; height:260px; border-radius:50%; pointer-events:none; z-index:100;
-      background:radial-gradient(closest-side, rgba(124,92,255,.45), rgba(49,225,255,.28) 45%, rgba(49,225,255,0) 70%);
-      filter:blur(16px); mix-blend-mode:screen; opacity:.32;
+      position:fixed; left:0; top:0; transform:translate(-50%,-50%) scale(.9);
+      width:150px; height:150px; border-radius:50%; pointer-events:none; z-index:100;
+      background:radial-gradient(closest-side, rgba(124,92,255,.50), rgba(49,225,255,.30) 55%, rgba(49,225,255,0) 75%);
+      filter:blur(10px); mix-blend-mode:screen; opacity:.35;
       transition:transform .12s ease-out, opacity .35s ease;
     }
     :root[data-theme="light"] #cursor{mix-blend-mode:multiply; opacity:.25}
@@ -266,7 +278,7 @@
 
   <footer class="wrap"><p>© <span id="year"></span> <span id="footer-name">Hussein Adam</span>.</p></footer>
 
-  <!-- Lightbox markup -->
+  <!-- Lightbox -->
   <div id="lightbox" aria-hidden="true">
     <div class="lb-stage" id="lbStage">
       <button class="lb-btn lb-close" id="lbClose" aria-label="Close">✕</button>
@@ -277,7 +289,6 @@
     </div>
   </div>
 
-  <!-- Data -->
   <script id="site-data" type="application/json">
   {
     "profile": {
@@ -372,7 +383,7 @@
         else { el=document.createElement('img'); el.src=m.src||'https://picsum.photos/seed/placeholder/1280/720'; el.alt=p.title||''; el.loading='lazy';
                el.addEventListener('click',()=>openLightbox(media,idx)); }
         slide.appendChild(el);
-        media.forEach((_,n)=>{const d=document.createElement('span'); d.className='car-dot'+(n===idx?' active':''); dots.appendChild(d);});
+        media.forEach((_,n)=>{const d=document.createElement('span'); d.className='car-dot'+(n===idx?' active':''); d.addEventListener('click',()=>{mount(n)}); dots.appendChild(d);});
       }
       btnPrev.addEventListener('click',()=>mount(idx-1));
       btnNext.addEventListener('click',()=>mount(idx+1));
@@ -382,26 +393,31 @@
       const h3=document.createElement('h3'); h3.textContent=p.title||'Untitled'; tWrap.appendChild(h3);
       if(p.highlight){ const desc=document.createElement('div'); desc.className='desc'; desc.textContent=p.highlight; tWrap.appendChild(desc); }
 
+      const blocks=[];
+
       if (Array.isArray(p.contributions)&&p.contributions.length){
         const accC=document.createElement('details'); accC.className='acc';
         const sumC=document.createElement('summary'); sumC.className='acc-sum'; sumC.innerHTML='<span>My Contributions</span><span>▾</span>';
         const bodyC=document.createElement('div'); bodyC.className='acc-body';
         const ul=document.createElement('ul'); ul.style.margin='0'; ul.style.paddingLeft='18px';
         p.contributions.forEach(it=>{const li=document.createElement('li'); li.textContent=it; ul.appendChild(li)});
-        bodyC.appendChild(ul); accC.append(sumC,bodyC); art.append(accC);
+        bodyC.appendChild(ul); accC.append(sumC,bodyC);
+        blocks.push(accC);
       }
 
       if(p.about){
         const acc=document.createElement('details'); acc.className='acc';
         const sum=document.createElement('summary'); sum.className='acc-sum'; sum.innerHTML='<span>About the Project</span><span>▾</span>';
         const body=document.createElement('div'); body.className='acc-body'; body.textContent=p.about||'';
-        acc.append(sum,body); art.append(acc);
+        acc.append(sum,body);
+        blocks.push(acc);
       }
 
       const actions=document.createElement('div'); actions.className='actions';
       if(p.link){ const a=document.createElement('a'); a.className='action primary'; a.href=p.link; a.target='_blank'; a.rel='noreferrer'; a.textContent='Open Roblox'; actions.appendChild(a); }
 
-      art.append(car,tWrap,actions);
+      /* Order: carousel first, then title/desc, then accordions, then actions */
+      art.append(car,tWrap,...blocks,actions);
       grid.appendChild(art);
     }
 
@@ -448,7 +464,7 @@
       function loop(){ x+=(tx-x)*0.18; y+=(ty-y)*0.18; c.style.left=x+'px'; c.style.top=y+'px'; requestAnimationFrame(loop); }
       addEventListener('mousemove',e=>{ tx=e.clientX; ty=e.clientY; },{passive:true});
       addEventListener('mousedown',()=>{ c.style.opacity='.45'; c.style.transform='translate(-50%,-50%) scale(1.05)'; });
-      addEventListener('mouseup',()=>{ c.style.opacity=document.documentElement.dataset.theme==='light'?'.25':'.32'; c.style.transform='translate(-50%,-50%) scale(.95)'; });
+      addEventListener('mouseup',()=>{ c.style.opacity=document.documentElement.dataset.theme==='light'?'.25':'.35'; c.style.transform='translate(-50%,-50%) scale(.9)'; });
       loop();
     })();
 
