@@ -1,642 +1,195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hussein Adam — Roblox Scripter</title>
-  <meta name="description" content="Hi, I’m Hussein Adam—also known as Trippy/Sinvert_. Roblox developer specializing in LuaU scripting. Clean, scalable systems and polished gameplay with clear, honest communication." />
-  <style>
-    :root{
-      --bg:#0b0c12; --layer:#101421; --layer-2:#0f1424; --card:#151a2b;
-      --text:#eef1ff; --muted:#a7acc6; --accent:#7c5cff; --accent-2:#31e1ff;
-      --ring:rgba(124,92,255,.45); --shadow:rgba(0,0,0,.5);
-      --radius:16px; --gap:22px; --max:1220px;
-      --input-bg:#0f1220; --input-bd:rgba(165,171,199,.18); --link:#b8c2ff;
-    }
-    :root[data-theme="light"]{
-      --bg:#ffffff; --layer:#f6f7fb; --layer-2:#eef1ff; --card:#f4f6ff;
-      --text:#151622; --muted:#5b6280; --shadow:rgba(0,0,0,.08);
-      --ring:rgba(124,92,255,.25); --input-bg:#ffffff; --input-bd:rgba(0,0,0,.12); --link:#3347ff;
-    }
+<meta charset="UTF-8">
+<title>Hussein Adam — Roblox Developer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;overflow-x:hidden}
-    a{color:var(--link);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--max);margin:0 auto;padding:clamp(16px,3vw,26px)}
-
-    :where(button,a,.card,.action,.btn){transition:
-      transform .25s cubic-bezier(.2,.8,.2,1),
-      box-shadow .25s ease,
-      background-color .25s ease,
-      border-color .25s ease,
-      opacity .25s ease}
-    :where(.btn,.action):hover{transform:translateY(-2px)}
-
-    /* Background layers as a real element (robust on mobile) */
-    #bg{
-      position:fixed; inset:-25%; z-index:-1; pointer-events:none;
-      filter:blur(90px); opacity:.32;
-      background:
-        radial-gradient(60% 60% at 20% 20%, rgba(124,92,255,.55), transparent 60%),
-        radial-gradient(50% 50% at 80% 10%, rgba(49,225,255,.45), transparent 70%),
-        radial-gradient(40% 40% at 20% 90%, rgba(124,92,255,.35), transparent 70%);
-      animation:bgFloat 22s ease-in-out infinite alternate;
-    }
-    #bg::after{
-      content:""; position:absolute; inset:10%; z-index:-1;
-      background: conic-gradient(from 0deg at 60% 40%,
-                  rgba(124,92,255,.22), rgba(49,225,255,.18), rgba(124,92,255,.22));
-      filter:blur(140px); opacity:.22; transform-origin:50% 50%;
-      animation:bgSpin 60s linear infinite;
-      mix-blend-mode:screen;
-    }
-    :root[data-theme="light"] #bg::after{mix-blend-mode:multiply; opacity:.18}
-    @keyframes bgFloat{
-      0%{transform:translate3d(0,0,0) rotate(0deg)}
-      50%{transform:translate3d(4%,-3%,0) rotate(15deg)}
-      100%{transform:translate3d(-5%,5%,0) rotate(35deg)}
-    }
-    @keyframes bgSpin{to{transform:rotate(360deg) scale(1.06)}}
-
-    .nav{position:sticky;top:0;z-index:40;background:rgba(16,20,33,.75);backdrop-filter:blur(8px);border-bottom:1px solid rgba(165,171,199,.12)}
-    :root[data-theme="light"] .nav{background:rgba(255,255,255,.8)}
-    .nav .inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px;color:inherit}
-    .logo{width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 18px var(--shadow)}
-    .links{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-    .links a{padding:8px 10px;border-radius:10px;opacity:.95;color:inherit}
-    .links a:hover{background:rgba(124,92,255,.16);opacity:1;text-decoration:none}
-    .theme{border:0;padding:8px 10px;border-radius:10px;background:var(--card);color:inherit;cursor:pointer}
-
-    .hero{position:relative;border-bottom:1px solid rgba(165,171,199,.12)}
-    .hero .inner{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(18px,3.2vw,46px);align-items:center}
-    @media (max-width:900px){.hero .inner{grid-template-columns:1fr}}
-    .intro{display:flex;flex-direction:column;gap:10px}
-    .eyebrow{font-weight:800;opacity:.85;letter-spacing:.02em}
-    .title{font-size:clamp(28px,7vw,62px);line-height:1.05;margin:0}
-    .tagline{color:var(--muted);margin:4px 0 10px;font-size:clamp(14px,2.8vw,18px)}
-    .cta{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:14px;border:1px solid rgba(165,171,199,.18);background:linear-gradient(180deg,rgba(124,92,255,.26),rgba(124,92,255,.08));color:#fff;font-weight:800;box-shadow:0 10px 22px var(--shadow)}
-    .btn.secondary{background:var(--card);color:inherit;font-weight:700}
-
-    .hero-box{display:grid;gap:var(--gap)}
-    .portrait{aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,var(--card),var(--layer-2));border:1px solid var(--ring);box-shadow:0 22px 44px var(--shadow);display:grid;place-items:center}
-    .portrait img{width:100%;height:100%;object-fit:cover;display:block}
-
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--gap);max-width:600px;margin:2px auto 0}
-    .stat{background:linear-gradient(180deg,var(--card),var(--layer-2));padding:16px;border-radius:16px;border:1px solid rgba(165,171,199,.14);box-shadow:0 10px 26px var(--shadow);text-align:center}
-    .stat .k{font-size:clamp(20px,5vw,30px);font-weight:900}
-    .stat .l{color:var(--muted);margin-top:-2px}
-
-    section{scroll-margin-top:80px}
-    .section-title{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px}
-    .section-title h2{margin:0;font-size:clamp(22px,4vw,32px)}
-    .muted{color:var(--muted)}
-
-    .grid{display:grid;gap:var(--gap)}
-    #projectGrid.grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-    .card{background:linear-gradient(180deg,var(--card),var(--layer-2));border:1px solid rgba(165,171,199,.12);border-radius:18px;padding:18px;box-shadow:0 18px 36px var(--shadow)}
-    .project{display:flex;flex-direction:column;gap:16px;transform:translateY(14px);opacity:0}
-    .project:hover{transform:translateY(-2px)}
-    .project.appear{transform:none;opacity:1;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
-
-    .thumb,.carousel{aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(49,225,255,.15));display:grid;place-items:center;position:relative}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .carousel .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-    .carousel iframe,.carousel video,.carousel img{width:100%;height:100%;object-fit:cover;display:block}
-    .carousel{cursor:zoom-in}
-
-    .car-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;border:1px solid rgba(165,171,199,.25);background:var(--layer);color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;opacity:.9}
-    .car-btn:hover{opacity:1}
-    .car-btn.prev{left:10px}
-    .car-btn.next{right:10px}
-    .car-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:6px;justify-content:center}
-    .car-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35)}
-    .car-dot.active{background:#fff}
-
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-    .action{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:var(--layer);border:1px solid rgba(165,171,199,.18);text-decoration:none;font-weight:600;color:inherit}
-    .action.primary{background:linear-gradient(180deg,rgba(124,92,255,.26),rgba(124,92,255,.08));color:#fff}
-
-    .desc{background:linear-gradient(180deg,var(--layer),var(--layer-2));border:1px solid rgba(124,92,255,.28);border-radius:12px;padding:12px 14px;color:var(--text);margin:4px 0 4px}
-    .acc{border-radius:12px;overflow:hidden;border:1px solid rgba(165,171,199,.16);background:linear-gradient(180deg,var(--layer),var(--layer-2));margin-top:8px}
-    .acc-sum{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-weight:700;cursor:pointer;background:rgba(124,92,255,.12)}
-    .acc-body{padding:12px;color:var(--text)}
-    .acc[open] .acc-sum{background:rgba(124,92,255,.18)}
-
-    .plan{display:flex;flex-direction:column;gap:12px;transform:translateY(14px);opacity:0}
-    .plan.appear{transform:none;opacity:1;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
-    #plansGrid.grid{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
-    .plan .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-    .plan h3{margin:0;font-size:20px}
-    .price{font-weight:800;font-size:18px;padding:6px 10px;border-radius:999px;background:rgba(124,92,255,.18);border:1px solid rgba(165,171,199,.18)}
-    .pill{padding:6px 10px;border-radius:999px;background:var(--layer);border:1px solid rgba(165,171,199,.18);font-size:13px}
-    .list{margin:6px 0 0 0;padding-left:18px;color:var(--text)}
-    .list li{margin:6px 0}
-
-    .about{display:grid;grid-template-columns:.6fr .4fr;gap:var(--gap)}
-    @media (max-width:900px){.about{grid-template-columns:1fr}}
-    .skills{display:flex;flex-wrap:wrap;gap:10px}
-    .badge{background:linear-gradient(180deg,var(--card),var(--layer-2));border:1px solid rgba(165,171,199,.12);padding:10px 12px;border-radius:10px;font-weight:600}
-
-    .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
-    @media (max-width:900px){.contact-wrap{grid-template-columns:1fr}}
-    .info{display:flex;flex-direction:column;gap:16px}
-    .info-item{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
-    .icon{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
-    .info a{color:var(--link)}
-    .form{padding:16px}
-    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-    .input,.textarea{background:var(--input-bg);border:1px solid var(--input-bd);color:var(--text);padding:12px 12px;border-radius:12px}
-    .input:focus,.textarea:focus{outline:2px solid var(--ring)}
-    .textarea{min-height:140px;resize:vertical}
-    .send{width:100%;display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid rgba(165,171,199,.2);background:linear-gradient(180deg,rgba(124,92,255,.26),rgba(124,92,255,.08));color:#fff;font-weight:800}
-    .hint{font-size:13px;color:var(--muted)}
-
-    footer{margin:44px 0 64px;color:var(--muted);text-align:center}
-
-    /* smaller glow cursor */
-    #cursor{
-      position:fixed; left:0; top:0; transform:translate(-50%,-50%) scale(.9);
-      width:150px; height:150px; border-radius:50%; pointer-events:none; z-index:100;
-      background:radial-gradient(closest-side, rgba(124,92,255,.50), rgba(49,225,255,.30) 55%, rgba(49,225,255,0) 75%);
-      filter:blur(10px); mix-blend-mode:screen; opacity:.35;
-      transition:transform .12s ease-out, opacity .35s ease;
-    }
-    :root[data-theme="light"] #cursor{mix-blend-mode:multiply; opacity:.25}
-    @media (prefers-reduced-motion: reduce){#cursor{display:none}}
-    @media (hover:none), (pointer:coarse){#cursor{display:none !important}}
-
-    /* Lightbox */
-    #lightbox{position:fixed; inset:0; z-index:1000; display:none; place-items:center; background:rgba(8,10,14,.82); backdrop-filter:blur(2px)}
-    #lightbox.open{display:grid}
-    .lb-stage{position:relative; width:min(96vw,1200px); height:min(92vh,760px); border-radius:16px; background:#000; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.6)}
-    .lb-media{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(1); transform-origin:center center; will-change:transform}
-    .lb-media img{display:block; max-width:90vw; max-height:90vh; user-select:none; pointer-events:none}
-    .lb-media video{max-width:90vw; max-height:90vh}
-    .lb-close{position:absolute; top:14px; right:14px; z-index:10}
-    .lb-prev,.lb-next{position:absolute; top:50%; transform:translateY(-50%); z-index:10}
-    .lb-prev{left:14px} .lb-next{right:14px}
-    .lb-btn{border:1px solid rgba(255,255,255,.3); background:rgba(20,22,30,.6); color:#fff; padding:10px 12px; border-radius:12px; cursor:pointer}
-    .lb-dots{position:absolute; bottom:12px; left:0; right:0; display:flex; gap:8px; justify-content:center; z-index:10}
-    .lb-dot{width:9px; height:9px; border-radius:999px; background:rgba(255,255,255,.35)}
-    .lb-dot.active{background:#fff}
-
-    /* Media safety: never overflow on mobile */
-    img, video, iframe{max-width:100%; height:auto; display:block}
-
-    /* Hard stop for very narrow screens */
-    @media (max-width:600px){
-      .hero .inner{grid-template-columns:1fr}
-      #projectGrid.grid{grid-template-columns:1fr}
-      #plansGrid.grid{grid-template-columns:1fr}
-      .wrap{padding:16px}
-    }
-  </style>
-</head>
-<body>
-  <!-- Robust animated background -->
-  <div id="bg" aria-hidden="true"></div>
-
-  <div id="cursor" aria-hidden="true"></div>
-
-  <nav class="nav">
-    <div class="wrap inner">
-      <a class="brand" href="#hero"><span class="logo" aria-hidden="true"></span> <span id="brand-name">Hussein Adam</span></a>
-      <div class="links">
-        <a href="#projects">Projects</a>
-        <a href="#packages">Packages</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <button class="theme" id="themeToggle" title="Toggle theme">🌗</button>
-      </div>
-    </div>
-  </nav>
-
-  <header id="hero" class="hero">
-    <div class="wrap inner">
-      <div class="intro">
-        <div class="eyebrow">Hello, welcome</div>
-        <h1 class="title">I'm <span id="name-1">Hussein Adam</span></h1>
-        <p class="tagline" id="hero-sub">I build Roblox experiences — scalable LuaU systems, smooth gameplay, and clean UI.</p>
-        <div class="cta">
-          <a class="btn" href="#packages">Hire Me</a>
-          <a class="btn secondary" href="#projects">See Portfolio</a>
-        </div>
-      </div>
-      <div class="hero-box">
-        <div class="portrait" id="portraitBox">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
-        </div>
-        <div class="stats">
-          <div class="stat card"><div class="k" id="stat-1">3+</div><div class="l">Years Experience</div></div>
-          <div class="stat card"><div class="k" id="stat-2">399K+</div><div class="l">Total Visits Contributed!</div></div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <section id="projects" class="wrap">
-    <div class="section-title">
-      <h2>Featured Projects</h2>
-      <div class="muted">A few hand-picked works</div>
-    </div>
-    <div id="projectGrid" class="grid"></div>
-  </section>
-
-  <section id="packages" class="wrap">
-    <div class="section-title">
-      <h2>Packages</h2>
-      <div class="muted">Showing <span id="countShown">0</span> of <span id="countTotal">0</span></div>
-    </div>
-    <div id="plansGrid" class="grid"></div>
-  </section>
-
-  <section id="about" class="wrap">
-    <div class="section-title"><h2>About</h2></div>
-    <div class="about">
-      <div class="card">
-        <p id="about-text" class="muted"></p>
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-          <a class="action" id="roblox-link" target="_blank" rel="noreferrer">Roblox</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="section-title" style="margin:0 0 10px"><h3 style="margin:0">Skills</h3></div>
-        <div id="skills" class="skills"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="wrap">
-    <div style="text-align:center;margin:24px 0 6px" class="muted">GET IN TOUCH</div>
-    <h2 style="text-align:center;margin:0 0 6px">Let's Build Something Amazing</h2>
-    <p class="muted" style="text-align:center;margin:0 0 18px">Interested in collaborating or have a question? Send a message or reach out via email/Discord.</p>
-
-    <div class="contact-wrap">
-      <div class="info card">
-        <div class="info-item"><span class="icon" aria-hidden="true">✉️</span><div><div style="font-weight:700">Email</div><a id="email-inline" href="#">you@example.com</a></div></div>
-        <div class="info-item"><span class="icon" aria-hidden="true">💬</span><div><div style="font-weight:700">Discord</div><div id="discord-inline" class="muted" style="font-weight:800;font-size:18px">yourusername</div></div></div>
-      </div>
-
-      <form id="contactForm" class="card form" action="https://formspree.io/f/mzzabngv" method="POST" autocomplete="on">
-        <div class="field"><label for="name">Your Name</label><input class="input" id="name" name="name" placeholder="Your Name" required /></div>
-        <div class="field"><label for="from">Your Email</label><input class="input" id="from" name="email" type="email" placeholder="you@example.com" required /></div>
-        <div class="field"><label for="msg">Your Message</label><textarea class="textarea" id="msg" name="message" placeholder="Tell me a bit about your project…" required></textarea></div>
-        <input type="text" name="_gotcha" style="position:absolute;left:-5000px;opacity:0" tabindex="-1" autocomplete="off" />
-        <button class="send" type="submit" id="sendBtn">Send Message</button>
-        <div class="hint" id="formHint">This uses Formspree to send email securely.</div>
-      </form>
-    </div>
-  </section>
-
-  <footer class="wrap"><p>© <span id="year"></span> <span id="footer-name">Hussein Adam</span>.</p></footer>
-
-  <!-- Lightbox -->
-  <div id="lightbox" aria-hidden="true">
-    <div class="lb-stage" id="lbStage">
-      <button class="lb-btn lb-close" id="lbClose" aria-label="Close">✕</button>
-      <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">‹</button>
-      <button class="lb-btn lb-next" id="lbNext" aria-label="Next">›</button>
-      <div class="lb-media" id="lbMedia"></div>
-      <div class="lb-dots" id="lbDots"></div>
-    </div>
-  </div>
-
-<script id="site-data" type="application/json">
-{
-  "profile": {
-    "name": "Hussein Adam",
-    "photo": "https://cdn.discordapp.com/attachments/1374068118883668110/1410381317262278806/assets_task_01jzgs58y1fnr9q10xj6503znp_1751836191_img_0.webp?ex=68b0cf75&is=68af7df5&hm=da2a5fe077a5271a409ce294dee5d41951438775bfac93bbca729d35614b19f4&",
-    "tagline": "Hi, I’m Hussein Adam — also known as Trippy/Sinvert_. I’m a Roblox developer specializing in LuaU scripting. I build clean, scalable systems and engaging gameplay, with clear and reliable communication.",
-    "about": "Roblox developer focused on scalable systems, reusable modules, and smooth player experiences. I prioritize performance, clarity, and delivering results.",
-    "links": { "roblox": "https://www.roblox.com/users/1035292126/profile"},
-    "skills": [
-      "LuaU / Roblox",
-      "OOP / Module Systems",
-      "Game & Round State Management",
-      "UI Design (Roblox GUI, Tweening, Indicators)",
-      "Animation Systems (preloading, caching, sequencing)",
-      "Datastores & Persistence",
-      "Networking & Replication (RemoteEvents / RemoteFunctions)",
-      "Security & Exploit Prevention (server authority, validation, anti-abuse)",
-      "Optimization & Performance (caching, timers, debris, parameter reuse)",
-      "Physics & Collision (raycasts, OverlapParams, impulses, collision groups)",
-      "Logging & Diagnostics (debug channels, error tracing)",
-      "Input Handling (ProximityPrompt, GUI buttons, hover states)",
-      "State & Session Management (round/session IDs, cleanup)",
-      "Inventory & Economy Systems",
-      "RNG & Probability Weighting",
-      "Error Handling"
-    ],
-    "stats": [
-      { "value": "3+", "label": "Years of Experience" },
-      { "value": "850K+", "label": "Total Visits Contributed" }
-    ]
-  },
-  "projects": [
-    {
-      "variant": "showcase",
-      "title": "Pulau-Indo",
-      "link": "https://www.roblox.com/games/116271475876333/BETA-Pulau-Indo",
-      "media": [
-        { "type": "image", "src": "https://tr.rbxcdn.com/180DAY-3eb5cba0f60df2b2bb82d301bcccd870/768/432/Image/Webp/noFilter" },
-        { "type": "video", "src": "https://www.youtube.com/watch?v=pXkabPaWENg" }
-      ],
-      "highlight": "A social hangout game with complex systems and minigames — over 850K visits contributed!",
-      "contributions": [
-        "Built a fishing system with rarity tiers and unique minigame mechanics.",
-        "Developed a Pac-Man inspired minigame.",
-        "Created a Shadow Boxing minigame with animations and state handling.",
-        "Implemented a Buckshot minigame.",
-        "Resolved performance bottlenecks and optimized gameplay.",
-        "Fixed critical bugs and stability issues.",
-        "Supported debugging of client and server lag sources."
-      ],
-      "about": "An Indonesian hangout experience with interactive systems and games."
-    },
-    {
-      "variant": "showcase",
-      "title": "Pacman Remake!",
-      "media": [
-        { "type": "video", "src": "https://www.youtube.com/watch?v=5F4EuLnEZz0&t" }  
-      ],
-      "highlight": "A Pac-Man inspired minigame with AI pathfinding, grid systems, player movement, and robust state handling.",
-      "about": "Fast-paced, score-driven gameplay with monsters, leveling, and leaderboard tracking."
-    },
-    {
-      "variant": "showcase",
-      "title": "Tower Defense!",
-      "media": [
-        { "type": "video", "src": "https://www.youtube.com/watch?v=fy-ANEtIfQw" }
-      ],
-      "highlight": "A Bloons TD6-inspired remake. Contributed tower systems, enemy logic, front-end GUI, regression systems, and data persistence.",
-      "about": "A Roblox take on Bloons TD6. Currently inactive."
-    },
-    {
-      "variant": "showcase",
-      "title": "Fisch-like Fishing System",
-      "media": [
-        { "type": "video", "src": "https://www.youtube.com/watch?v=_AslHde6hi8" }
-      ],
-      "highlight": "Designed and implemented a fishing system inspired by Fisch.",
-      "about": "Custom fishing mechanics developed for Pulau-Indo."
-    },
-    {
-      "variant": "showcase",
-      "title": "Buckshot!",
-      "media": [
-        { "type": "video", "src": "https://www.youtube.com/watch?v=ZbhnuObByh8" },
-        { "type": "image", "src": "https://media.discordapp.net/attachments/1374068118883668110/1410367097527341146/image.png?format=webp&quality=lossless" }
-      ],
-      "highlight": "Developed a simplified Buckshot-inspired minigame for Pulau-Indo.",
-      "about": "Casual PvP minigame with items and simple mechanics."
-    },
-    {
-      "variant": "showcase",
-      "title": "Shadow Boxing!",
-      "media": [
-        { "type": "video", "src": "https://www.youtube.com/watch?v=SPy6t3L-9YY" },
-        { "type": "image", "src": "https://media.discordapp.net/attachments/1374068118883668110/1410367032289005729/image.png?format=webp&quality=lossless" }
-      ],
-      "highlight": "Created a Shadow Boxing minigame with KO animations, state management, and anti-cheat measures.",
-      "about": "A fast-paced boxing minigame developed for Pulau-Indo."
-    }
-  ],
-  "packages": [
-    {
-      "id": "quick-fix",
-      "title": "Quick Fix",
-      "duration": "1–3 hours",
-      "priceMin": 10,
-      "priceMax": 50,
-      "unit": "fixed",
-      "desc": "Minor bug fixes, small script edits, and quick adjustments. Price and duration are determined after scoping the issue.",
-      "deliverables": ["Bug fix or adjustment", "Clear code comments", "Tested in Studio", "Etc."],
-      "notes": "Minimum 2 hours."
-    },
-    {
-      "id": "gameplay-system",
-      "title": "Game Systems",
-      "duration": "1–2 weeks",
-      "priceMin": 150,
-      "priceMax": 400,
-      "unit": "fixed",
-      "desc": "Custom system development tailored to your game’s needs. Pricing and duration depend on complexity.",
-      "deliverables": ["Server + client scripts", "Configurable options", "Performance-focused design", "Etc."],
-      "notes": "Includes milestones and consistent progress updates."
-    },
-    {
-      "id": "ui-polish",
-      "title": "UI & UX Polish",
-      "duration": "1–3 days",
-      "priceMin": 50,
-      "priceMax": 250,
-      "unit": "fixed",
-      "desc": "HUD and menu improvements, TweenService animations, and responsive layouts. Pricing and duration depend on complexity.",
-      "deliverables": ["Reusable UI components", "Tweens & transitions", "Etc."],
-      "notes": "Built on top of your existing assets."
-    }
-  ],
-  "contact": { "email": "husseinsocool99@gmail.com", "discord": "Sinvert_" }
+<style>
+:root {
+  --bg:#0e1016;
+  --card:#151824;
+  --text:#f1f3ff;
+  --muted:#a1a6c8;
+  --accent:#7c5cff;
+  --radius:14px;
 }
+
+* { box-sizing:border-box; margin:0; padding:0 }
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+h1,h2,h3 { line-height:1.2 }
+h2 { margin-bottom: 12px }
+p { color: var(--muted) }
+
+section { margin-top: 48px }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.btn {
+  display:inline-block;
+  margin-top:14px;
+  padding:10px 16px;
+  background: var(--accent);
+  color:white;
+  border-radius:10px;
+}
+
+.stat {
+  text-align:center;
+}
+.stat strong {
+  font-size:26px;
+}
+
+footer {
+  margin-top: 80px;
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <h1 id="name"></h1>
+  <p id="role"></p>
+  <p id="tagline"></p>
+</header>
+
+<section>
+  <div class="grid" id="stats"></div>
+</section>
+
+<section>
+  <h2>Skills</h2>
+  <div class="grid" id="skills"></div>
+</section>
+
+<section>
+  <h2>Projects</h2>
+  <div id="projects"></div>
+</section>
+
+<section>
+  <h2>Services</h2>
+  <div id="services"></div>
+</section>
+
+<section>
+  <h2>Contact</h2>
+  <p>Email: <span id="email"></span></p>
+  <p>Discord: <strong id="discord"></strong></p>
+  <a id="roblox" target="_blank">Roblox Profile</a>
+</section>
+
+<footer>
+  © <span id="year"></span> Hussein Adam
+</footer>
+
+</div>
+
+<script>
+const SITE = {
+  name: "Hussein Adam",
+  role: "Roblox LuaU Developer",
+  tagline: "I build clean, scalable Roblox systems with performance and clarity.",
+  email: "husseinsocool99@gmail.com",
+  discord: "Sinvert_",
+  roblox: "https://www.roblox.com/users/1035292126/profile",
+
+  stats: [
+    { value: "3+", label: "Years Experience" },
+    { value: "850K+", label: "Visits Contributed" }
+  ],
+
+  skills: [
+    "LuaU / Roblox",
+    "Game Systems",
+    "Datastores",
+    "UI Tweening",
+    "Networking",
+    "Optimization",
+    "Anti-Exploit"
+  ],
+
+  projects: [
+    { title:"Pulau-Indo", desc:"Large social hangout with multiple minigames.", link:"https://www.roblox.com/games/116271475876333/BETA-Pulau-Indo" },
+    { title:"Pacman Remake", desc:"AI-driven Pacman minigame with scoring and states." },
+    { title:"Tower Defense", desc:"Bloons-style TD with enemy logic and UI systems." }
+  ],
+
+  services: [
+    { title:"Quick Fix", price:"$10–50", desc:"Bug fixes and small scripting tasks." },
+    { title:"Game Systems", price:"$150–400", desc:"Full gameplay and backend systems." },
+    { title:"UI Polish", price:"$50–250", desc:"Tweened UI, menus, HUDs." }
+  ]
+}
+
+// Populate content
+name.textContent = SITE.name
+role.textContent = SITE.role
+tagline.textContent = SITE.tagline
+email.textContent = SITE.email
+discord.textContent = SITE.discord
+roblox.href = SITE.roblox
+year.textContent = new Date().getFullYear()
+
+SITE.stats.forEach(s=>{
+  stats.innerHTML += `<div class="card stat"><strong>${s.value}</strong><p>${s.label}</p></div>`
+})
+
+SITE.skills.forEach(s=>{
+  skills.innerHTML += `<div class="card">${s}</div>`
+})
+
+SITE.projects.forEach(p=>{
+  projects.innerHTML += `
+    <div class="card">
+      <h3>${p.title}</h3>
+      <p>${p.desc}</p>
+      ${p.link ? `<a href="${p.link}" target="_blank">View</a>` : ""}
+    </div>`
+})
+
+SITE.services.forEach(s=>{
+  services.innerHTML += `
+    <div class="card">
+      <h3>${s.title} — ${s.price}</h3>
+      <p>${s.desc}</p>
+    </div>`
+})
 </script>
-
-  <script>
-    const $=(s,e=document)=>e.querySelector(s);const $$=(s,e=document)=>Array.from(e.querySelectorAll(s));
-    const data=JSON.parse($('#site-data').textContent); const P=data.projects||[]; const prof=data.profile||{}; const PK=data.packages||[]; const C=data.contact||{};
-
-    $('#brand-name').textContent=prof.name||'Your Name';
-    $('#name-1').textContent=prof.name||'Your Name';
-    $('#hero-sub').textContent=prof.tagline||'';
-    $('#footer-name').textContent=prof.name||'Your Name';
-    const y=new Date().getFullYear(); $('#year').textContent=y;
-
-    // NEW: load portrait image from JSON if provided
-    const portraitBox = $('#portraitBox');
-    if (portraitBox && prof.photo){
-      const img = new Image();
-      img.src = prof.photo;
-      img.alt = prof.name ? `${prof.name} portrait` : 'Portrait';
-      img.loading = 'eager';
-      portraitBox.innerHTML = '';
-      portraitBox.appendChild(img);
-    }
-
-    if (Array.isArray(prof.stats)){
-      const s1=prof.stats[0], s2=prof.stats[1];
-      if(s1){ $('#stat-1').textContent=s1.value||''; $('.stats .stat:nth-child(1) .l').textContent=s1.label||''; }
-      if(s2){ $('#stat-2').textContent=s2.value||''; $('.stats .stat:nth-child(2) .l').textContent=s2.label||''; }
-    }
-
-    $('#about-text').textContent=prof.about||'';
-    const setHref=(id,url)=>{const el=document.getElementById(id); if(el&&url){ el.href=url; }}; setHref('roblox-link', (prof.links&&prof.links.roblox)||'#');
-
-    const skillsWrap=$('#skills'); (prof.skills||[]).forEach(s=>{const b=document.createElement('span');b.className='badge';b.textContent=s;skillsWrap.appendChild(b)});
-
-    const grid=$('#projectGrid');
-    function youTubeToEmbed(u){try{const url=new URL(u); if(url.hostname.includes('youtube.com')&&url.searchParams.get('v')) return `https://www.youtube.com/embed/${url.searchParams.get('v')}`; if(url.hostname==='youtu.be') return `https://www.youtube.com/embed${url.pathname}`; return u;}catch(_){return u}}
-
-    function openLightbox(items,startIndex){
-      lb.items = items.filter(m=>m && (m.type==='image' || (m.src&&/\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(m.src))));
-      lb.index = Math.max(0, Math.min(startIndex||0, lb.items.length-1));
-      renderLB();
-      lb.el.classList.add('open');
-    }
-
-    function renderShowcase(p){
-      const art=document.createElement('article'); art.className='project card';
-
-      const car=document.createElement('div'); car.className='carousel';
-      const slide=document.createElement('div'); slide.className='slide'; car.appendChild(slide);
-      const btnPrev=document.createElement('button'); btnPrev.className='car-btn prev'; btnPrev.type='button'; btnPrev.textContent='‹';
-      const btnNext=document.createElement('button'); btnNext.className='car-btn next'; btnNext.type='button'; btnNext.textContent='›';
-      const dots=document.createElement('div'); dots.className='car-dots';
-      car.append(btnPrev,btnNext,dots);
-
-      let idx=0; const media=Array.isArray(p.media)?p.media:[]; 
-      function mount(i){
-        if(!media.length){ slide.innerHTML='<div style="opacity:.6">No media</div>'; return; }
-        idx=(i+media.length)%media.length;
-        dots.innerHTML=''; slide.innerHTML='';
-        const m=media[idx]||{}; let el;
-        if(m.type==='video'){ el=document.createElement('iframe'); el.src=youTubeToEmbed(m.src||''); el.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'); el.setAttribute('frameborder','0'); el.setAttribute('allowfullscreen',''); }
-        else if(m.src&&/\.(mp4|webm)$/i.test(m.src)){ el=document.createElement('video'); el.src=m.src; el.controls=true; }
-        else { el=document.createElement('img'); el.src=m.src||'https://picsum.photos/seed/placeholder/1280/720'; el.alt=p.title||''; el.loading='lazy';
-               el.addEventListener('click',()=>openLightbox(media,idx)); }
-        slide.appendChild(el);
-        media.forEach((_,n)=>{const d=document.createElement('span'); d.className='car-dot'+(n===idx?' active':''); d.addEventListener('click',()=>{mount(n)}); dots.appendChild(d);});
-      }
-      btnPrev.addEventListener('click',()=>mount(idx-1));
-      btnNext.addEventListener('click',()=>mount(idx+1));
-      mount(0);
-
-      const tWrap=document.createElement('div');
-      const h3=document.createElement('h3'); h3.textContent=p.title||'Untitled'; tWrap.appendChild(h3);
-      if(p.highlight){ const desc=document.createElement('div'); desc.className='desc'; desc.textContent=p.highlight; tWrap.appendChild(desc); }
-
-      const blocks=[];
-
-      if (Array.isArray(p.contributions)&&p.contributions.length){
-        const accC=document.createElement('details'); accC.className='acc';
-        const sumC=document.createElement('summary'); sumC.className='acc-sum'; sumC.innerHTML='<span>My Contributions</span><span>▾</span>';
-        const bodyC=document.createElement('div'); bodyC.className='acc-body';
-        const ul=document.createElement('ul'); ul.style.margin='0'; ul.style.paddingLeft='18px';
-        p.contributions.forEach(it=>{const li=document.createElement('li'); li.textContent=it; ul.appendChild(li)});
-        bodyC.appendChild(ul); accC.append(sumC,bodyC);
-        blocks.push(accC);
-      }
-
-      if(p.about){
-        const acc=document.createElement('details'); acc.className='acc';
-        const sum=document.createElement('summary'); sum.className='acc-sum'; sum.innerHTML='<span>About the Project</span><span>▾</span>';
-        const body=document.createElement('div'); body.className='acc-body'; body.textContent=p.about||'';
-        acc.append(sum,body);
-        blocks.push(acc);
-      }
-
-      const actions=document.createElement('div'); actions.className='actions';
-      if(p.link){ const a=document.createElement('a'); a.className='action primary'; a.href=p.link; a.target='_blank'; a.rel='noreferrer'; a.textContent='Open Roblox'; actions.appendChild(a); }
-
-      art.append(car,tWrap,...blocks,actions);
-      grid.appendChild(art);
-    }
-
-    function renderClassic(p){
-      const art=document.createElement('article'); art.className='project card';
-      const th=document.createElement('div'); th.className='thumb';
-      if(p.image){ const img=new Image(); img.src=p.image; img.alt=p.title||''; img.loading='lazy'; th.appendChild(img); }
-      else { th.innerHTML='<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/></svg>'; }
-      const t=document.createElement('div'); t.innerHTML=`<h3>${p.title||'Untitled'}</h3><p class="muted">${p.summary||''}</p>`;
-      const actions=document.createElement('div'); actions.className='actions'; (p.links||[]).forEach(l=>{const a=document.createElement('a'); a.className='action'+(l.type==='primary'?' primary':''); a.href=l.href||'#'; a.target='_blank'; a.rel='noreferrer'; a.textContent=l.label||'Link'; actions.appendChild(a)});
-      art.append(th,t,actions); grid.appendChild(art);
-    }
-
-    function renderProjects(list){ grid.innerHTML=''; list.forEach(p=>{ (p.variant==='showcase')?renderShowcase(p):renderClassic(p); }); requestAnimationFrame(observeAppear); }
-    renderProjects(P);
-
-    const plans=$('#plansGrid'); const total=PK.length; let shown=0;
-    const fmt=(n)=>{ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n); }catch(_){ return `USD ${n}`; } };
-    function priceText(pkg){ const u=pkg.unit==='hour'?'/hr':''; if(typeof pkg.price==='number') return `${fmt(pkg.price)}${u}`; if(typeof pkg.priceMin==='number'&&typeof pkg.priceMax==='number') return `${fmt(pkg.priceMin)}–${fmt(pkg.priceMax)}${u}`; if(typeof pkg.priceMin==='number') return `${fmt(pkg.priceMin)}+${u}`; return 'Contact'; }
-    PK.forEach(pkg=>{ const card=document.createElement('article'); card.className='plan card'; card.id=pkg.id||''; card.innerHTML=`<div class="head"><h3>${pkg.title}</h3><span class="price">${priceText(pkg)}</span></div><p class="muted">${pkg.desc||''}</p><div class="pill">Duration: ${pkg.duration||'N/A'}</div><ul class="list">${(pkg.deliverables||[]).map(d=>`<li>${d}</li>`).join('')}</ul>${pkg.notes?`<p class="muted" style="margin:8px 0 0">${pkg.notes}</p>`:''}<div class="actions"><a class="action primary" href="#contact">Contact to Book</a></div>`; plans.appendChild(card); shown++; });
-    $('#countTotal').textContent=total; $('#countShown').textContent=shown;
-
-    function observeAppear(){ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('appear'); io.unobserve(e.target); }}),{threshold:.15}); $$('.project, .plan').forEach(el=>io.observe(el)); }
-    observeAppear();
-
-    if(C.email){ const mail=`mailto:${C.email}`; const el=document.getElementById('email-inline'); if(el){ el.href=mail; el.textContent=C.email; }}
-    if(C.discord){ const d=document.getElementById('discord-inline'); if(d){ d.textContent=C.discord; }}
-
-    const form=$('#contactForm'); const sendBtn=$('#sendBtn'); const hint=$('#formHint');
-    form.addEventListener('submit', async (e)=>{ e.preventDefault(); sendBtn.disabled=true; sendBtn.textContent='Sending…'; hint.textContent='Sending via Formspree…';
-      try{
-        const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-        if(res.ok){ form.reset(); hint.textContent='Thanks! Your message has been sent.'; sendBtn.textContent='Sent ✓'; }
-        else { const d=await res.json().catch(()=>({})); hint.textContent=d.error||'Something went wrong. Try again later.'; sendBtn.textContent='Send Message'; }
-      }catch(_){ hint.textContent='Network error. Please try again.'; sendBtn.textContent='Send Message'; }
-      sendBtn.disabled=false;
-    });
-
-    const initial=localStorage.getItem('theme')|| (window.matchMedia('(prefers-color-scheme: light)').matches? 'light' : 'dark');
-    document.documentElement.dataset.theme=initial;
-    $('#themeToggle').addEventListener('click',()=>{ const next=document.documentElement.dataset.theme==='light'?'dark':'light'; document.documentElement.dataset.theme=next; localStorage.setItem('theme',next); });
-
-    (function(){ const c=document.getElementById('cursor'); let x=innerWidth/2, y=innerHeight/2, tx=x, ty=y;
-      function loop(){ x+=(tx-x)*0.18; y+=(ty-y)*0.18; c.style.left=x+'px'; c.style.top=y+'px'; requestAnimationFrame(loop); }
-      addEventListener('mousemove',e=>{ tx=e.clientX; ty=e.clientY; },{passive:true});
-      addEventListener('mousedown',()=>{ c.style.opacity='.45'; c.style.transform='translate(-50%,-50%) scale(1.05)'; });
-      addEventListener('mouseup',()=>{ c.style.opacity=document.documentElement.dataset.theme==='light'?'.25':'.35'; c.style.transform='translate(-50%,-50%) scale(.9)'; });
-      loop();
-    })();
-
-    /* Lightbox logic */
-    const lb = {
-      el: $('#lightbox'), stage: $('#lbStage'), media: $('#lbMedia'),
-      dots: $('#lbDots'), prev: $('#lbPrev'), next: $('#lbNext'), close: $('#lbClose'),
-      items: [], index: 0, scale: 1, tx: 0, ty: 0, dragging:false, lx:0, ly:0
-    };
-
-    function closeLightbox(){ lb.el.classList.remove('open'); lb.media.innerHTML=''; lb.dots.innerHTML=''; }
-    function renderLB(){
-      lb.scale = 1; lb.tx = 0; lb.ty = 0; lb.media.style.transform = `translate(-50%,-50%) scale(${lb.scale})`;
-      lb.media.innerHTML = '';
-      const cur = lb.items[lb.index];
-      const img = new Image();
-      img.src = cur.src;
-      img.alt = '';
-      lb.media.appendChild(img);
-      lb.dots.innerHTML='';
-      lb.items.forEach((_,i)=>{ const d=document.createElement('span'); d.className='lb-dot'+(i===lb.index?' active':''); d.addEventListener('click',()=>{lb.index=i; renderLB();}); lb.dots.appendChild(d);});
-    }
-    lb.prev.addEventListener('click',()=>{ lb.index=(lb.index-1+lb.items.length)%lb.items.length; renderLB(); });
-    lb.next.addEventListener('click',()=>{ lb.index=(lb.index+1)%lb.items.length; renderLB(); });
-    lb.close.addEventListener('click',closeLightbox);
-    lb.el.addEventListener('click',(e)=>{ if(e.target===lb.el) closeLightbox(); });
-    addEventListener('keydown',(e)=>{ if(!lb.el.classList.contains('open')) return;
-      if(e.key==='Escape') closeLightbox();
-      if(e.key==='ArrowLeft') lb.prev.click();
-      if(e.key==='ArrowRight') lb.next.click();
-    });
-
-    lb.stage.addEventListener('wheel',(e)=>{ if(!lb.el.classList.contains('open')) return;
-      e.preventDefault();
-      const delta = -Math.sign(e.deltaY)*0.12;
-      const nextScale = Math.min(4, Math.max(1, lb.scale + delta));
-      const rect = lb.stage.getBoundingClientRect();
-      const cx = e.clientX - rect.left - rect.width/2 - lb.tx;
-      const cy = e.clientY - rect.top - rect.height/2 - lb.ty;
-      const scaleFactor = nextScale / lb.scale;
-      lb.tx -= cx*(scaleFactor-1);
-      lb.ty -= cy*(scaleFactor-1);
-      lb.scale = nextScale;
-      lb.media.style.transform = `translate(calc(-50% + ${lb.tx}px), calc(-50% + ${lb.ty}px)) scale(${lb.scale})`;
-    }, {passive:false});
-
-    lb.stage.addEventListener('mousedown',(e)=>{ if(!lb.el.classList.contains('open')) return; lb.dragging=true; lb.lx=e.clientX; lb.ly=e.clientY; });
-    addEventListener('mousemove',(e)=>{ if(!lb.dragging) return; const dx=e.clientX-lb.lx, dy=e.clientY-lb.ly; lb.lx=e.clientX; lb.ly=e.clientY; lb.tx+=dx; lb.ty+=dy; lb.media.style.transform=`translate(calc(-50% + ${lb.tx}px), calc(-50% + ${lb.ty}px)) scale(${lb.scale})`; });
-    addEventListener('mouseup',()=>{ lb.dragging=false; });
-    lb.stage.addEventListener('dblclick',()=>{ lb.scale = lb.scale>1?1:2; lb.tx=lb.ty=0; lb.media.style.transform=`translate(-50%,-50%) scale(${lb.scale})`; });
-  </script>
 </body>
 </html>
