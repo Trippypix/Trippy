@@ -9,7 +9,8 @@
     /* =========================================================
        SIMPLE BLACK + DARK BLUE THEME (FULLY APPLIED)
        - keeps all original sections + features
-       - replaces gradients/glows with flat, clean surfaces
+       - packages removed (by request)
+       - fixes JSON load issues + removes blank gaps
        ========================================================= */
 
     :root{
@@ -307,28 +308,6 @@
     :root[data-theme="light"] .acc-sum{background:rgba(22,58,138,.10)}
     :root[data-theme="light"] .acc[open] .acc-sum{background:rgba(22,58,138,.14)}
 
-    .plan{display:flex;flex-direction:column;gap:12px;transform:translateY(14px);opacity:0}
-    .plan.appear{transform:none;opacity:1;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}
-    #plansGrid.grid{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
-    .plan .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-    .plan h3{margin:0;font-size:20px}
-    .price{
-      font-weight:800;font-size:18px;
-      padding:6px 10px;border-radius:999px;
-      background:rgba(14,42,102,.18);
-      border:1px solid rgba(255,255,255,.10)
-    }
-    :root[data-theme="light"] .price{border:1px solid rgba(0,0,0,.10)}
-    .pill{
-      padding:6px 10px;border-radius:999px;
-      background:var(--layer);
-      border:1px solid rgba(255,255,255,.10);
-      font-size:13px
-    }
-    :root[data-theme="light"] .pill{border:1px solid rgba(0,0,0,.10)}
-    .list{margin:6px 0 0 0;padding-left:18px;color:var(--text)}
-    .list li{margin:6px 0}
-
     .about{display:grid;grid-template-columns:.6fr .4fr;gap:var(--gap)}
     @media (max-width:900px){.about{grid-template-columns:1fr}}
     .skills{display:flex;flex-wrap:wrap;gap:10px}
@@ -453,15 +432,12 @@
     @media (max-width:600px){
       .hero .inner{grid-template-columns:1fr}
       #projectGrid.grid{grid-template-columns:1fr}
-      #plansGrid.grid{grid-template-columns:1fr}
       .wrap{padding:16px}
     }
   </style>
 </head>
 <body>
-  <!-- Robust animated background -->
   <div id="bg" aria-hidden="true"></div>
-
   <div id="cursor" aria-hidden="true"></div>
 
   <nav class="nav">
@@ -469,7 +445,6 @@
       <a class="brand" href="#hero"><span class="logo" aria-hidden="true"></span> <span id="brand-name">Hussein Adam</span></a>
       <div class="links">
         <a href="#projects">Projects</a>
-        <a href="#packages">Packages</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <button class="theme" id="themeToggle" title="Toggle theme">🌗</button>
@@ -484,17 +459,22 @@
         <h1 class="title">I'm <span id="name-1">Hussein Adam</span></h1>
         <p class="tagline" id="hero-sub">I build Roblox experiences — scalable LuaU systems, smooth gameplay, and clean UI.</p>
         <div class="cta">
-          <a class="btn" href="#packages">Hire Me</a>
+          <a class="btn" href="#contact">Hire Me</a>
           <a class="btn secondary" href="#projects">See Portfolio</a>
         </div>
       </div>
+
       <div class="hero-box">
         <div class="portrait" id="portraitBox">
-          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/></svg>
+          <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
+            <path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
         </div>
+
         <div class="stats">
-          <div class="stat card"><div class="k" id="stat-1">3+</div><div class="l">Years Experience</div></div>
-          <div class="stat card"><div class="k" id="stat-2">399K+</div><div class="l">Total Visits Contributed!</div></div>
+          <div class="stat card"><div class="k" id="stat-1">3+</div><div class="l" id="stat-1-label">Years Experience</div></div>
+          <div class="stat card"><div class="k" id="stat-2">399K+</div><div class="l" id="stat-2-label">Total Visits Contributed!</div></div>
         </div>
       </div>
     </div>
@@ -506,14 +486,6 @@
       <div class="muted">A few hand-picked works</div>
     </div>
     <div id="projectGrid" class="grid"></div>
-  </section>
-
-  <section id="packages" class="wrap">
-    <div class="section-title">
-      <h2>Packages</h2>
-      <div class="muted">Showing <span id="countShown">0</span> of <span id="countTotal">0</span></div>
-    </div>
-    <div id="plansGrid" class="grid"></div>
   </section>
 
   <section id="about" class="wrap">
@@ -535,18 +507,43 @@
   <section id="contact" class="wrap">
     <div style="text-align:center;margin:24px 0 6px" class="muted">GET IN TOUCH</div>
     <h2 style="text-align:center;margin:0 0 6px">Let's Build Something Amazing</h2>
-    <p class="muted" style="text-align:center;margin:0 0 18px">Interested in collaborating or have a question? Send a message or reach out via email/Discord.</p>
+    <p class="muted" style="text-align:center;margin:0 0 18px">If you want to hire me, contact me directly or send a message below.</p>
 
     <div class="contact-wrap">
       <div class="info card">
-        <div class="info-item"><span class="icon" aria-hidden="true">✉️</span><div><div style="font-weight:700">Email</div><a id="email-inline" href="#">you@example.com</a></div></div>
-        <div class="info-item"><span class="icon" aria-hidden="true">💬</span><div><div style="font-weight:700">Discord</div><div id="discord-inline" class="muted" style="font-weight:800;font-size:18px">yourusername</div></div></div>
+        <div class="info-item">
+          <span class="icon" aria-hidden="true">✉️</span>
+          <div>
+            <div style="font-weight:700">Email</div>
+            <a id="email-inline" href="#">you@example.com</a>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon" aria-hidden="true">💬</span>
+          <div>
+            <div style="font-weight:700">Discord</div>
+            <div id="discord-inline" class="muted" style="font-weight:800;font-size:18px">yourusername</div>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:4px">
+          <a class="action primary" id="email-cta" href="#">Email Me</a>
+        </div>
       </div>
 
       <form id="contactForm" class="card form" action="https://formspree.io/f/mzzabngv" method="POST" autocomplete="on">
-        <div class="field"><label for="name">Your Name</label><input class="input" id="name" name="name" placeholder="Your Name" required /></div>
-        <div class="field"><label for="from">Your Email</label><input class="input" id="from" name="email" type="email" placeholder="you@example.com" required /></div>
-        <div class="field"><label for="msg">Your Message</label><textarea class="textarea" id="msg" name="message" placeholder="Tell me a bit about your project…" required></textarea></div>
+        <div class="field">
+          <label for="name">Your Name</label>
+          <input class="input" id="name" name="name" placeholder="Your Name" required />
+        </div>
+        <div class="field">
+          <label for="from">Your Email</label>
+          <input class="input" id="from" name="email" type="email" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label for="msg">Your Message</label>
+          <textarea class="textarea" id="msg" name="message" placeholder="Tell me a bit about your project…" required></textarea>
+        </div>
         <input type="text" name="_gotcha" style="position:absolute;left:-5000px;opacity:0" tabindex="-1" autocomplete="off" />
         <button class="send" type="submit" id="sendBtn">Send Message</button>
         <div class="hint" id="formHint">This uses Formspree to send email securely.</div>
@@ -567,14 +564,14 @@
     </div>
   </div>
 
-<script id="site-data" type="application/json">
+  <script id="site-data" type="application/json">
 {
   "profile": {
     "name": "Hussein Adam",
     "photo": "https://cdn.discordapp.com/attachments/1374068118883668110/1410381317262278806/assets_task_01jzgs58y1fnr9q10xj6503znp_1751836191_img_0.webp?ex=68b0cf75&is=68af7df5&hm=da2a5fe077a5271a409ce294dee5d41951438775bfac93bbca729d35614b19f4&",
     "tagline": "Hi, I’m Hussein Adam — also known as Trippy/Sinvert_. I’m a Roblox developer specializing in LuaU scripting. I build clean, scalable systems and engaging gameplay, with clear and reliable communication.",
     "about": "Roblox developer focused on scalable systems, reusable modules, and smooth player experiences. I prioritize performance, clarity, and delivering results.",
-    "links": { "roblox": "https://www.roblox.com/users/1035292126/profile"},
+    "links": { "roblox": "https://www.roblox.com/users/1035292126/profile" },
     "skills": [
       "LuaU / Roblox",
       "OOP / Module Systems",
@@ -595,7 +592,7 @@
     ],
     "stats": [
       { "value": "3+", "label": "Years of Experience" },
-      { "value": "850K+", "label": "Total Visits Contributed" }
+      { "value": "21M+", "label": "Total Visits Contributed" }
     ]
   },
   "projects": [
@@ -619,19 +616,18 @@
       ],
       "about": "An Indonesian hangout experience with interactive systems and games."
     },
-      {
+    {
       "variant": "showcase",
-      "title": "Park a Car🅿️",
+      "title": "Park a Car 🅿️",
       "link": "https://www.roblox.com/games/113720203996283/Park-a-Car",
       "media": [
-        { "type": "image", "src": "https://tr.rbxcdn.com/180DAY-bb5eacf563801b4cd86c76781947785a/768/432/Image/Webp/noFilter" },
-
+        { "type": "image", "src": "https://tr.rbxcdn.com/180DAY-bb5eacf563801b4cd86c76781947785a/768/432/Image/Webp/noFilter" }
       ],
-      "highlight": "🅿️🚗 Park-a-Car is a simple drive-and-park game! — over 20.0M+ visits contributed!",
+      "highlight": "🅿️🚗 Park-a-Car is a simple drive-and-park game — over 20.0M+ visits contributed!",
       "contributions": [
         "Scripted the game from scratch!",
-        "Made a modular and scalabe framework!",
-        "Contributed to the game design!",
+        "Made a modular and scalable framework!",
+        "Contributed to the game design!"
       ],
       "about": "Park-a-Car 🅿️ is a driving + parking progression game where you buy a car, drive as far as you can, then park it perfectly to unlock/keep it. You earn cash based on how far you drive, and if you crash you can retry for a better run. Your owned cars also generate money even while you’re offline, so building up a collection boosts your income over time."
     },
@@ -683,56 +679,52 @@
       "about": "A fast-paced boxing minigame developed for Pulau-Indo."
     }
   ],
-  "packages": [
-    {
-      "id": "quick-fix",
-      "title": "Quick Fix",
-      "duration": "1–3 hours",
-      "priceMin": 10,
-      "priceMax": 50,
-      "unit": "fixed",
-      "desc": "Minor bug fixes, small script edits, and quick adjustments. Price and duration are determined after scoping the issue.",
-      "deliverables": ["Bug fix or adjustment", "Clear code comments", "Tested in Studio", "Etc."],
-      "notes": "Minimum 2 hours."
-    },
-    {
-      "id": "gameplay-system",
-      "title": "Game Systems",
-      "duration": "1–2 weeks",
-      "priceMin": 150,
-      "priceMax": 400,
-      "unit": "fixed",
-      "desc": "Custom system development tailored to your game’s needs. Pricing and duration depend on complexity.",
-      "deliverables": ["Server + client scripts", "Configurable options", "Performance-focused design", "Etc."],
-      "notes": "Includes milestones and consistent progress updates."
-    },
-    {
-      "id": "ui-polish",
-      "title": "UI & UX Polish",
-      "duration": "1–3 days",
-      "priceMin": 50,
-      "priceMax": 250,
-      "unit": "fixed",
-      "desc": "HUD and menu improvements, TweenService animations, and responsive layouts. Pricing and duration depend on complexity.",
-      "deliverables": ["Reusable UI components", "Tweens & transitions", "Etc."],
-      "notes": "Built on top of your existing assets."
-    }
-  ],
   "contact": { "email": "husseinsocool99@gmail.com", "discord": "Sinvert_" }
 }
-</script>
+  </script>
 
   <script>
-    const $=(s,e=document)=>e.querySelector(s);const $$=(s,e=document)=>Array.from(e.querySelectorAll(s));
-    const data=JSON.parse($('#site-data').textContent); const P=data.projects||[]; const prof=data.profile||{}; const PK=data.packages||[]; const C=data.contact||{};
+    const $ = (s, e = document) => e.querySelector(s);
+    const $$ = (s, e = document) => Array.from(e.querySelectorAll(s));
 
-    $('#brand-name').textContent=prof.name||'Your Name';
-    $('#name-1').textContent=prof.name||'Your Name';
-    $('#hero-sub').textContent=prof.tagline||'';
-    $('#footer-name').textContent=prof.name||'Your Name';
-    const y=new Date().getFullYear(); $('#year').textContent=y;
+    // Safer JSON parse (shows a visible error instead of silently failing)
+    function readSiteData(){
+      const node = document.getElementById('site-data');
+      if(!node) throw new Error('Missing #site-data script tag.');
+      const raw = node.textContent || '';
+      return JSON.parse(raw);
+    }
 
-    // NEW: load portrait image from JSON if provided
+    let data;
+    try{
+      data = readSiteData();
+    }catch(err){
+      console.error('[site-data] JSON parse failed:', err);
+      const grid = document.getElementById('projectGrid');
+      if (grid){
+        grid.innerHTML = `
+          <div class="card">
+            <h3 style="margin:0 0 8px">Site data failed to load</h3>
+            <p class="muted" style="margin:0">Your JSON has an error. Open DevTools → Console to see the exact line. (Most common cause: trailing commas.)</p>
+          </div>
+        `;
+      }
+      // stop further execution
+      throw err;
+    }
+
+    const P = data.projects || [];
+    const prof = data.profile || {};
+    const C = data.contact || {};
+
+    // Header / hero text
+    $('#brand-name').textContent = prof.name || 'Your Name';
+    $('#name-1').textContent = prof.name || 'Your Name';
+    $('#hero-sub').textContent = prof.tagline || '';
+    $('#footer-name').textContent = prof.name || 'Your Name';
+    $('#year').textContent = new Date().getFullYear();
+
+    // Portrait
     const portraitBox = $('#portraitBox');
     if (portraitBox && prof.photo){
       const img = new Image();
@@ -743,262 +735,460 @@
       portraitBox.appendChild(img);
     }
 
+    // Stats
     if (Array.isArray(prof.stats)){
-      const s1=prof.stats[0], s2=prof.stats[1];
-      if(s1){ $('#stat-1').textContent=s1.value||''; $('.stats .stat:nth-child(1) .l').textContent=s1.label||''; }
-      if(s2){ $('#stat-2').textContent=s2.value||''; $('.stats .stat:nth-child(2) .l').textContent=s2.label||''; }
+      const s1 = prof.stats[0];
+      const s2 = prof.stats[1];
+      if (s1){
+        $('#stat-1').textContent = s1.value || '';
+        $('#stat-1-label').textContent = s1.label || '';
+      }
+      if (s2){
+        $('#stat-2').textContent = s2.value || '';
+        $('#stat-2-label').textContent = s2.label || '';
+      }
     }
 
-    $('#about-text').textContent=prof.about||'';
-    const setHref=(id,url)=>{const el=document.getElementById(id); if(el&&url){ el.href=url; }}; setHref('roblox-link', (prof.links&&prof.links.roblox)||'#');
+    // About + links + skills
+    $('#about-text').textContent = prof.about || '';
+    const robloxUrl = (prof.links && prof.links.roblox) ? prof.links.roblox : '#';
+    const robloxLink = document.getElementById('roblox-link');
+    if (robloxLink) robloxLink.href = robloxUrl;
 
-    const skillsWrap=$('#skills'); (prof.skills||[]).forEach(s=>{const b=document.createElement('span');b.className='badge';b.textContent=s;skillsWrap.appendChild(b)});
+    const skillsWrap = $('#skills');
+    (prof.skills || []).forEach(s => {
+      const b = document.createElement('span');
+      b.className = 'badge';
+      b.textContent = s;
+      skillsWrap.appendChild(b);
+    });
 
-    const grid=$('#projectGrid');
-    function youTubeToEmbed(u){try{const url=new URL(u); if(url.hostname.includes('youtube.com')&&url.searchParams.get('v')) return `https://www.youtube.com/embed/${url.searchParams.get('v')}`; if(url.hostname==='youtu.be') return `https://www.youtube.com/embed${url.pathname}`; return u;}catch(_){return u}}
+    // Contact
+    if (C.email){
+      const mail = `mailto:${C.email}`;
+      const el = document.getElementById('email-inline');
+      if (el){ el.href = mail; el.textContent = C.email; }
+      const cta = document.getElementById('email-cta');
+      if (cta){ cta.href = mail; }
+    } else {
+      const cta = document.getElementById('email-cta');
+      if (cta){ cta.style.display = 'none'; }
+    }
+    if (C.discord){
+      const d = document.getElementById('discord-inline');
+      if (d) d.textContent = C.discord;
+    }
 
-    function openLightbox(items,startIndex){
-      lb.items = items.filter(m=>m && (m.type==='image' || (m.src&&/\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(m.src))));
-      lb.index = Math.max(0, Math.min(startIndex||0, lb.items.length-1));
+    // Projects rendering
+    const grid = $('#projectGrid');
+
+    function youTubeToEmbed(u){
+      try{
+        const url = new URL(u);
+        if (url.hostname.includes('youtube.com') && url.searchParams.get('v')){
+          return `https://www.youtube.com/embed/${url.searchParams.get('v')}`;
+        }
+        if (url.hostname === 'youtu.be'){
+          return `https://www.youtube.com/embed${url.pathname}`;
+        }
+        return u;
+      }catch(_){
+        return u;
+      }
+    }
+
+    function openLightbox(items, startIndex){
+      lb.items = items.filter(m => m && (m.type === 'image' || (m.src && /\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(m.src))));
+      if (!lb.items.length) return;
+      lb.index = Math.max(0, Math.min(startIndex || 0, lb.items.length - 1));
       renderLB();
       lb.el.classList.add('open');
     }
 
     function renderShowcase(p){
-      const art=document.createElement('article'); art.className='project card';
+      const art = document.createElement('article');
+      art.className = 'project card';
 
-      const car=document.createElement('div'); car.className='carousel';
-      const slide=document.createElement('div'); slide.className='slide'; car.appendChild(slide);
-      const btnPrev=document.createElement('button'); btnPrev.className='car-btn prev'; btnPrev.type='button'; btnPrev.textContent='‹';
-      const btnNext=document.createElement('button'); btnNext.className='car-btn next'; btnNext.type='button'; btnNext.textContent='›';
-      const dots=document.createElement('div'); dots.className='car-dots';
-      car.append(btnPrev,btnNext,dots);
+      const car = document.createElement('div');
+      car.className = 'carousel';
 
-      let idx=0; const media=Array.isArray(p.media)?p.media:[];
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      car.appendChild(slide);
+
+      const btnPrev = document.createElement('button');
+      btnPrev.className = 'car-btn prev';
+      btnPrev.type = 'button';
+      btnPrev.textContent = '‹';
+
+      const btnNext = document.createElement('button');
+      btnNext.className = 'car-btn next';
+      btnNext.type = 'button';
+      btnNext.textContent = '›';
+
+      const dots = document.createElement('div');
+      dots.className = 'car-dots';
+
+      car.append(btnPrev, btnNext, dots);
+
+      let idx = 0;
+      const media = Array.isArray(p.media) ? p.media : [];
+
       function mount(i){
-        if(!media.length){ slide.innerHTML='<div style="opacity:.6">No media</div>'; return; }
-        idx=(i+media.length)%media.length;
-        dots.innerHTML=''; slide.innerHTML='';
-        const m=media[idx]||{}; let el;
-        if(m.type==='video'){
-          el=document.createElement('iframe');
-          el.src=youTubeToEmbed(m.src||'');
+        if(!media.length){
+          slide.innerHTML = '<div style="opacity:.6">No media</div>';
+          dots.innerHTML = '';
+          return;
+        }
+        idx = (i + media.length) % media.length;
+
+        dots.innerHTML = '';
+        slide.innerHTML = '';
+
+        const m = media[idx] || {};
+        let el;
+
+        if (m.type === 'video' && m.src){
+          el = document.createElement('iframe');
+          el.src = youTubeToEmbed(m.src);
           el.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
           el.setAttribute('frameborder','0');
           el.setAttribute('allowfullscreen','');
+        } else if (m.src && /\.(mp4|webm)$/i.test(m.src)){
+          el = document.createElement('video');
+          el.src = m.src;
+          el.controls = true;
+        } else {
+          el = document.createElement('img');
+          el.src = m.src || 'https://picsum.photos/seed/placeholder/1280/720';
+          el.alt = p.title || '';
+          el.loading = 'lazy';
+          el.addEventListener('click', () => openLightbox(media, idx));
         }
-        else if(m.src&&/\.(mp4|webm)$/i.test(m.src)){ el=document.createElement('video'); el.src=m.src; el.controls=true; }
-        else {
-          el=document.createElement('img');
-          el.src=m.src||'https://picsum.photos/seed/placeholder/1280/720';
-          el.alt=p.title||'';
-          el.loading='lazy';
-          el.addEventListener('click',()=>openLightbox(media,idx));
-        }
+
         slide.appendChild(el);
-        media.forEach((_,n)=>{const d=document.createElement('span'); d.className='car-dot'+(n===idx?' active':''); d.addEventListener('click',()=>{mount(n)}); dots.appendChild(d);});
+
+        media.forEach((_, n) => {
+          const d = document.createElement('span');
+          d.className = 'car-dot' + (n === idx ? ' active' : '');
+          d.addEventListener('click', () => mount(n));
+          dots.appendChild(d);
+        });
       }
-      btnPrev.addEventListener('click',()=>mount(idx-1));
-      btnNext.addEventListener('click',()=>mount(idx+1));
+
+      btnPrev.addEventListener('click', () => mount(idx - 1));
+      btnNext.addEventListener('click', () => mount(idx + 1));
       mount(0);
 
-      const tWrap=document.createElement('div');
-      const h3=document.createElement('h3'); h3.textContent=p.title||'Untitled'; tWrap.appendChild(h3);
-      if(p.highlight){ const desc=document.createElement('div'); desc.className='desc'; desc.textContent=p.highlight; tWrap.appendChild(desc); }
+      const tWrap = document.createElement('div');
+      const h3 = document.createElement('h3');
+      h3.textContent = p.title || 'Untitled';
+      tWrap.appendChild(h3);
 
-      const blocks=[];
+      if (p.highlight){
+        const desc = document.createElement('div');
+        desc.className = 'desc';
+        desc.textContent = p.highlight;
+        tWrap.appendChild(desc);
+      }
 
-      if (Array.isArray(p.contributions)&&p.contributions.length){
-        const accC=document.createElement('details'); accC.className='acc';
-        const sumC=document.createElement('summary'); sumC.className='acc-sum'; sumC.innerHTML='<span>My Contributions</span><span>▾</span>';
-        const bodyC=document.createElement('div'); bodyC.className='acc-body';
-        const ul=document.createElement('ul'); ul.style.margin='0'; ul.style.paddingLeft='18px';
-        p.contributions.forEach(it=>{const li=document.createElement('li'); li.textContent=it; ul.appendChild(li)});
-        bodyC.appendChild(ul); accC.append(sumC,bodyC);
+      const blocks = [];
+
+      if (Array.isArray(p.contributions) && p.contributions.length){
+        const accC = document.createElement('details');
+        accC.className = 'acc';
+
+        const sumC = document.createElement('summary');
+        sumC.className = 'acc-sum';
+        sumC.innerHTML = '<span>My Contributions</span><span>▾</span>';
+
+        const bodyC = document.createElement('div');
+        bodyC.className = 'acc-body';
+
+        const ul = document.createElement('ul');
+        ul.style.margin = '0';
+        ul.style.paddingLeft = '18px';
+
+        p.contributions.forEach(it => {
+          const li = document.createElement('li');
+          li.textContent = it;
+          ul.appendChild(li);
+        });
+
+        bodyC.appendChild(ul);
+        accC.append(sumC, bodyC);
         blocks.push(accC);
       }
 
-      if(p.about){
-        const acc=document.createElement('details'); acc.className='acc';
-        const sum=document.createElement('summary'); sum.className='acc-sum'; sum.innerHTML='<span>About the Project</span><span>▾</span>';
-        const body=document.createElement('div'); body.className='acc-body'; body.textContent=p.about||'';
-        acc.append(sum,body);
+      if (p.about){
+        const acc = document.createElement('details');
+        acc.className = 'acc';
+
+        const sum = document.createElement('summary');
+        sum.className = 'acc-sum';
+        sum.innerHTML = '<span>About the Project</span><span>▾</span>';
+
+        const body = document.createElement('div');
+        body.className = 'acc-body';
+        body.textContent = p.about || '';
+
+        acc.append(sum, body);
         blocks.push(acc);
       }
 
-      const actions=document.createElement('div'); actions.className='actions';
-      if(p.link){
-        const a=document.createElement('a');
-        a.className='action primary';
-        a.href=p.link;
-        a.target='_blank';
-        a.rel='noreferrer';
-        a.textContent='Open Roblox';
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      if (p.link){
+        const a = document.createElement('a');
+        a.className = 'action primary';
+        a.href = p.link;
+        a.target = '_blank';
+        a.rel = 'noreferrer';
+        a.textContent = 'Open Roblox';
         actions.appendChild(a);
       }
 
-      art.append(car,tWrap,...blocks,actions);
+      art.append(car, tWrap, ...blocks, actions);
       grid.appendChild(art);
     }
 
     function renderClassic(p){
-      const art=document.createElement('article'); art.className='project card';
-      const th=document.createElement('div'); th.className='thumb';
-      if(p.image){
-        const img=new Image(); img.src=p.image; img.alt=p.title||''; img.loading='lazy'; th.appendChild(img);
-      }else{
-        th.innerHTML='<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/></svg>';
+      const art = document.createElement('article');
+      art.className = 'project card';
+
+      const th = document.createElement('div');
+      th.className = 'thumb';
+
+      if (p.image){
+        const img = new Image();
+        img.src = p.image;
+        img.alt = p.title || '';
+        img.loading = 'lazy';
+        th.appendChild(img);
+      } else {
+        th.innerHTML = '<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.5" opacity=".5"/><path d="M7 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5"/></svg>';
       }
-      const t=document.createElement('div'); t.innerHTML=`<h3>${p.title||'Untitled'}</h3><p class="muted">${p.summary||''}</p>`;
-      const actions=document.createElement('div'); actions.className='actions'; (p.links||[]).forEach(l=>{const a=document.createElement('a'); a.className='action'+(l.type==='primary'?' primary':''); a.href=l.href||'#'; a.target='_blank'; a.rel='noreferrer'; a.textContent=l.label||'Link'; actions.appendChild(a)});
-      art.append(th,t,actions); grid.appendChild(art);
+
+      const t = document.createElement('div');
+      t.innerHTML = `<h3>${p.title || 'Untitled'}</h3><p class="muted">${p.summary || ''}</p>`;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      (p.links || []).forEach(l => {
+        const a = document.createElement('a');
+        a.className = 'action' + (l.type === 'primary' ? ' primary' : '');
+        a.href = l.href || '#';
+        a.target = '_blank';
+        a.rel = 'noreferrer';
+        a.textContent = l.label || 'Link';
+        actions.appendChild(a);
+      });
+
+      art.append(th, t, actions);
+      grid.appendChild(art);
+    }
+
+    function observeAppear(){
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting){
+            e.target.classList.add('appear');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: .15 });
+
+      $$('.project').forEach(el => io.observe(el));
     }
 
     function renderProjects(list){
-      grid.innerHTML='';
-      list.forEach(p=>{ (p.variant==='showcase')?renderShowcase(p):renderClassic(p); });
+      grid.innerHTML = '';
+      list.forEach(p => {
+        (p.variant === 'showcase') ? renderShowcase(p) : renderClassic(p);
+      });
       requestAnimationFrame(observeAppear);
     }
+
     renderProjects(P);
 
-    const plans=$('#plansGrid'); const total=PK.length; let shown=0;
-    const fmt=(n)=>{ try{ return new Intl.NumberFormat(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n); }catch(_){ return `USD ${n}`; } };
-    function priceText(pkg){
-      const u=pkg.unit==='hour'?'/hr':'';
-      if(typeof pkg.price==='number') return `${fmt(pkg.price)}${u}`;
-      if(typeof pkg.priceMin==='number'&&typeof pkg.priceMax==='number') return `${fmt(pkg.priceMin)}–${fmt(pkg.priceMax)}${u}`;
-      if(typeof pkg.priceMin==='number') return `${fmt(pkg.priceMin)}+${u}`;
-      return 'Contact';
-    }
-    PK.forEach(pkg=>{
-      const card=document.createElement('article');
-      card.className='plan card';
-      card.id=pkg.id||'';
-      card.innerHTML=`<div class="head"><h3>${pkg.title}</h3><span class="price">${priceText(pkg)}</span></div><p class="muted">${pkg.desc||''}</p><div class="pill">Duration: ${pkg.duration||'N/A'}</div><ul class="list">${(pkg.deliverables||[]).map(d=>`<li>${d}</li>`).join('')}</ul>${pkg.notes?`<p class="muted" style="margin:8px 0 0">${pkg.notes}</p>`:''}<div class="actions"><a class="action primary" href="#contact">Contact to Book</a></div>`;
-      plans.appendChild(card);
-      shown++;
-    });
-    $('#countTotal').textContent=total; $('#countShown').textContent=shown;
+    // Formspree submit
+    const form = $('#contactForm');
+    const sendBtn = $('#sendBtn');
+    const hint = $('#formHint');
 
-    function observeAppear(){
-      const io=new IntersectionObserver(es=>es.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('appear');
-          io.unobserve(e.target);
-        }
-      }),{threshold:.15});
-      $$('.project, .plan').forEach(el=>io.observe(el));
-    }
-    observeAppear();
-
-    if(C.email){
-      const mail=`mailto:${C.email}`;
-      const el=document.getElementById('email-inline');
-      if(el){ el.href=mail; el.textContent=C.email; }
-    }
-    if(C.discord){
-      const d=document.getElementById('discord-inline');
-      if(d){ d.textContent=C.discord; }
-    }
-
-    const form=$('#contactForm'); const sendBtn=$('#sendBtn'); const hint=$('#formHint');
-    form.addEventListener('submit', async (e)=>{
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      sendBtn.disabled=true; sendBtn.textContent='Sending…'; hint.textContent='Sending via Formspree…';
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Sending…';
+      hint.textContent = 'Sending via Formspree…';
+
       try{
-        const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-        if(res.ok){ form.reset(); hint.textContent='Thanks! Your message has been sent.'; sendBtn.textContent='Sent ✓'; }
-        else { const d=await res.json().catch(()=>({})); hint.textContent=d.error||'Something went wrong. Try again later.'; sendBtn.textContent='Send Message'; }
-      }catch(_){
-        hint.textContent='Network error. Please try again.';
-        sendBtn.textContent='Send Message';
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok){
+          form.reset();
+          hint.textContent = 'Thanks! Your message has been sent.';
+          sendBtn.textContent = 'Sent ✓';
+        } else {
+          const d = await res.json().catch(() => ({}));
+          hint.textContent = d.error || 'Something went wrong. Try again later.';
+          sendBtn.textContent = 'Send Message';
+        }
+      } catch(_){
+        hint.textContent = 'Network error. Please try again.';
+        sendBtn.textContent = 'Send Message';
       }
-      sendBtn.disabled=false;
+
+      sendBtn.disabled = false;
     });
 
-    const initial=localStorage.getItem('theme')|| (window.matchMedia('(prefers-color-scheme: light)').matches? 'light' : 'dark');
-    document.documentElement.dataset.theme=initial;
-    $('#themeToggle').addEventListener('click',()=>{
-      const next=document.documentElement.dataset.theme==='light'?'dark':'light';
-      document.documentElement.dataset.theme=next;
-      localStorage.setItem('theme',next);
+    // Theme
+    const initial = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+    document.documentElement.dataset.theme = initial;
+
+    $('#themeToggle').addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem('theme', next);
     });
 
+    // Cursor
     (function(){
-      const c=document.getElementById('cursor');
-      let x=innerWidth/2, y=innerHeight/2, tx=x, ty=y;
+      const c = document.getElementById('cursor');
+      let x = innerWidth/2, y = innerHeight/2, tx = x, ty = y;
+
       function loop(){
-        x+=(tx-x)*0.18; y+=(ty-y)*0.18;
-        c.style.left=x+'px'; c.style.top=y+'px';
+        x += (tx - x) * 0.18;
+        y += (ty - y) * 0.18;
+        c.style.left = x + 'px';
+        c.style.top = y + 'px';
         requestAnimationFrame(loop);
       }
-      addEventListener('mousemove',e=>{ tx=e.clientX; ty=e.clientY; },{passive:true});
-      addEventListener('mousedown',()=>{ c.style.opacity='.34'; c.style.transform='translate(-50%,-50%) scale(1.03)'; });
-      addEventListener('mouseup',()=>{ c.style.opacity=document.documentElement.dataset.theme==='light'?'.16':'.28'; c.style.transform='translate(-50%,-50%) scale(.95)'; });
+
+      addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive:true });
+      addEventListener('mousedown', () => { c.style.opacity = '.34'; c.style.transform = 'translate(-50%,-50%) scale(1.03)'; });
+      addEventListener('mouseup', () => { c.style.opacity = document.documentElement.dataset.theme === 'light' ? '.16' : '.28'; c.style.transform = 'translate(-50%,-50%) scale(.95)'; });
       loop();
     })();
 
     /* Lightbox logic */
     const lb = {
-      el: $('#lightbox'), stage: $('#lbStage'), media: $('#lbMedia'),
-      dots: $('#lbDots'), prev: $('#lbPrev'), next: $('#lbNext'), close: $('#lbClose'),
-      items: [], index: 0, scale: 1, tx: 0, ty: 0, dragging:false, lx:0, ly:0
+      el: $('#lightbox'),
+      stage: $('#lbStage'),
+      media: $('#lbMedia'),
+      dots: $('#lbDots'),
+      prev: $('#lbPrev'),
+      next: $('#lbNext'),
+      close: $('#lbClose'),
+      items: [],
+      index: 0,
+      scale: 1,
+      tx: 0,
+      ty: 0,
+      dragging: false,
+      lx: 0,
+      ly: 0
     };
 
-    function closeLightbox(){ lb.el.classList.remove('open'); lb.media.innerHTML=''; lb.dots.innerHTML=''; }
+    function closeLightbox(){
+      lb.el.classList.remove('open');
+      lb.media.innerHTML = '';
+      lb.dots.innerHTML = '';
+    }
+
     function renderLB(){
       lb.scale = 1; lb.tx = 0; lb.ty = 0;
       lb.media.style.transform = `translate(-50%,-50%) scale(${lb.scale})`;
       lb.media.innerHTML = '';
+
       const cur = lb.items[lb.index];
       const img = new Image();
       img.src = cur.src;
       img.alt = '';
       lb.media.appendChild(img);
-      lb.dots.innerHTML='';
-      lb.items.forEach((_,i)=>{
-        const d=document.createElement('span');
-        d.className='lb-dot'+(i===lb.index?' active':'');
-        d.addEventListener('click',()=>{lb.index=i; renderLB();});
+
+      lb.dots.innerHTML = '';
+      lb.items.forEach((_, i) => {
+        const d = document.createElement('span');
+        d.className = 'lb-dot' + (i === lb.index ? ' active' : '');
+        d.addEventListener('click', () => { lb.index = i; renderLB(); });
         lb.dots.appendChild(d);
       });
     }
-    lb.prev.addEventListener('click',()=>{ lb.index=(lb.index-1+lb.items.length)%lb.items.length; renderLB(); });
-    lb.next.addEventListener('click',()=>{ lb.index=(lb.index+1)%lb.items.length; renderLB(); });
-    lb.close.addEventListener('click',closeLightbox);
-    lb.el.addEventListener('click',(e)=>{ if(e.target===lb.el) closeLightbox(); });
-    addEventListener('keydown',(e)=>{
-      if(!lb.el.classList.contains('open')) return;
-      if(e.key==='Escape') closeLightbox();
-      if(e.key==='ArrowLeft') lb.prev.click();
-      if(e.key==='ArrowRight') lb.next.click();
+
+    lb.prev.addEventListener('click', () => {
+      lb.index = (lb.index - 1 + lb.items.length) % lb.items.length;
+      renderLB();
     });
 
-    lb.stage.addEventListener('wheel',(e)=>{
-      if(!lb.el.classList.contains('open')) return;
+    lb.next.addEventListener('click', () => {
+      lb.index = (lb.index + 1) % lb.items.length;
+      renderLB();
+    });
+
+    lb.close.addEventListener('click', closeLightbox);
+
+    lb.el.addEventListener('click', (e) => {
+      if (e.target === lb.el) closeLightbox();
+    });
+
+    addEventListener('keydown', (e) => {
+      if (!lb.el.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lb.prev.click();
+      if (e.key === 'ArrowRight') lb.next.click();
+    });
+
+    lb.stage.addEventListener('wheel', (e) => {
+      if (!lb.el.classList.contains('open')) return;
       e.preventDefault();
-      const delta = -Math.sign(e.deltaY)*0.12;
+
+      const delta = -Math.sign(e.deltaY) * 0.12;
       const nextScale = Math.min(4, Math.max(1, lb.scale + delta));
+
       const rect = lb.stage.getBoundingClientRect();
       const cx = e.clientX - rect.left - rect.width/2 - lb.tx;
       const cy = e.clientY - rect.top - rect.height/2 - lb.ty;
+
       const scaleFactor = nextScale / lb.scale;
-      lb.tx -= cx*(scaleFactor-1);
-      lb.ty -= cy*(scaleFactor-1);
+      lb.tx -= cx * (scaleFactor - 1);
+      lb.ty -= cy * (scaleFactor - 1);
+
       lb.scale = nextScale;
       lb.media.style.transform = `translate(calc(-50% + ${lb.tx}px), calc(-50% + ${lb.ty}px)) scale(${lb.scale})`;
-    }, {passive:false});
+    }, { passive:false });
 
-    lb.stage.addEventListener('mousedown',(e)=>{ if(!lb.el.classList.contains('open')) return; lb.dragging=true; lb.lx=e.clientX; lb.ly=e.clientY; });
-    addEventListener('mousemove',(e)=>{
-      if(!lb.dragging) return;
-      const dx=e.clientX-lb.lx, dy=e.clientY-lb.ly;
-      lb.lx=e.clientX; lb.ly=e.clientY;
-      lb.tx+=dx; lb.ty+=dy;
-      lb.media.style.transform=`translate(calc(-50% + ${lb.tx}px), calc(-50% + ${lb.ty}px)) scale(${lb.scale})`;
+    lb.stage.addEventListener('mousedown', (e) => {
+      if (!lb.el.classList.contains('open')) return;
+      lb.dragging = true;
+      lb.lx = e.clientX;
+      lb.ly = e.clientY;
     });
-    addEventListener('mouseup',()=>{ lb.dragging=false; });
-    lb.stage.addEventListener('dblclick',()=>{ lb.scale = lb.scale>1?1:2; lb.tx=lb.ty=0; lb.media.style.transform=`translate(-50%,-50%) scale(${lb.scale})`; });
+
+    addEventListener('mousemove', (e) => {
+      if (!lb.dragging) return;
+      const dx = e.clientX - lb.lx;
+      const dy = e.clientY - lb.ly;
+      lb.lx = e.clientX; lb.ly = e.clientY;
+      lb.tx += dx; lb.ty += dy;
+      lb.media.style.transform = `translate(calc(-50% + ${lb.tx}px), calc(-50% + ${lb.ty}px)) scale(${lb.scale})`;
+    });
+
+    addEventListener('mouseup', () => { lb.dragging = false; });
+
+    lb.stage.addEventListener('dblclick', () => {
+      lb.scale = lb.scale > 1 ? 1 : 2;
+      lb.tx = 0; lb.ty = 0;
+      lb.media.style.transform = `translate(-50%,-50%) scale(${lb.scale})`;
+    });
   </script>
 </body>
 </html>
